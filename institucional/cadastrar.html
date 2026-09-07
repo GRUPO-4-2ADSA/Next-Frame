@@ -136,3 +136,71 @@
 </body>
 
 </html>
+
+
+<script>
+    let caracteresEspeciais = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', "'", '"', '\\', '|', ',', '.', '<', '>', '/', '?', '`', '~'];
+
+    let idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+    function cadastrar() {
+        let nome = iptNomeCompleto.value;
+        let senha = iptSenha.value;
+        let confirmarSenha = iptConfirmarSenha.value;
+        let email = iptEmail.value;
+        let cpf = iptCpf.value;
+        let dtNascimento = iptDtNascimento;
+        let empresa = iptEmpresa.value;
+        let cargo = iptCargo.value;
+
+        let incluiCaracterEspecial = false;
+        let incluiArroba = email.includes('@');
+
+
+        divMensagem.innerHTML = "";
+
+        for (let i = 0; i < caracteresEspeciais.length - 1; i++) {
+            if (senha.includes(caracteresEspeciais[i])) {
+                incluiCaracterEspecial = true;
+                break;
+            }
+        }
+
+        if (
+            nome == "" || senha == "" || confirmarSenha == "" || email == "" || cpf == "" || dtNascimento == "" || empresa == "" || cargo == "") {
+            divMensagem.innerHTML = "Preencha todos os campos.";
+            setTimeout(function () {
+                divMensagem.innerHTML = "";
+            }, 3000);
+            return
+
+        } else if (incluiArroba == false) {
+            divMensagem.innerHTML = "Email inválido!";
+            setTimeout(function () {
+                divMensagem.innerHTML = "";
+            }, 3000);
+            return
+
+        } else if (!(senha.length > 7)) {
+            divMensagem.innerHTML = "A senha deve conter pelo menos 8 caracteres!";
+            setTimeout(function () {
+                divMensagem.innerHTML = "";
+            }, 3000);
+            return
+
+        } else if (!incluiCaracterEspecial) {
+            divMensagem.innerHTML += `A senha precisa ter caractere especial<br> `;
+            setTimeout(function () {
+                divMensagem.innerHTML = "";
+            }, 3000);
+            return
+
+        } else if (!(senha == confirmarSenha)) {
+            divMensagem.innerHTML = "As senhas não coincidem!";
+            setTimeout(function () {
+                divMensagem.innerHTML = "";
+            }, 3000);
+            return
+        } 
+    }
+</script>
