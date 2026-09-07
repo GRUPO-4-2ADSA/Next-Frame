@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+body {
+    margin: 0 0 0 0;
+    transition: 1.8s;
+    background-color: #2a2624;
+    font-family: "Quicksand", sans-serif;
+    color: #efece8;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.container-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #121110;
+    width: 100%;
+    height: 85px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 1000;
+}
+
+.header .container-horizontal {
+    margin: 0 100px 0 0 !important;
+    justify-content: space-around !important;
+}
+
+.logo {
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.icon {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header ul {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    gap: 25px;
+    list-style: none;
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+}
+
+li {
+    transition: 0.5s;
+}
+
+.header li:hover {
+    color: #ffd951;
+}
+
+.header button {
+    background-color: #fe3231;
+    color: #ffd951;
+    font-weight: 850;
+    font-style: italic;
+    font-size: 15px;
+    letter-spacing: -2px;
+    height: 35px;
+    width: 110px;
+    border: none;
+    box-shadow: -3px -3px 0px 0px rgb(255, 255, 255);
+    cursor: pointer;
+    transition: 1s;
+}
+
+.btn-entrar:hover {
+    background-color: rgb(194, 0, 17);
+}
+
+
+/* login */
+
+.container-login {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/assets/bg/cadastro.jpg');
+    background-size: cover;
+
+.login-card {
+  width: 500px;
+  height: 400px;
+  background-color: #2a2624d2;
+  backdrop-filter: blur(4px);
+  border-radius: 5px;
+  border: 3px solid#3d3834;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px;
+  margin-top: 80px;
+
+  button {
+    margin-top: 50px;
+    background-color: #fe3231;
+    color: #ffd951;
+    font-weight: 850;
+    font-style: italic;
+    font-size: 15px;
+    letter-spacing: -2px;
+    height: 45px;
+    width: 500px;
+    border: none;
+    box-shadow: -3px -3px 0px 0px rgb(255, 255, 255);
+    cursor: pointer;
+    transition: 1s;
+
+  }
+
+  button:hover {
+    background-color: rgb(194, 0, 17);
+    cursor: pointer;
+
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: -15px;
+    align-self: start;
+    }
+  a {
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #ffd951;
+    transition: 0.5s;
+  }
+
+  a:hover {
+    color: #fe3231;
+    cursor: pointer;
+  }
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 200px;
+    margin-top: -50px;
+  }
+}
+
+.login-linha {
+  display: flex;
+  width: 100%;
+
+  input {
+    height: 45px;
+    padding-left: 3%;
+    border-style: none;
+    border-radius: 5px;
+    background-color: #2a2624d2;
+    border: 3px solid #3d3834;
+    backdrop-filter: blur(10);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    color: #efece8dc;
+  }
+  label {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #efece8;
+  }
+
+  input:focus {
+    outline: none;
+  }
+    input::placeholder {
+    color: #8a8580; /* cor do texto do placeholder */
+  }
+
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+  flex: 1;
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+
+.login-mensagem {
+  position: absolute;
+  margin-top: 680px;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(160, 0, 0);
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+#divMensagem:empty {
+    display: none;
+}
+
+}

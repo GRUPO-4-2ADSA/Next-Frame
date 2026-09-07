@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <title>Next Frame</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+            <img class="logo" src="assets\img\logo.png">
+            <ul class="navbar">
+                <li><a href="#idInicio">Início</a></li>
+                <li><a href="#idInfos">Como Funciona</a></li>
+                <li><a href="#idObjetivos">Objetivo</a></li>
+                <li><a href="#idDiferencial">Diferencial</a></li>
+                <li><a href="#idQuemSomos">Quem somos nós</a></li>
+            </ul>
+            <a href="login.html">
+                <button class="btn-entrar">CONECTAR</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="container-login">
+        <div class="login-card">
+            <div class="login-logo">
+                <img class="logo" src="/assets/img/login.png">
+            </div>
+            <div class="login-linha">
+                <div class="campo">
+                    <label for="">Nome:</label>
+                    <input type="text" id="iptNomeCompleto" placeholder="Nome completo">
+                </div>
+            </div>
+
+            <div class="login-linha">
+                <div class="campo">
+                    <label for="">Senha:</label>
+                    <input type="password" id="iptSenha" placeholder="Senha">
+                </div>
+            </div>
+
+            <span>
+                Não possui conta??
+                <a href="login.html">Cadastre-se</a>
+            </span>
+            <span>
+                Esqueceu sua senha?
+                <a href="login.html">Clique aqui</a>
+            </span>
+            <div class="login-mensagem" id="divMensagem"></div>
+
+            <div>
+                <button onclick="cadastrar()">CONECTAR</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="assets/img/logo_footer.png">
+
+            <h2>Acompanha nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
