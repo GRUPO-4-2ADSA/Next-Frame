@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cadastrar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <title>Next Frame</title>
+</head>
+
+<body>
+
+    <header>
+
+        <div class="header">
+            <div class="container-horizontal">
+                <img class="logo" src="assets\img\logo.png">
+                <ul class="navbar">
+                    <li><a href="#idInicio">Início</a></li>
+                    <li><a href="#idInfos">Como Funciona</a></li>
+                    <li><a href="#idObjetivos">Objetivo</a></li>
+                    <li><a href="#idQuemSomos">Quem somos nós</a></li>
+                </ul>
+                <a href="login.html">
+                    <button class="btn-entrar">CONECTAR</button>
+                </a>
+            </div>
+        </div>
+
+    </header>
+    <div class="container-cadastro">
+        <div class="cadastro-card">
+            <div class="cadastro-logo">
+                <img class="logo" src="/assets/img/cadastro.png">
+            </div>
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Nome:</label>
+                    <input type="text" id="iptNomeCompleto" placeholder="Nome completo">
+                </div>
+            </div>
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Senha:</label>
+                    <input type="password" id="iptSenha" placeholder="Senha">
+                </div>
+            </div>
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Confirme a senha:</label>
+                    <input type="password" id="iptConfirmarSenha" placeholder="Confirme a senha">
+                </div>
+            </div>
+
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Email:</label>
+                    <input type="text" id="iptEmail" placeholder="seu@email.com">
+                </div>
+            </div>
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">CPF:</label>
+                    <input type="text" id="iptCpf" placeholder="123.456.789-10">
+                </div>
+            </div>
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Data de nascimento:</label>
+                    <input type="date" id="iptDtNascimento">
+                </div>
+            </div>
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">Empresa:</label>
+                    <input type="text" id="iptEmpresa" placeholder="Nome da empresa">
+                </div>
+                <div class="campo">
+                    <label for="">Cargo:</label>
+                    <input type="text" id="iptCargo" placeholder="Seu cargo">
+                </div>
+            </div>
+
+
+            <div class="cadastro-linha">
+                <div class="campo">
+                    <label for="">CNPJ:</label>
+                    <input type="text" id="iptCnpj" placeholder="CNPJ da empresa em que trabalha">
+                </div>
+            </div>
+
+
+            <span>
+                Já possui uma conta?
+                <a href="login.html">Clique aqui para se conectar</a>
+            </span>
+            <div class="cadastro-mensagem" id="divMensagem"></div>
+
+            <div class=".cadastro-card">
+
+                <button onclick="cadastrar()">REGISTRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+
+        <div class="footer">
+
+            <div class="container-horizontal footer-infos">
+                <p>
+                    A Next Frame utiliza dados históricos do cinema para <br>
+                    transformar informações sobre filmes em análises <br>
+                    que ajudam a avaliar novas produções.
+                </p>
+
+                <img src="assets/img/logo_footer.png">
+
+                <h2>Acompanha nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
+            </div>
+
+            <div class="container creditos">
+                <hr class="linha">
+                <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+
+</html>
