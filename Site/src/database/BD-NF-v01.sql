@@ -10,14 +10,14 @@ CREATE TABLE Empresa (
 
 CREATE TABLE Usuario (
   idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-  Empresa_idEmpresa INT NOT NULL,
+  fkEmpresa INT,
   nome VARCHAR(45),
   cargo VARCHAR(45) NOT NULL,
   cpf CHAR(11),
   dtNascimento DATE,
   email VARCHAR(45),
   senha VARCHAR(45),
-  FOREIGN KEY (Empresa_idEmpresa)
+  FOREIGN KEY (fkEmpresa)
     REFERENCES Empresa (idEmpresa)
 );
 
@@ -61,3 +61,10 @@ CREATE TABLE Filme (
   status VARCHAR(45),
   arq_origem VARCHAR(45)
 );
+
+DROP DATABASE nextframe;
+
+INSERT INTO Usuario (nome, cargo, cpf, dtNascimento, email, senha)
+        VALUES ("teste","cargo","12345678910", "2001-05-14", "email@email.com", "Marcel#2026");
+        
+SELECT * FROM Usuario;
