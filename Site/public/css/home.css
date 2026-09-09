@@ -5,6 +5,10 @@ body {
     overflow-x: hidden;
 }
 
+p {
+    text-align: justify;
+}
+
 .amarelo {
     color: #ffc400 !important;
 }
