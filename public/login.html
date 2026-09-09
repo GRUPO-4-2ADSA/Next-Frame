@@ -36,8 +36,8 @@
             </div>
             <div class="login-linha">
                 <div class="campo">
-                    <label for="">Nome:</label>
-                    <input type="text" id="iptNomeCompleto" placeholder="Nome completo">
+                    <label for="">Email:</label>
+                    <input type="text" id="iptEmail" placeholder="Nome completo">
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
             <div class="login-mensagem" id="divMensagem"></div>
 
             <div>
-                <button onclick="cadastrar()">CONECTAR</button>
+                <button onclick="entrar()">CONECTAR</button>
             </div>
 
         </div>
@@ -95,13 +95,56 @@
 <script>
 
     function entrar() {
-        let login = iptLogin.value;
+        let email = iptEmail.value;
         let senha = iptSenha.value;
 
-        if (login == "" || senha == "") {
-            alert("Os campos de login e/ou senha não foram preenchidos.")
+        if (email == "" || senha == "") {
+            alert("Os campos de email e/ou senha não foram preenchidos.")
             return
         }
+
+                fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.setItem("ID_USUARIO", json.id);
+                    sessionStorage.setItem("NOME_USUARIO", json.nome);
+                    sessionStorage.setItem("EMAIL_USUARIO", json.email);
+
+                    alert("Login realizado com sucesso. Redirecionando para landpage")
+                    setTimeout(function () {
+                        window.location = "index.html";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+                alert("Houve um erro ao tentar realizar o login! \nVerifique login e/ou senha e tente novamente")
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+            alert("Erro ao tentar conectar. Login e/ou senha inválidos!")
+        })
     }
 
 </script>

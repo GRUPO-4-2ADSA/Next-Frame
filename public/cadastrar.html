@@ -79,22 +79,21 @@
             <div class="cadastro-linha">
                 <div class="campo">
                     <label for="">Empresa:</label>
-                    <input type="text" id="iptEmpresa" placeholder="Nome da empresa">
+                    <select id="iptEmpresa">
+                        <option value="">Selecione um cargo</option>
+                        <option value="1">IbiraCultural</option>
+                        <option value="2">DetonaFilmes</option>
+                    </select>
                 </div>
                 <div class="campo">
                     <label for="">Cargo:</label>
-                    <input type="text" id="iptCargo" placeholder="Seu cargo">
+                    <select id="iptCargo">
+                        <option value="">Selecione um cargo</option>
+                        <option value="Gestor">Gestor</option>
+                        <option value="Analista">Analista</option>
+                    </select>
                 </div>
             </div>
-
-
-            <div class="cadastro-linha">
-                <div class="campo">
-                    <label for="">CNPJ:</label>
-                    <input type="text" id="iptCnpj" placeholder="CNPJ da empresa em que trabalha">
-                </div>
-            </div>
-
 
             <span>
                 Já possui uma conta?
@@ -149,7 +148,7 @@
         let confirmarSenha = iptConfirmarSenha.value;
         let email = iptEmail.value;
         let cpf = iptCpf.value;
-        let dtNascimento = iptDtNascimento;
+        let dtNascimento = iptDtNascimento.value;
         let empresa = iptEmpresa.value;
         let cargo = iptCargo.value;
 
@@ -201,6 +200,42 @@
                 divMensagem.innerHTML = "";
             }, 3000);
             return
-        } 
+        }
+
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nome,
+                senhaServer: senha,
+                emailServer: email,
+                cpfServer: cpf,
+                dtNascimentoServer: dtNascimento,
+                empresaServer: empresa,
+                cargoServer: cargo,
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    alert("Cadastro realizado com sucesso! Redirecionando para tela de Login");
+
+                    setTimeout(() => {
+                        window.location = "login.html";
+                    }, "1500");
+
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                alert("Erro ao efetuar o cadastro")
+            });
     }
 </script>
