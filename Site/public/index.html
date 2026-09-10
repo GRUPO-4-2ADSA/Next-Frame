@@ -12,16 +12,22 @@
 
     <div class="header">
         <div class="container-horizontal">
-            <img class="logo" src="assets\img\logo.png">
+            <a href="index.html">
+                <img class="logo" src="assets\img\logo.png">
+            </a>
             <ul class="navbar">
                 <li><a href="#idInicio">Início</a></li>
                 <li><a href="#idInfos">Como Funciona</a></li>
                 <li><a href="#idObjetivos">Objetivo</a></li>
                 <li><a href="#idQuemSomos">Quem somos nós</a></li>
             </ul>
-            <a href="login.html">
-                <button class="btn-entrar">CADASTRAR</button>
-            </a>
+                <div class="btn-entrar" id="btnEntrar">
+                    <a href="/login.html"> <button class="btn-entrar" id="btnEntrar">CONECTAR</button></a>
+                </div>
+
+                <div class="btn-entrar" id="btnSair" style="display: none;">
+                    <button onclick="sair()">SAIR</button>
+                </div>
         </div>
     </div>
 
@@ -236,7 +242,7 @@
             <h6 class="texto-divisoria">PARA QUEM É</h6>
         </div>
         <hr class="linha-vermelha linha">
-        
+
         <div class="container">
             <h4 class="sub-titulo">
                 PARA QUEM VIVE O CINEMA E PRECISA TOMAR <br>
@@ -279,7 +285,7 @@
                 </div>
 
                 <div class="card-publico-conteudo">
-                    <h3>Distribuidoras</h3>
+                    <h3>DISTRIBUIDORAS</h3>
 
                     <p>
                         Para observar padrões e características de diferentes filmes.
@@ -315,3 +321,19 @@
 </body>
 
 </html>
+
+<script>
+        let idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+        if (idUsuario) {
+            document.getElementById("btnEntrar").style.display = "none";
+            document.getElementById("btnSair").style.display = "block";
+        }
+
+        function sair() {
+            sessionStorage.clear();
+            alert("logout feito com sucesso")
+            window.location = "/index.html";
+        }
+
+</script>

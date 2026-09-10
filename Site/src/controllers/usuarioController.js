@@ -47,16 +47,16 @@ function cadastrar(req, res) {
 }
 
 function autenticar(req, res) {
-    var username = req.body.usernameServer;
+    var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
-    if (username == undefined) {
+    if (email == undefined) {
         res.status(400).send("Seu email está indefinida!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
 
-        usuarioModel.autenticar(username, senha)
+        usuarioModel.autenticar(email, senha)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -67,9 +67,9 @@ function autenticar(req, res) {
                         res.status(200).json(resultadoAutenticar[0]);
                         // Esse res.status(200) comunica o front que deu tudo certo e envia os dados pra ele salvar no sessionStorage
                     } else if (resultadoAutenticar.length == 0) {
-                        res.status(403).send("username e/ou senha inválido(s)");
+                        res.status(403).send("email e/ou senha inválido(s)");
                     } else {
-                        res.status(403).send("Mais de um usuário com o mesmo username e senha!");
+                        res.status(403).send("Mais de um usuário com o mesmo email e senha!");
                     }
                 }
             ).catch(

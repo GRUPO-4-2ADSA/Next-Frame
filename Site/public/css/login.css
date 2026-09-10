@@ -208,7 +208,7 @@ li {
     outline: none;
   }
     input::placeholder {
-    color: #8a8580; /* cor do texto do placeholder */
+    color: #8a8580;
   }
 
 }

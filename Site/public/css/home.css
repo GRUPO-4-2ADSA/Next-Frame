@@ -108,6 +108,11 @@ li {
 
 .btn-entrar:hover {
     background-color: rgb(194, 0, 17);
+    appearance: none;
+
+    li{
+        list-style:none;
+    }
 }
 
 .fachada {
