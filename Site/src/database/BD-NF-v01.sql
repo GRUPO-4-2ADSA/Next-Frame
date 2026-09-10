@@ -62,9 +62,8 @@ CREATE TABLE Filme (
   arq_origem VARCHAR(45)
 );
 
-DROP DATABASE nextframe;
-
-INSERT INTO Usuario (nome, cargo, cpf, dtNascimento, email, senha)
-        VALUES ("teste","cargo","12345678910", "2001-05-14", "email@email.com", "Marcel#2026");
+INSERT INTO Empresa (nome, razao_social, cnpj) VALUES 
+(" Ibira cultural"," Ibira cultural LTDA","12345678910111"),
+(" DetonaFilmes"," DetonaLTDA","12345678910111");
         
-SELECT * FROM Usuario;
+SELECT * FROM Empresa;
