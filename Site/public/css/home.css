@@ -34,87 +34,6 @@ p {
     height: auto;
 }
 
-.header {
-    position: fixed;
-    top: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: #121110;
-    width: 100%;
-    height: 85px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    z-index: 1000;
-}
-
-.header .container-horizontal {
-    margin: 0 100px 0 0 !important;
-    justify-content: space-around !important;
-}
-
-.logo {
-    width: 120px;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-}
-
-.icon {
-    width: 80px;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-    margin-left: 20px;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.header ul {
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    gap: 25px;
-    list-style: none;
-    font-size: 16px;
-    color: rgb(255, 255, 255);
-}
-
-li {
-    transition: 0.5s;
-}
-
-.header li:hover {
-    color: #ffd951;
-}
-
-.header button {
-    background-color: #fe3231;
-    color: #ffd951;
-    font-weight: 850;
-    font-style: italic;
-    font-size: 15px;
-    letter-spacing: -2px;
-    height: 35px;
-    width: 110px;
-    border: none;
-    box-shadow: -3px -3px 0px 0px rgb(255, 255, 255);
-    cursor: pointer;
-    transition: 1s;
-}
-
-.btn-entrar:hover {
-    background-color: rgb(194, 0, 17);
-    appearance: none;
-
-    li{
-        list-style:none;
-    }
-}
-
 .fachada {
     display: flex;
     flex-direction: row;
@@ -400,8 +319,8 @@ li {
 }
 
 .alinhamento-esquerda {
-    justify-content: flex-start;
-
+    justify-content: flex-start !important;
+    margin-left: 20px;
 }
 
 .objetivo .cabecalho-objetivo {
@@ -510,73 +429,6 @@ li {
     color: #bab4ad;
     font-family: Arial, sans-serif;
 }
-
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 300px;
-    background-color: #121110;
-    overflow: hidden;
-}
-
-.footer .container-horizontal {
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.footer p {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #f2ecdf;
-    font-size: 15px;
-}
-
-.footer h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    color: #f2ecdf;
-}
-
-.footer img {
-    width: 200px;
-}
-
-.footer .icon-redes {
-    width: 150px;
-    margin: 10px 0 0 40px;
-}
-
-.footer .container {
-    align-items: flex-start;
-}
-
-.footer .linha {
-    width: 100%;
-    height: 1px;
-    background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255));
-    margin-bottom: -20px;
-}
-
-.footer .container h6 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    color: #868079;
-    margin: 0 0 0 20px;
-}
-
-.footer .footer-infos {
-    margin-top: 50px;
-    height: 60%;
-}
-
-.footer .creditos {
-    height: 40%;
-}
-
-
 
 
 
