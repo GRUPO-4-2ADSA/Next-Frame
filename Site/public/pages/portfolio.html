@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/portfolio.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <title>Next Frame | Portifólio</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="..\assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a class="ativo" href="portfolio.html">Portifólio</a></li>
+                <li><a href="usuarios.html">Usuários</a></li>
+            </ul>
+            <a href="editarPerfil.html">
+                <a href="editarPerfil.html">
+                    <div class="container-horizontal usuario">
+                        <div class="icone-usuario">
+                            <img src="../assets/img/icon_usuario.png">
+                        </div>
+                        <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
+                    </div>
+                </a>
+            </a>
+        </div>
+    </div>
+
+    <div class="fachada-portfolio">
+        <div class="container-horizontal alinhamento-esquerda">
+            <img class="icon-pequeno" src="../assets/img/icon_claquete.png">
+            <h6 class="texto-divisoria">ACERVO DA PRODUTORA</h6>
+            <hr class="linha linha-vermelha">
+        </div>
+
+        <div class="container alinhamento-esquerda">
+            <h1 class="titulo">
+                OS MAIORES SUCESSOS <span class="vermelho">DA PRODUTORA</span>
+            </h1>
+            <h3 class="texto-conteudo-fixo">
+                Uma coleção dos projetos já cadastrados e seus resultados de mercado.
+            </h3>
+        </div>
+    </div>
+
+    <div class="secao-portfolio">
+
+        <div class="container-horizontal acao-portfolio">
+            <button type="button" class="btn-adicionar-projeto" onclick="abrirModal()">
+                ADICIONAR NOVO PROJETO
+            </button>
+        </div>
+
+        <div class="container-cards-filmes">
+
+            <div class="card-filme">
+                <div class="card-filme-poster">
+                    <span class="numero-filme">01</span>
+                    <img src="../assets/img/posters/homem-aranha.png">
+                </div>
+                <div class="card-filme-info">
+                    <p class="categoria-filme">AÇÃO / HERÓI</p>
+                    <h3 class="titulo-filme">HOMEM-ARANHA: UM NOVO DIA</h3>
+                    <p class="direcao-filme">Direção por xxxxx</p>
+                    <hr class="linha linha-card-filme">
+                    <div class="container-horizontal dados-filme">
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">ORÇAMENTO:</p>
+                            <p class="valor-dado">XXXXXXX</p>
+                        </div>
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">BILHETERIA:</p>
+                            <p class="valor-dado vermelho">XXXXXXX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-filme">
+                <div class="card-filme-poster">
+                    <span class="numero-filme">02</span>
+                    <img src="../assets/img/posters/odisseia.png">
+                </div>
+                <div class="card-filme-info">
+                    <p class="categoria-filme">AVENTURA</p>
+                    <h3 class="titulo-filme">ODISSEIA</h3>
+                    <p class="direcao-filme">Direção por xxxxx</p>
+                    <hr class="linha linha-card-filme">
+                    <div class="container-horizontal dados-filme">
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">ORÇAMENTO:</p>
+                            <p class="valor-dado">XXXXXXX</p>
+                        </div>
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">BILHETERIA:</p>
+                            <p class="valor-dado vermelho">XXXXXXX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-filme">
+                <div class="card-filme-poster">
+                    <span class="numero-filme">03</span>
+                    <img src="../assets/img/posters/toy-story-5.png">
+                </div>
+                <div class="card-filme-info">
+                    <p class="categoria-filme">ANIMAÇÃO / FAMÍLIA</p>
+                    <h3 class="titulo-filme">TOY STORY 5</h3>
+                    <p class="direcao-filme">Direção por xxxxx</p>
+                    <hr class="linha linha-card-filme">
+                    <div class="container-horizontal dados-filme">
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">ORÇAMENTO:</p>
+                            <p class="valor-dado">XXXXXXX</p>
+                        </div>
+                        <div class="dado-filme">
+                            <p class="rotulo-dado">BILHETERIA:</p>
+                            <p class="valor-dado vermelho">XXXXXXX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="../assets/img/logo_footer.png">
+
+            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="../assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+    </div>
+
+    <div class="overlay-modal" id="modalFicha">
+        <div class="modal-ficha-wrapper">
+            <div class="modal-ficha">
+
+                <button type="button" class="btn-fechar-modal" onclick="fecharModal()">
+                    <img src="../assets/img/icon_x.png">
+                </button>
+
+                <div class="container-horizontal cabecalho-modal">
+                    <img class="icon-ficha" src="../assets/img/icon_ficha.png">
+                    <div class="container alinhamento-esquerda info-modal">
+                        <h2 class="titulo-modal">FICHA DA PRODUÇÃO</h2>
+                        <p class="subtitulo-modal">Preencha os campos com as informações do seu projeto.</p>
+                    </div>
+                </div>
+
+                <hr class="linha-divisoria-modal">
+
+                <form class="grade-campos-modal">
+                    <div class="campo">
+                        <label for="tituloProjeto">TÍTULO</label>
+                        <input type="text" id="tituloProjeto" name="tituloProjeto" placeholder="Título do projeto">
+                    </div>
+                    <div class="campo">
+                        <label for="diretorProjeto">DIRETOR</label>
+                        <input type="text" id="diretorProjeto" name="diretorProjeto" placeholder="Nome do diretor">
+                    </div>
+                    <div class="campo">
+                        <label for="generoProjeto">GÊNERO</label>
+                        <input type="text" id="generoProjeto" name="generoProjeto" placeholder="Ex: Drama">
+                    </div>
+                    <div class="campo">
+                        <label for="orcamentoProjeto">ORÇAMENTO</label>
+                        <input type="text" id="orcamentoProjeto" name="orcamentoProjeto" placeholder="Ex: 20 milhões">
+                    </div>
+
+                    <div class="container-horizontal acao-modal">
+                        <button type="submit" class="btn-salvar">SALVAR</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    function abrirModal() {
+        document.getElementById("modalFicha").style.display = "flex";
+    }
+
+    function fecharModal() {
+        document.getElementById("modalFicha").style.display = "none";
+    }
+</script>
+
+</html>
