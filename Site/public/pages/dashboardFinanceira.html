@@ -1,12 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Financeira</title>
+    <link rel="stylesheet" href="../css/dashboard-financeira.css">
+    <title>Next Frame | Dashboard Financeira</title>
 </head>
 <body>
-    <h1>Dashboard Financeira</h1>
+    <!-- Menu lateral -->
+       
+    <aside class="menu-lateral">
+       <div class="menu-topo">
+            <a class="menu-logotipo-link" href="../index.html">
+                <img class="menu-logotipo" src="../assets/img/logo.png" alt="Next Frame">
+            </a>
+            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
+                <img src="../assets/img/icone_seta_esquerda.png" alt="">
+            </button>
+        </div>
+
+        <nav class="menu-itens">
+            <a class="menu-item" href="../index.html">
+                <img class="menu-icone" src="../assets/img/icone_inicio.png" alt="">
+                <span class="menu-rotulo">Início</span>
+            </a>
+            <a class="menu-item" href="sucessosAno.html">
+                <img class="menu-icone" src="../assets/img/icone_sucessos.png" alt="">
+                <span class="menu-rotulo">Sucessos do ano</span>
+            </a>
+            <a class="menu-item" href="portfolio.html">
+                <img class="menu-icone" src="../assets/img/icone_portfolio.png" alt="">
+                <span class="menu-rotulo">Meu Portfólio</span>
+            </a>
+            <a class="menu-item ativo" href="dashboardFinanceira.html">
+                <img class="menu-icone" src="../assets/img/icone_dashboard.png" alt="">
+                <span class="menu-rotulo">Dashboard</span>
+            </a>
+            <a class="menu-item" href="gerenciadorUsuario.html">
+                <img class="menu-icone" src="../assets/img/icon_usuario.png" alt="">
+                <span class="menu-rotulo">Usuários</span>
+            </a>
+        </nav>
+
+
+            <div class="menu-usuario">
+            <div class="usuario-linha">
+                <img class="usuario-avatar" src="../assets/img/icone_usuario.png" alt="">
+                <div class="usuario-texto">
+                    <p class="usuario-nome">Usuário</p>
+                    <p class="usuario-cargo">Analista Financeiro</p>
+                </div>
+                <span class="usuario-seta">▾</span>
+            </div>
+            <button type="button" class="botao-sair">Sair</button>
+        </div>
+    </aside>
+
+    <!-- Inicio dash -->
+
+
+     <main class="conteudo-principal">
+
+        <div class="topo-dashboard">
+            <div class="topo-titulo">
+                <h1>Dashboard</h1>
+                <p>Visão geral dos dados e análises para o seu novo projeto.</p>
+            </div>
+
+            <div class="topo-acoes">
+                <button type="button" class="botao-acao">Baixar</button>
+                <a class="botao-acao" href="novoProjeto.html">Novo Projeto</a>
+                <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
+
+                <button type="button" class="filtros-aplicados">
+                    <img class="filtros-icone" src="../assets/img/icone_filtros.png" alt="">
+                    <div class="filtros-texto">
+                        <span class="filtros-titulo">Filtros aplicados</span>
+                        <span class="filtros-detalhe">Terror · US$ 20 mi · EUA · Inglês</span>
+                    </div>
+                    <span class="filtros-seta">▾</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="indicadores">
+            <div class="indicadores-topo">
+                <h2>Principais Indicadores</h2>
+                <p class="indicadores-total">87 filmes semelhantes analisados</p>
+            </div>
+
+            <div class="indicadores-lista">
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Risco histórico</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▲</span> Baixo</p>
+                    <p class="kpi-detalhe">68% dos filmes similares tiveram retorno positivo</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Retorno mediano por dólar investido</p>
+                    <canvas class="kpi-linha" id="linhaRetorno"></canvas>
+                    <p class="kpi-valor">US$ 3</p>
+                    <p class="kpi-detalhe">US$ 1 a mais comparado com a mediana geral do gênero</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Receita mediana</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 30 mi</p>
+                    <p class="kpi-detalhe">US$ 5 mi acima da receita desejada (US$ 25 mi)</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Orçamento</p>
+                    <canvas class="kpi-linha" id="linhaOrcamento"></canvas>
+                    <p class="kpi-valor">US$ 20 mi</p>
+                    <p class="kpi-detalhe">Sucesso mediano histórico de 47% nessa faixa de orçamento</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">ROI no pior cenário (P10)</p>
+                    <canvas class="kpi-linha" id="linhaRoi"></canvas>
+                    <p class="kpi-valor">50%</p>
+                    <p class="kpi-detalhe">60% abaixo do ROI mediano nesse gênero</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
     
 </body>
 </html>
