@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cadastro-usuario.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <title>Next Frame | Cadastro de Usuário</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="..\assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a href="portfolio.html">Portifólio</a></li>
+                <li><a class="ativo" href="usuarios.html">Usuários</a></li>
+            </ul>
+            <a href="editarPerfil.html">
+                <div class="container-horizontal usuario">
+                    <div class="icone-usuario">
+                        <img src="../assets/img/icon_usuario.png">
+                    </div>
+                    <p>BEM VINDO,<br><span class="amarelo">DONO DA PRODUTORA</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="fachada-cadastro">
+        <div class="container-horizontal alinhamento-esquerda">
+            <img class="icon-pequeno" src="../assets/img/icon_claquete.png">
+            <h6 class="texto-divisoria">ACESSO A PLATAFORMA</h6>
+            <hr class="linha linha-vermelha">
+        </div>
+
+        <div class="container alinhamento-esquerda">
+            <h1 class="titulo">
+                CADASTRO <span class="vermelho">NEXT FRAME</span>
+            </h1>
+            <h3 class="texto-conteudo-fixo">
+                Crie o acesso para novos usuários participarem das análises e decisões da produtora.
+            </h3>
+        </div>
+    </div>
+
+    <div class="secao-cadastro">
+
+        <form class="card-cadastro">
+
+            <div class="grade-campos-cadastro">
+                <div class="campo">
+                    <label for="nome">NOME</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                <div class="campo">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="campo">
+                    <label for="senha">SENHA</label>
+                    <input type="password" id="senha" name="senha">
+                </div>
+                <div class="campo">
+                    <label for="confirmarSenha">CONFIRMAR SENHA</label>
+                    <input type="password" id="confirmarSenha" name="confirmarSenha">
+                </div>
+                <div class="campo">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" name="cpf" maxlength="14">
+                </div>
+                <div class="campo">
+                    <label for="nascimento">DATA DE NASCIMENTO</label>
+                    <input type="date" id="nascimento" name="nascimento">
+                </div>
+                <div class="campo">
+                    <label for="empresa">EMPRESA</label>
+                    <input type="text" id="empresa" name="empresa">
+                </div>
+                <div class="campo">
+                    <label for="cargo">CARGO</label>
+                    <select id="cargo" name="cargo">
+                        <option value="" disabled selected></option>
+                        <option value="gerente">Gerente</option>
+                        <option value="funcionario">Funcionário</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="container-horizontal acao-cadastro">
+                <button type="submit" class="btn-cadastrar">
+                    <img src="../assets/img/icon_usuario_mais.png">
+                    CADASTRAR
+                </button>
+            </div>
+
+        </form>
+
+        <div class="painel-acesso">
+            <img src="../assets/img/fita_filme.png" class="fita-filme">
+
+            <div class="container alinhamento-esquerda conteudo-painel">
+                <img class="icon-claquete-grande" src="../assets/img/icon_claquete.png">
+                <h2 class="titulo-painel">
+                    ACESSO <br>
+                    <span class="vermelho">NEXT FRAME</span>
+                </h2>
+                <hr class="linha linha-painel">
+                <img class="logo-painel" src="../assets/img/logo.png">
+                <hr class="linha linha-painel">
+            </div>
+
+            <img src="../assets/img/fita_filme.png" class="fita-filme">
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="../assets/img/logo_footer.png">
+
+            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="../assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

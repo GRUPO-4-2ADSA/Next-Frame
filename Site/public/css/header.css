@@ -35,7 +35,7 @@ body {
 }
 
 .header .container-horizontal {
-    margin: 0 100px 0 0 !important;
+    margin: 0 0 0 0 !important;
     justify-content: space-around !important;
 }
 
@@ -94,4 +94,40 @@ li {
 
 .btn-entrar:hover {
     background-color: rgb(194, 0, 17);
+}
+
+.header .navbar a.ativo {
+    color: #ffd951;
+}
+
+.header .usuario {
+    width: auto;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.header .icone-usuario {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #fe3231;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.header .icone-usuario img {
+    width: 90%;
+    margin-top: 10%;
+    pointer-events: none;
+}
+
+.header .usuario p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #f2ecdf;
+    line-height: 1.4;
+    text-transform: uppercase;
+    margin: 0;
 }
