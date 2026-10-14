@@ -1,0 +1,180 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #071421;
+    color: #f1f5f9;
+    padding: 25px;
+}
+
+/* PRINCIPAIS INDICADORES */
+
+.kpi {
+    margin-bottom: 20px;
+}
+
+.titulo {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.container-kpi {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.box-kpi1,
+.box-kpi2,
+.box-kpi3,
+.box-kpi4,
+.box-grafico1 {
+    background-color: #0e1d2c;
+    border: 1px solid #203449;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.titulo-kpi {
+    color: #a7bbce;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.informacao-kpi {
+    font-size: 27px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.descricao-kpi {
+    color: #9aafc4;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.grafico {
+    width: 100%;
+}
+
+.container-grafico {
+    display: grid;
+    grid-template-columns: minmax(0, 0.60fr);
+    gap: 15px;
+}
+
+.box-grafico1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 180px;
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+    align-items: stretch;
+}
+
+.titulo-grafico {
+    grid-column: 1 / -1;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* CANVAS DO CHART.JS */
+
+.area-grafico {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+}
+
+.dispersao {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* CARDS DE INFORMAÇÕES */
+
+.informacoes-grafico {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 0;
+}
+
+.card-informacao {
+    background-color: #101f30;
+    border: 1px solid #26394c;
+    border-radius: 9px;
+    padding: 18px;
+    min-width: 0;
+}
+
+.card-informacao h6 {
+    color: #dce6f2;
+    font-size: 13px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.card-informacao h3 {
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.card-informacao p {
+    color: #9aafc4;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* TELAS MÉDIAS */
+
+@media (max-width: 900px) {
+    .container-kpi {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .box-grafico1 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .titulo-grafico {
+        grid-column: 1;
+    }
+
+    .informacoes-grafico {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* CELULARES */
+
+@media (max-width: 550px) {
+    body {
+        padding: 12px;
+    }
+
+    .container-kpi {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .box-grafico1 {
+        padding: 14px;
+    }
+
+    .area-grafico {
+        height: 280px;
+    }
+
+    .informacoes-grafico {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
