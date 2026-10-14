@@ -25,7 +25,7 @@ function cadastrar(req, res) {
         res.status(400).send("Preencha o campo de empresa!");
     } else if (cargo == undefined) {
         res.status(400).send("Preencha o campo de cargo!");
-    }else {
+    } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa)
@@ -82,8 +82,160 @@ function autenticar(req, res) {
     }
 
 }
+function listar(req, res) {
+    usuarioModel.listar()
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.error(erro);
+            res.status(500).json({ mensagem: "Erro ao listar usuários." });
+        });
+}
 
-module.exports = { 
+function buscarPorId(req, res) {
+    var id = req.params.id;
+
+    if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+        return res.status(400).json({ mensagem: "ID inválido." });
+    }
+
+    usuarioModel.buscarPorId(id)
+        .then(function (resultado) {
+            if (resultado.length === 0) {
+                return res.status(404).json({ mensagem: "Usuário não encontrado." });
+            }
+
+            res.status(200).json(resultado[0]);
+        })
+        .catch(function (erro) {
+            console.error(erro);
+            res.status(500).json({ mensagem: "Erro ao buscar usuário." });
+        });
+}
+
+
+function editar(req, res) {
+    var id = req.params.id;
+    var dados = req.body;
+
+    if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+        return res.status(400).json({
+            mensagem: "ID inválido."
+        });
+    }
+
+    var camposObrigatorios = [
+        "nomeServer",
+        "emailServer",
+        "cpfServer",
+        "dtNascimentoServer",
+        "empresaServer",
+        "cargoServer"
+    ];
+
+    for (var i = 0; i < camposObrigatorios.length; i++) {
+        var campo = dados[camposObrigatorios[i]];
+
+        if (campo === undefined || campo === null || campo === "") {
+            return res.status(400).json({
+                mensagem: "Preencha todos os campos obrigatórios."
+            });
+        }
+    }
+
+    usuarioModel.buscarPorId(id)
+        .then(function (usuario) {
+            if (usuario.length === 0) {
+                return res.status(404).json({
+                    mensagem: "Usuário não encontrado."
+                });
+            }
+
+            return usuarioModel.editar(id, dados)
+                .then(function () {
+                    return res.status(200).json({
+                        mensagem: "Usuário atualizado com sucesso."
+                    });
+                });
+        })
+        .catch(function (erro) {
+            console.error("Erro ao editar usuário:", erro);
+
+            return res.status(500).json({
+                mensagem: "Erro ao editar usuário."
+            });
+        });
+}
+
+
+function excluir(req, res) {
+    var id = req.params.id;
+
+    if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+        return res.status(400).json({ mensagem: "ID inválido." });
+    }
+
+    usuarioModel.buscarPorId(id)
+        .then(function (usuario) {
+            if (usuario.length === 0) {
+                return res.status(404).json({
+                    mensagem: "Usuário não encontrado."
+                });
+            }
+
+            return usuarioModel.excluir(id)
+                .then(function () {
+                    res.status(200).json({
+                        mensagem: "Usuário excluído com sucesso."
+                    });
+                });
+        })
+        .catch(function (erro) {
+            console.error(erro);
+            res.status(500).json({
+                mensagem: "Erro ao excluir usuário."
+            });
+        });
+}
+
+
+function buscarHistorico(req, res) {
+    var id = req.params.id;
+
+    if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+        return res.status(400).json({ mensagem: "ID inválido." });
+    }
+
+    usuarioModel.buscarHistorico(id)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.error(erro);
+            res.status(500).json({ mensagem: "Erro ao consultar histórico." });
+        });
+}
+
+function listarEmpresas(req, res) {
+    usuarioModel.listarEmpresas()
+        .then(function (empresas) {
+            res.status(200).json(empresas);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao listar empresas:", erro);
+            res.status(500).json({
+                mensagem: "Erro ao listar empresas."
+            });
+        });
+}
+module.exports = {
     cadastrar,
-    autenticar
+    autenticar,
+    listar,
+    buscarPorId,
+    editar,
+    excluir,
+    buscarHistorico,
+    listarEmpresas
 };
