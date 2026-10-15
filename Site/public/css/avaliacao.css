@@ -167,7 +167,7 @@ li {
     right: 0;
     width: 320px;
     height: 320px;
-    background-image: url("../assets/img/marca_dagua.png");
+    background-image: url("assets/img/marca_dagua.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -220,6 +220,26 @@ li {
     position: relative;
     z-index: 1;
     margin-top: 40px;
+}
+
+.campo select{
+        height: 46px;
+    background-color: #f2ecdf;
+    border: 1px solid #121110;
+    padding: 0 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #121110;   
+}
+
+.campo datalist{
+        height: 46px;
+    background-color: #f2ecdf;
+    border: 1px solid #121110;
+    padding: 0 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #121110;   
 }
 
 .btn-pesquisar {
