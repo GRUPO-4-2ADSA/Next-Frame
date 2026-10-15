@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Executiva</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dashboardExecutiva.css">
+</head>
+
+<body>
+    <!-- Menu lateral -->
+
+    <aside class="menu-lateral">
+        <div class="menu-topo">
+            <a class="menu-logotipo-link" href="../index.html">
+                <img class="menu-logotipo" src="../assets/img/logo.png" alt="Next Frame">
+            </a>
+            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
+                <img src="../assets/img/icone_seta_esquerda.png" alt="">
+            </button>
+        </div>
+
+        <nav class="menu-itens">
+            <a class="menu-item" href="../index.html">
+                <img class="menu-icone" src="../assets/img/icone_inicio.png" alt="">
+                <span class="menu-rotulo">Início</span>
+            </a>
+            <a class="menu-item" href="sucessosAno.html">
+                <img class="menu-icone" src="../assets/img/icone_sucessos.png" alt="">
+                <span class="menu-rotulo">Sucessos do ano</span>
+            </a>
+            <a class="menu-item" href="portfolio.html">
+                <img class="menu-icone" src="../assets/img/icone_portfolio.png" alt="">
+                <span class="menu-rotulo">Meu Portfólio</span>
+            </a>
+            <a class="menu-item ativo" href="dashboardFinanceira.html">
+                <img class="menu-icone" src="../assets/img/icone_dashboard.png" alt="">
+                <span class="menu-rotulo">Dashboard</span>
+            </a>
+            <a class="menu-item" href="gerenciadorUsuario.html">
+                <img class="menu-icone" src="../assets/img/icon_usuario.png" alt="">
+                <span class="menu-rotulo">Usuários</span>
+            </a>
+        </nav>
+
+
+        <div class="menu-usuario">
+            <div class="usuario-linha">
+                <img class="usuario-avatar" src="../assets/img/icone_usuario.png" alt="">
+                <div class="usuario-texto">
+                    <p class="usuario-nome">Usuário</p>
+                    <p class="usuario-cargo">Analista Executivo</p>
+                </div>
+                <span class="usuario-seta">▾</span>
+            </div>
+            <button type="button" class="botao-sair">Sair</button>
+        </div>
+    </aside>
+
+    <!-- Inicio dash -->
+
+
+    <main class="conteudo-principal">
+
+        <div class="topo-dashboard">
+            <div class="topo-titulo">
+                <h1>Dashboard</h1>
+                <p>Visão geral dos dados e análises para o seu novo projeto.</p>
+            </div>
+
+            <div class="topo-acoes">
+                <button type="button" class="botao-acao">Baixar</button>
+                <a class="botao-acao" href="novoProjeto.html">Novo Projeto</a>
+                <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
+
+                <button type="button" class="filtros-aplicados">
+                    <img class="filtros-icone" src="../assets/img/icone_filtros.png" alt="">
+                    <div class="filtros-texto">
+                        <span class="filtros-titulo">Filtros aplicados</span>
+                        <span class="filtros-detalhe">Terror · US$ 20 mi · EUA · Inglês</span>
+                    </div>
+                    <span class="filtros-seta">▾</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- KPIS -->
+
+        <div class="kpi" id="idKpi">
+            <h6 class="titulo"> Principais indicadores</h6>
+            <div class="container-kpi">
+                <div class="box-kpi1">
+                    <h6 class="titulo-kpi">RISCO HISTÓRICO</h6>
+                    <h5 class="informacao-kpi">BAIXO</h5>
+                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO</h6>
+                </div>
+
+                <div class="box-kpi2">
+                    <h6 class="titulo-kpi">ROI MEDIANO</h6>
+                    <h5 class="informacao-kpi">208%</h5>
+                    <h6 class="descricao-kpi">10% A MAIS COMPARADO COM A MEDIANA DO GÊNERO</h6>
+                </div>
+
+                <div class="box-kpi3">
+                    <h6 class="titulo-kpi">RECEITA MEDIANA</h6>
+                    <h5 class="informacao-kpi">US$ 30 mi</h5>
+                    <h6 class="descricao-kpi">US$ 5 MI ACIMA DA RECEITA DESEJADA (US$25MI)</h6>
+                </div>
+
+                <div class="box-kpi4">
+                    <h6 class="titulo-kpi">INTERESSE DO PÚBLICO</h6>
+                    <h5 class="informacao-kpi">3°/10</h5>
+                    <h6 class="descricao-kpi">SUBIU UMA POSIÇÃO EM RELAÇÃO AO ÚLTIMO ANO - 12 MESES</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="grafico" id="idGrafico">
+            <div class="container-grafico">
+                <div class="box-grafico1">
+
+                    <h3 class="titulo-grafico">Orçamento x Receita</h3>
+
+                    <div class="area-grafico">
+                        <canvas class="dispersao" id="graficoDispersao"></canvas>
+                    </div>
+
+                    <div class="informacoes-grafico">
+
+                        <div class="card-informacao">
+                            <h6>Correlação</h6>
+                            <h3>0,72</h3>
+                            <p>Orçamento x receita</p>
+                        </div>
+
+                        <div class="card-informacao">
+                            <h6>Filmes analisados</h6>
+                            <h3>87</h3>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box-grafico2">
+                    <h3 class="titulo-grafico">Desempenho financeiro dos projetos na faixa buscada</h3>
+
+                    <div class="area-grafico-pizza">
+                        <canvas id="graficoPizza"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            const dados = {
+                datasets: [
+                    {
+                        label: 'Base',
+                        data: [
+                            { x: 20, y: 20, filme: 'Filme A' },
+                            { x: 23, y: 21, filme: 'Filme B' },
+                            { x: 30, y: 31, filme: 'Filme C' },
+                            { x: 34, y: 35, filme: 'Filme D' },
+                            { x: 39, y: 40, filme: 'Filme E' },
+                            { x: 33, y: 35, filme: 'Filme F' },
+                            { x: 25, y: 27, filme: 'Filme G' }
+                        ],
+                        backgroundColor: '#ff4b5c',
+                        borderColor: '#ff4b5c',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Outlier',
+                        data: [
+                            { x: 8, y: 85, filme: 'Filme H' },
+                            { x: 21, y: 63, filme: 'Filme I' },
+                            { x: 33, y: 65, filme: 'Filme J' },
+                            { x: 47, y: 12, filme: 'Filme K' },
+                            { x: 58, y: 76, filme: 'Filme L' },
+                            { x: 72, y: 38, filme: 'Filme M' },
+                            { x: 87, y: 90, filme: 'Filme N' }
+                        ],
+                        backgroundColor: '#ffae35',
+                        borderColor: '#ffae35',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Seu Projeto',
+                        data: [
+                            { x: 27, y: 30, filme: 'Filme O' },
+                        ],
+                        backgroundColor: '#ffffff',
+                        borderColor: '#ffffff',
+                        pointRadius: 5
+                    }
+                ]
+            };
+
+            const configuracao = {
+                type: 'scatter',
+                data: dados,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                color: '#dce6f2'
+                            }
+                        },
+
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                title: function (items) {
+                                    return items[0].raw.filme || 'Filme sem nome'
+                                },
+                                label: function (context) {
+                                    const ponto = context.raw
+
+                                    return [
+                                        'Orçamento: ' + ponto.x + 'mi',
+                                        'Receita: ' + ponto.y + 'mi'
+                                    ];
+                                }
+                            }
+                        }
+                    },
+
+
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Receita (US$)',
+                                color: '#dce6f2'
+                            },
+                            ticks: {
+                                color: '#b8c9da'
+                            },
+                            grid: {
+                                color: '#203449'
+                            }
+                        },
+
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Orçamento (US$)',
+                                color: '#dce6f2'
+                            },
+                            ticks: {
+                                color: '#b8c9da'
+                            },
+                            grid: {
+                                color: '#203449'
+                            }
+                        }
+                    }
+                }
+            };
+
+            const graficoDispersao = new Chart(
+                document.getElementById('graficoDispersao'),
+                configuracao
+            );
+
+            const dadosPizza = {
+                labels: ['Défict', 'Neutro', 'Superávit'],
+
+                datasets: [{
+                    data: [15, 25, 60],
+
+                    backgroundColor: [
+                        '#ffffff',
+                        '#ffae35',
+                        '#ff4b5c'
+                    ]
+                }]
+            };
+
+            const configuracaoPizza = {
+                type: 'pie',
+
+                data: dadosPizza,
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#dce6f2',
+                                padding: 15,
+                                usePointStyle: true
+                            }
+                        },
+
+                        tooltip: {
+                            callbacks: {
+                                label: function(context){
+                                    const valor = context.raw;
+
+                                    const total = context.dataset.data.reduce(
+                                        (soma, numero) => soma + numero,
+                                        0
+                                    );
+
+                                    const porcentagem = (valor / total * 100).toFixed(1);
+
+                                    return context.label + '; ' + valor + ' filmes (' + porcentagem + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const graficoPizza = new Chart(
+                document.getElementById('graficoPizza'),
+                configuracaoPizza
+            );
+        </script>
+</body>
+
+</html>
