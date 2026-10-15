@@ -57,6 +57,7 @@ body {
     color: #a7bbce;
     font-size: 12px;
     margin-bottom: 12px;
+    text-align: center;
 
 }
 
@@ -64,18 +65,15 @@ body {
     font-size: 27px;
     font-weight: normal;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .descricao-kpi {
     color: #9aafc4;
     font-size: 11px;
     line-height: 1.5;
+    text-align: center;
 }
-
-
-/* ==============================
-   CONTAINER DOS GRÁFICOS
-============================== */
 
 .container-grafico {
     display: grid;
@@ -84,11 +82,6 @@ body {
     width: 100%;
     align-items: stretch;
 }
-
-
-/* ==============================
-   CARD DO GRÁFICO DE DISPERSÃO
-============================== */
 
 .box-grafico1 {
     display: grid;
@@ -110,23 +103,14 @@ body {
     grid-column: 1 / -1;
 }
 
-
-/* ==============================
-   TÍTULOS DOS GRÁFICOS
-============================== */
-
 .titulo-grafico {
     color: #f1f5f9;
     font-size: 18px;
     font-weight: normal;
     line-height: 1.4;
     margin-bottom: 5px;
+    text-align: center;
 }
-
-
-/* ==============================
-   GRÁFICO DE DISPERSÃO
-============================== */
 
 .area-grafico {
     position: relative;
@@ -140,11 +124,6 @@ body {
     width: 100%;
     height: 100%;
 }
-
-
-/* ==============================
-   INDICADORES AO LADO DO GRÁFICO
-============================== */
 
 .informacoes-grafico {
     display: flex;
@@ -181,11 +160,6 @@ body {
     line-height: 1.5;
 }
 
-
-/* ==============================
-   CARD DO GRÁFICO DE PIZZA
-============================== */
-
 .box-grafico2 {
     display: flex;
     flex-direction: column;
@@ -203,11 +177,6 @@ body {
     text-align: center;
     margin-bottom: 15px;
 }
-
-
-/* ==============================
-   ÁREA DO GRÁFICO DE PIZZA
-============================== */
 
 .area-grafico-pizza {
     position: relative;
