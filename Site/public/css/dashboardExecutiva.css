@@ -1,8 +1,3 @@
-
-/* ==============================
-   CONFIGURAÇÕES GERAIS
-============================== */
-
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #071421;
+    background-color: #181010;
     color: #f1f5f9;
     padding: 25px;
 }
@@ -20,11 +15,6 @@ body {
     width: 100%;
     min-width: 0;
 }
-
-
-/* ==============================
-   INDICADORES (KPIs)
-============================== */
 
 .kpi {
     width: 100%;
@@ -46,15 +36,15 @@ body {
 .box-kpi2,
 .box-kpi3,
 .box-kpi4 {
-    background-color: #0e1d2c;
-    border: 1px solid #203449;
+    background-color: #232222;
+    border: 1px solid #292724;
     border-radius: 10px;
     padding: 20px;
     min-width: 0;
 }
 
 .titulo-kpi {
-    color: #a7bbce;
+    color: #f6e2b9;
     font-size: 12px;
     margin-bottom: 12px;
     text-align: center;
@@ -69,7 +59,7 @@ body {
 }
 
 .descricao-kpi {
-    color: #9aafc4;
+    color: #f6e2b9;
     font-size: 11px;
     line-height: 1.5;
     text-align: center;
@@ -89,8 +79,8 @@ body {
     grid-template-rows: auto 1fr;
     gap: 15px;
 
-    background-color: #0e1d2c;
-    border: 1px solid #203449;
+    background-color: #232222;
+    border: 1px solid #1f1a1a;
     border-radius: 10px;
     padding: 20px;
 
@@ -133,15 +123,15 @@ body {
 }
 
 .card-informacao {
-    background-color: #101f30;
-    border: 1px solid #26394c;
+    background-color: #232323;
+    border: 1px solid #1f1a1a;
     border-radius: 9px;
     padding: 12px;
     min-width: 0;
 }
 
 .card-informacao h6 {
-    color: #a7bbce;
+    color: #fff;
     font-size: 12px;
     font-weight: normal;
     margin-bottom: 10px;
@@ -155,7 +145,7 @@ body {
 }
 
 .card-informacao p {
-    color: #9aafc4;
+    color: #fff;
     font-size: 11px;
     line-height: 1.5;
 }
@@ -164,8 +154,8 @@ body {
     display: flex;
     flex-direction: column;
 
-    background-color: #0e1d2c;
-    border: 1px solid #203449;
+    background-color: #232222;
+    border: 1px solid #1f1a1a;
     border-radius: 10px;
     padding: 20px;
 

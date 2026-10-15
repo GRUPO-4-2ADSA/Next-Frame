@@ -169,8 +169,8 @@
                             { x: 33, y: 35, filme: 'Filme F' },
                             { x: 25, y: 27, filme: 'Filme G' }
                         ],
-                        backgroundColor: '#ff4b5c',
-                        borderColor: '#ff4b5c',
+                        backgroundColor: '#FF0000',
+                        borderColor: '#FF0000',
                         pointRadius: 5
                     },
                     {
@@ -184,8 +184,8 @@
                             { x: 72, y: 38, filme: 'Filme M' },
                             { x: 87, y: 90, filme: 'Filme N' }
                         ],
-                        backgroundColor: '#ffae35',
-                        borderColor: '#ffae35',
+                        backgroundColor: '#f5c207',
+                        borderColor: '#f5c207',
                         pointRadius: 5
                     },
                     {
@@ -212,7 +212,7 @@
                             position: 'top',
                             labels: {
                                 usePointStyle: true,
-                                color: '#dce6f2'
+                                color: '#fff'
                             }
                         },
 
@@ -242,13 +242,13 @@
                             title: {
                                 display: true,
                                 text: 'Receita (US$)',
-                                color: '#dce6f2'
+                                color: '#ffffff'
                             },
                             ticks: {
                                 color: '#b8c9da'
                             },
                             grid: {
-                                color: '#203449'
+                                color: '#f6e2b9'
                             }
                         },
 
@@ -264,7 +264,7 @@
                                 color: '#b8c9da'
                             },
                             grid: {
-                                color: '#203449'
+                                color: '#f6e2b9'
                             }
                         }
                     }
@@ -283,21 +283,23 @@
                     data: [15, 25, 60],
 
                     backgroundColor: [
-                        '#ffffff',
-                        '#ffae35',
-                        '#ff4b5c'
-                    ]
+                        '#f5c207',
+                        '#fff',
+                        '#FF0000'
+                    ],
+                    borderWidth: 0
                 }]
             };
 
             const configuracaoPizza = {
-                type: 'pie',
+                type: 'doughnut',
 
                 data: dadosPizza,
 
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '60%',
 
                     plugins: {
                         legend: {
