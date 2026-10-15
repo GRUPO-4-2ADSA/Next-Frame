@@ -242,6 +242,11 @@ li {
     color: #121110;   
 }
 
+input[list]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
+}
+
 .btn-pesquisar {
     display: flex;
     align-items: center;
