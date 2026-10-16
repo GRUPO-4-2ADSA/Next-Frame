@@ -167,7 +167,7 @@ li {
     right: 0;
     width: 320px;
     height: 320px;
-    background-image: url("assets/img/marca_dagua.png");
+    /* background-image: url("assets/img/marca_dagua.png"); */
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

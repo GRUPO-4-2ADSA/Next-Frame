@@ -15,7 +15,7 @@
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
-                <img class="logo" src="..\assets\img\logo.png">
+                <img class="logo" src="assets\img\logo.png">
             </a>
             <ul class="navbar">
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
@@ -60,7 +60,8 @@
 
                     <div class="campo">
                         <label for="genero">GÊNERO</label>
-                        <input list="generos" id="genero" name="genero" placeholder="Digite para buscar..." autocomplete="off">
+                        <input list="generos" id="genero" name="genero" placeholder="Digite para buscar..."
+                            autocomplete="off">
                         <datalist id="generos"></datalist>
                     </div>
 
@@ -83,7 +84,7 @@
                 </div>
 
                 <div class="container-horizontal acao-avaliacao">
-                    <button onclick="verificarCargo()" class="btn-pesquisar">
+                    <button type="button" class="btn-pesquisar" onclick="verificarCargo()">
                         <img src=" assets/img/icon_lupa_branca.png">
                         PESQUISAR
                     </button>
@@ -120,17 +121,17 @@
 
 <script>
     function verificarCargo() {
-          let codigoPais = pegarCodigoPais();
-  let midGenero = pegarMidGenero();
+        let codigoPais = pegarCodigoPais();
+        let midGenero = pegarMidGenero();
 
-  if (midGenero === "") {
-    alert("Escolha um gênero da lista.");
-    return;
-  }
-  if (codigoPais === "") {
-    alert("Escolha um país da lista.");
-    return;
-  }
+        if (midGenero === "") {
+            alert("Escolha um gênero da lista.");
+            return;
+        }
+        if (codigoPais === "") {
+            alert("Escolha um país da lista.");
+            return;
+        }
 
         let cargo = sessionStorage.getItem("CARGO");
 
@@ -141,6 +142,26 @@
         } else {
             alert("Cargo não identificado.");
         }
+    }
+
+    function pegarCodigoPais() {
+        let opcoes = datalistPaises.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputPais.value) {
+                return opcoes[i].dataset.codigo;
+            }
+        }
+        return "";
+    }
+
+    function pegarMidGenero() {
+        let opcoes = datalistGeneros.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputGenero.value) {
+                return opcoes[i].dataset.mid;
+            }
+        }
+        return "";
     }
 
     /*
@@ -210,7 +231,7 @@
     /*
     6) Função que devolve o código do país escolhido
     */
-   
+
     let inputPais = document.getElementById("pais"); // campo visível
 
     let generos = [
@@ -238,10 +259,10 @@
     // Preenche o datalist e guarda o MID em cada option
     let datalistGeneros = document.getElementById("generos");
     for (let i = 0; i < generos.length; i++) {
-      let opt = document.createElement("option");
-      opt.value = generos[i].nome;           // o que o usuário vê e digita
-      opt.dataset.mid = generos[i].mid;      // vira data-mid="/m/02kdv5l"
-      datalistGeneros.appendChild(opt);
+        let opt = document.createElement("option");
+        opt.value = generos[i].nome;           // o que o usuário vê e digita
+        opt.dataset.mid = generos[i].mid;      // vira data-mid="/m/02kdv5l"
+        datalistGeneros.appendChild(opt);
     }
     // HTML equivalente: <option value="Ação" data-mid="/m/02kdv5l">, ...
 
@@ -249,12 +270,12 @@
 
     // Devolve o MID do gênero escolhido, ou "" se o texto não for um gênero da lista
     function pegarMidGenero() {
-      let opcoes = datalistGeneros.options;
-      for (let i = 0; i < opcoes.length; i++) {
-        if (opcoes[i].value === inputGenero.value) {
-          return opcoes[i].dataset.mid;
+        let opcoes = datalistGeneros.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputGenero.value) {
+                return opcoes[i].dataset.mid;
+            }
         }
-      }
-      return "";
+        return "";
     }
 </script>
