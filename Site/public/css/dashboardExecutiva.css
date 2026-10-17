@@ -468,3 +468,30 @@ body.menu-minimizado .conteudo-principal {
     min-width: 0;
     flex: 1;
 }
+
+/* ---------- RODAPÉ ---------- */
+
+.rodape-dados {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.rodape-item {
+    background-color: #232222;
+    border: 1px solid #292724;
+    border-radius: 10px;
+    padding: 14px 18px;
+}
+
+.rodape-item h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.rodape-item p {
+    font-size: 12px;
+    color: #f6e2b9;
+    line-height: 1.5;
+}

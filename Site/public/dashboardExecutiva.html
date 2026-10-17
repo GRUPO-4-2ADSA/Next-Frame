@@ -12,48 +12,47 @@
 </head>
 
 <body>
-    <!-- Menu lateral -->
 
+    <!-- Menu lateral -->
     <aside class="menu-lateral">
         <div class="menu-topo">
             <a class="menu-logotipo-link" href="index.html">
                 <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
             </a>
             <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
-                <img src="assets/img/icone_seta_esquerda.png" alt="">
+                <img src="assets/img/icon_menuLat.svg" alt="">
             </button>
         </div>
 
         <nav class="menu-itens">
             <a class="menu-item" href="index.html">
-                <img class="menu-icone" src="assets/img/icone_inicio.png" alt="">
+                <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">Início</span>
             </a>
             <a class="menu-item" href="sucessosAno.html">
-                <img class="menu-icone" src="assets/img/icone_sucessos.png" alt="">
+                <img class="menu-icone" src="assets/img/icon_claquete_pb.png" alt="">
                 <span class="menu-rotulo">Sucessos do ano</span>
             </a>
             <a class="menu-item" href="portfolio.html">
-                <img class="menu-icone" src="assets/img/icone_portfolio.png" alt="">
+                <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Meu Portfólio</span>
             </a>
-            <a class="menu-item ativo" href="dashboardFinanceira.html">
-                <img class="menu-icone" src="assets/img/icone_dashboard.png" alt="">
+            <a class="menu-item ativo" href="dashboardExecutiva.html">
+                <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Dashboard</span>
             </a>
             <a class="menu-item" href="gerenciadorUsuario.html">
-                <img class="menu-icone" src="assets/img/icon_usuario.png" alt="">
+                <img class="menu-icone" src="assets/img/icon_user.png" alt="">
                 <span class="menu-rotulo">Usuários</span>
             </a>
         </nav>
-
 
         <div class="menu-usuario">
             <div class="usuario-linha">
                 <img class="usuario-avatar" src="assets/img/icone_usuario.png" alt="">
                 <div class="usuario-texto">
                     <p class="usuario-nome">Usuário</p>
-                    <p class="usuario-cargo">Analista Executivo</p>
+                    <p class="usuario-cargo">Produtor Executivo</p>
                 </div>
                 <span class="usuario-seta">▾</span>
             </div>
@@ -61,9 +60,7 @@
         </div>
     </aside>
 
-    <!-- Inicio dash -->
-
-
+    <!-- Inicio dashboard -->
     <main class="conteudo-principal">
 
         <div class="topo-dashboard">
@@ -75,7 +72,7 @@
             <div class="topo-acoes">
                 <button type="button" class="botao-acao">Baixar</button>
                 <a class="botao-acao" href="novoProjeto.html">Novo Projeto</a>
-                <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
+                <a class="botao-acao" href="dashboardFinanceira.html">Dashboard Financeira</a>
 
                 <button type="button" class="filtros-aplicados">
                     <img class="filtros-icone" src="assets/img/icone_filtros.png" alt="">
@@ -88,10 +85,14 @@
             </div>
         </div>
 
-        <!-- KPIS -->
+        <!-- KPIs -->
 
-        <div class="kpi" id="idKpi">
-            <h6 class="titulo"> Principais indicadores</h6>
+        <div class="kpi">
+            <div class="titulo-linha">
+                <h6 class="titulo">Principais indicadores</h6>
+                <span class="subtitulo-kpi">87 filmes semelhantes analisados</span>
+            </div>
+
             <div class="container-kpi">
                 <div class="box-kpi1">
                     <h6 class="titulo-kpi">RISCO HISTÓRICO</h6>
@@ -119,10 +120,10 @@
             </div>
         </div>
 
-        <div class="grafico" id="idGrafico">
+        <!-- Orçamento x Receita + Desempenho financeiro -->
+        <div class="grafico">
             <div class="container-grafico">
                 <div class="box-grafico1">
-
                     <h3 class="titulo-grafico">Orçamento x Receita</h3>
 
                     <div class="area-grafico">
@@ -130,7 +131,6 @@
                     </div>
 
                     <div class="informacoes-grafico">
-
                         <div class="card-informacao">
                             <h6>Correlação</h6>
                             <h3>0,72</h3>
@@ -141,7 +141,6 @@
                             <h6>Filmes analisados</h6>
                             <h3>87</h3>
                         </div>
-
                     </div>
                 </div>
 
@@ -153,7 +152,22 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Rodapé -->
+        <div class="rodape-dados">
+            <div class="rodape-item">
+                <h4>Dados da pesquisa</h4>
+                <p>87 filmes semelhantes encontrados. Base de dados analisada para este projeto.</p>
+            </div>
+            <div class="rodape-item">
+                <h4>Fontes dos dados</h4>
+                <p>Kaggle · Dados internos (XLSX). Dados históricos e complementares.</p>
+            </div>
+            <div class="rodape-item">
+                <h4>Período analisado</h4>
+                <p>2010 – 2024. Período de lançamento dos filmes.</p>
+            </div>
         </div>
 
         <div class="footer">
@@ -176,8 +190,28 @@
             </div>
 
         </div>
-
         <script>
+            // ---------- Menu lateral: expandir / minimizar ----------
+            let botaoMenu = document.getElementById('botaoAlternarMenu');
+
+            function alternarMenu() {
+                document.body.classList.toggle('menu-minimizado');
+
+                if (document.body.classList.contains('menu-minimizado')) {
+                    botaoMenu.setAttribute('aria-label', 'Expandir menu');
+                } else {
+                    botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+                }
+            }
+
+            botaoMenu.addEventListener('click', alternarMenu);
+
+            // ---------- Padrões do Chart.js ----------
+            Chart.defaults.color = '#b8c9da';
+            Chart.defaults.font.family = 'Arial, sans-serif';
+
+            let corGrade = 'rgba(246, 226, 185, 0.15)';
+
             const dados = {
                 datasets: [
                     {
@@ -334,7 +368,7 @@
 
                         tooltip: {
                             callbacks: {
-                                label: function(context){
+                                label: function (context) {
                                     const valor = context.raw;
 
                                     const total = context.dataset.data.reduce(
