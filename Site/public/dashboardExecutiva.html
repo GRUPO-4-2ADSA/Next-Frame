@@ -154,6 +154,32 @@
             </div>
         </div>
 
+        <!-- Interesse do público (ano e meses) + ROI por gênero -->
+        <div class="grafico">
+            <div class="container-linhas">
+                <div class="box-linha">
+                    <h3 class="titulo-grafico">INTERESSE DO PÚBLICO - ANO</h3>
+                    <div class="area-linha">
+                        <canvas id="graficoInteresseAno"></canvas>
+                    </div>
+                </div>
+
+                <div class="box-roi">
+                    <h3 class="titulo-grafico">ROI POR GÊNERO</h3>
+                    <div class="area-roi">
+                        <canvas id="graficoRoiGenero"></canvas>
+                    </div>
+                </div>
+
+                <div class="box-linha">
+                    <h3 class="titulo-grafico">INTERESSE DO PÚBLICO EM TERROR - MESES</h3>
+                    <div class="area-linha">
+                        <canvas id="graficoInteresseMeses"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Rodapé -->
         <div class="rodape-dados">
             <div class="rodape-item">
@@ -212,6 +238,7 @@
 
             let corGrade = 'rgba(246, 226, 185, 0.15)';
 
+            // ---------- Dispersão: Orçamento x Receita ----------
             const dados = {
                 datasets: [
                     {
@@ -247,7 +274,7 @@
                     {
                         label: 'Seu Projeto',
                         data: [
-                            { x: 27, y: 30, filme: 'Filme O' },
+                            { x: 27, y: 30, filme: 'Filme O' }
                         ],
                         backgroundColor: '#ffffff',
                         borderColor: '#ffffff',
@@ -266,131 +293,159 @@
                     plugins: {
                         legend: {
                             position: 'top',
-                            labels: {
-                                usePointStyle: true,
-                                color: '#fff'
-                            }
+                            labels: { usePointStyle: true, color: '#fff' }
                         },
 
                         tooltip: {
                             enabled: true,
                             callbacks: {
                                 title: function (items) {
-                                    return items[0].raw.filme || 'Filme sem nome'
+                                    return items[0].raw.filme || 'Filme sem nome';
                                 },
                                 label: function (context) {
-                                    const ponto = context.raw
-
+                                    const ponto = context.raw;
+                                    // eixo x = receita, eixo y = orçamento
                                     return [
-                                        'Orçamento: ' + ponto.x + 'mi',
-                                        'Receita: ' + ponto.y + 'mi'
+                                        'Receita: ' + ponto.x + ' mi',
+                                        'Orçamento: ' + ponto.y + ' mi'
                                     ];
                                 }
                             }
                         }
                     },
 
-
                     scales: {
                         x: {
                             min: 0,
                             max: 100,
-                            title: {
-                                display: true,
-                                text: 'Receita (US$)',
-                                color: '#ffffff'
-                            },
-                            ticks: {
-                                color: '#b8c9da'
-                            },
-                            grid: {
-                                color: '#f6e2b9'
-                            }
+                            title: { display: true, text: 'Receita (US$)', color: '#ffffff' },
+                            ticks: { color: '#b8c9da' },
+                            grid: { color: corGrade }
                         },
-
                         y: {
                             min: 0,
                             max: 100,
-                            title: {
-                                display: true,
-                                text: 'Orçamento (US$)',
-                                color: '#dce6f2'
-                            },
-                            ticks: {
-                                color: '#b8c9da'
-                            },
-                            grid: {
-                                color: '#f6e2b9'
-                            }
+                            title: { display: true, text: 'Orçamento (US$)', color: '#dce6f2' },
+                            ticks: { color: '#b8c9da' },
+                            grid: { color: corGrade }
                         }
                     }
                 }
             };
 
-            const graficoDispersao = new Chart(
-                document.getElementById('graficoDispersao'),
-                configuracao
-            );
+            new Chart(document.getElementById('graficoDispersao'), configuracao);
 
-            const dadosPizza = {
-                labels: ['Défict', 'Neutro', 'Superávit'],
-
-                datasets: [{
-                    data: [15, 25, 60],
-
-                    backgroundColor: [
-                        '#f5c207',
-                        '#fff',
-                        '#FF0000'
-                    ],
-                    borderWidth: 0
-                }]
-            };
-
-            const configuracaoPizza = {
+            // ---------- Rosca: desempenho financeiro ----------
+            new Chart(document.getElementById('graficoPizza'), {
                 type: 'doughnut',
-
-                data: dadosPizza,
-
+                data: {
+                    labels: ['Défict', 'Neutro', 'Superávit'],
+                    datasets: [{
+                        data: [15, 25, 60],
+                        backgroundColor: ['#f5c207', '#fff', '#FF0000'],
+                        borderWidth: 0
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: '60%',
-
                     plugins: {
                         legend: {
                             position: 'right',
-                            labels: {
-                                color: '#dce6f2',
-                                usePointStyle: true
-                            }
+                            labels: { color: '#dce6f2', usePointStyle: true }
                         },
-
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
                                     const valor = context.raw;
-
-                                    const total = context.dataset.data.reduce(
-                                        (soma, numero) => soma + numero,
-                                        0
-                                    );
-
+                                    const total = context.dataset.data.reduce((soma, n) => soma + n, 0);
                                     const porcentagem = (valor / total * 100).toFixed(1);
-
-                                    return context.label + '; ' + valor + ' filmes (' + porcentagem + '%)';
+                                    return context.label + ': ' + porcentagem + '%';
                                 }
                             }
                         }
                     }
                 }
+            });
+
+            // ---------- Linhas: interesse do público por ano ----------
+            const rotulosAno = [];
+            const trimestres = ['Jan', 'Abr', 'Jul', 'Out'];
+            for (let ano = 2022; ano <= 2025; ano++) {
+                trimestres.forEach(t => rotulosAno.push(t + ' ' + ano));
+            }
+            rotulosAno.push('Jan 2026');
+
+            function linha(nome, valores, cor, destaque) {
+                return {
+                    label: nome,
+                    data: valores,
+                    borderColor: cor,
+                    backgroundColor: cor,
+                    borderWidth: destaque ? 3 : 1.5,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0.35
+                };
+            }
+
+            const opcoesLinha = {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, color: '#dce6f2' }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#b8c9da', maxRotation: 0, autoSkip: true, maxTicksLimit: 9 },
+                        grid: { color: corGrade }
+                    },
+                    y: {
+                        min: 0,
+                        max: 100,
+                        title: { display: true, text: 'INTERESSE', color: '#dce6f2' },
+                        ticks: { color: '#b8c9da' },
+                        grid: { color: corGrade }
+                    }
+                }
             };
 
-            const graficoPizza = new Chart(
-                document.getElementById('graficoPizza'),
-                configuracaoPizza
-            );
+            new Chart(document.getElementById('graficoInteresseAno'), {
+                type: 'line',
+                data: {
+                    labels: rotulosAno,
+                    datasets: [
+                        linha('Terror', [28, 30, 32, 34, 35, 35, 34, 35, 36, 42, 50, 52, 52, 53, 54, 54, 55], '#f5c207', true),
+                        linha('Comédia', [55, 50, 48, 46, 45, 44, 47, 50, 52, 51, 50, 52, 53, 50, 52, 54, 55], '#f6e2b9', false),
+                        linha('Ação', [70, 60, 55, 50, 47, 46, 48, 50, 52, 55, 53, 50, 52, 54, 55, 53, 56], '#FF0000', false),
+                        linha('Romance', [50, 52, 54, 52, 50, 48, 50, 52, 51, 50, 52, 54, 52, 50, 51, 52, 53], '#9a8f80', false),
+                        linha('Sci-Fi', [45, 48, 50, 52, 55, 57, 58, 60, 62, 64, 65, 66, 65, 64, 66, 67, 68], '#ffffff', false)
+                    ]
+                },
+                options: opcoesLinha
+            });
+
+            // ---------- Linhas: interesse em Terror por mês ----------
+            new Chart(document.getElementById('graficoInteresseMeses'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    datasets: [
+                        linha('2026', [36, 28, 30, 34, 38, 40, 37, 36, 52, 78, 60, 40], '#f5c207', true),
+                        linha('2025', [34, 30, 32, 36, 40, 42, 40, 38, 50, 74, 58, 42], '#f6e2b9', false),
+                        linha('2024', [32, 28, 31, 38, 44, 46, 41, 38, 48, 70, 56, 38], '#9a8f80', false),
+                        linha('2023', [30, 27, 30, 36, 42, 44, 40, 37, 46, 68, 54, 36], '#5f5750', false)
+                    ]
+                },
+                options: opcoesLinha
+            });
         </script>
+    </main>
 </body>
 
 </html>
