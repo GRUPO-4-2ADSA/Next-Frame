@@ -385,6 +385,53 @@ body.menu-minimizado .conteudo-principal {
     color: #d8d2ce;
 }
 
+.box-roi-periodo {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 16px;
+    background-color: #2a2624;
+    border: 1px solid #5a524e;
+    border-radius: 6px;
+}
+
+.roi-periodo-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.roi-periodo-titulo {
+    margin: 0;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.roi-periodo-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+    color: #d8d2ce;
+}
+
+.roi-periodo-filtro select {
+    background-color: #1f1b19;
+    color: white;
+    border: 1px solid #5a524e;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 12px;
+}
+
+.roi-periodo-area {
+    position: relative;
+    flex: 1;
+    min-height: 240px;
+}
+
 /* ---------- IMPRESSÃO / PDF ---------- */
 
 @page {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard-financeira.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Next Frame | Dashboard Financeira</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
                 <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
             </a>
             <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
-                <img src="assets/img/icone_seta_esquerda.png" alt="">
+                <img src="assets/img/icon_menuLat.svg" alt="">
             </button>
         </div>
 
@@ -127,6 +128,27 @@
             </div>
         </div>
 
+        <div class="box-roi-periodo">
+    <div class="roi-periodo-topo">
+        <h3 class="roi-periodo-titulo">ROI mediano do "gênero" por período</h3>
+
+        <label class="roi-periodo-filtro">
+            Período nos últimos
+            <select id="filtroPeriodo">
+                <option value="10">10 anos</option>
+                <option value="20">20 anos</option>
+                <option value="30">30 anos</option>
+                <option value="50">50 anos</option>
+                <option value="0">Geral</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="roi-periodo-area">
+        <canvas id="graficoRoiPeriodo"></canvas>
+    </div>
+</div>
+
     </main>
     
 </body>
@@ -173,4 +195,83 @@
             }
 
             botaoMenu.addEventListener('click', alternarMenu);
+
+            // ---------- ROI mediano do gênero por período ----------
+const generoSelecionado = 'Terror';
+
+const roiPorAno = [
+    { ano: 2014, roi: 50 },
+    { ano: 2015, roi: 100 },
+    { ano: 2016, roi: 150 },
+    { ano: 2017, roi: 220 },
+    { ano: 2018, roi: 250 },
+    { ano: 2019, roi: 300 },
+    { ano: 2020, roi: 350 },
+    { ano: 2021, roi: 400 },
+    { ano: 2022, roi: 350 },
+    { ano: 2023, roi: 300 },
+    { ano: 2024, roi: 250 }
+];
+
+// anos = 0 significa "Geral" (sem corte)
+function filtrarPorPeriodo(anos) {
+    if (!anos) return roiPorAno;
+    const ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
+    return roiPorAno.filter(d => d.ano > ultimoAno - anos);
+}
+
+const dadosInicio = filtrarPorPeriodo(10);
+
+const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
+    type: 'line',
+    data: {
+        labels: dadosInicio.map(d => d.ano),
+        datasets: [{
+            label: generoSelecionado,
+            data: dadosInicio.map(d => d.roi),
+            borderColor: '#ffc400',
+            backgroundColor: '#ffc400',
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.35
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { usePointStyle: true, color: '#d8d2ce' }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return 'ROI mediano: ' + context.raw + '%';
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
+                ticks: { color: '#d8d2ce' },
+                grid: { color: 'rgba(255, 255, 255, 0.08)' }
+            },
+            y: {
+                min: 0,
+                title: { display: true, text: 'ROI (%)', color: '#d8d2ce' },
+                ticks: { color: '#d8d2ce' },
+                grid: { color: 'rgba(255, 255, 255, 0.08)' }
+            }
+        }
+    }
+});
+
+document.getElementById('filtroPeriodo').addEventListener('change', function () {
+    const dados = filtrarPorPeriodo(Number(this.value));
+    graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
+    graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
+    graficoRoiPeriodo.update();
+});
 </script>
