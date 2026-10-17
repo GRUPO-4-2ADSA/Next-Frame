@@ -15,7 +15,7 @@
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
-                <img class="logo" src="..\assets\img\logo.png">
+                <img class="logo" src="assets\img\logo.png">
             </a>
             <ul class="navbar">
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
@@ -57,22 +57,30 @@
             <form class="card-avaliacao">
 
                 <div class="grade-campos-avaliacao">
+
                     <div class="campo">
                         <label for="genero">GÊNERO</label>
-                        <input type="text" id="genero" name="genero" placeholder="Ex: Drama">
+                        <input list="generos" id="genero" name="genero" placeholder="Digite para buscar..."
+                            autocomplete="off">
+                        <datalist id="generos"></datalist>
                     </div>
+
                     <div class="campo">
                         <label for="orcamento">ORÇAMENTO</label>
                         <input type="text" id="orcamento" name="orcamento" placeholder="Ex: 20 milhões">
                     </div>
+
                     <div class="campo">
                         <label for="pais">PAÍS</label>
-                        <input type="text" id="pais" name="pais" placeholder="Ex: Brasil">
+                        <input list="paises" id="pais" name="pais" placeholder="Ex: Brasil" autocomplete="off">
+                        <datalist id="paises"></datalist>
                     </div>
+
                     <div class="campo">
                         <label for="idioma">IDIOMA</label>
                         <input type="text" id="idioma" name="idioma" placeholder="Ex: Português">
                     </div>
+
                 </div>
 
                 <div class="container-horizontal acao-avaliacao">
@@ -110,3 +118,164 @@
 </body>
 
 </html>
+
+<script>
+    function verificarCargo() {
+        let codigoPais = pegarCodigoPais();
+        let midGenero = pegarMidGenero();
+
+        if (midGenero === "") {
+            alert("Escolha um gênero da lista.");
+            return;
+        }
+        if (codigoPais === "") {
+            alert("Escolha um país da lista.");
+            return;
+        }
+
+        let cargo = sessionStorage.getItem("CARGO");
+
+        if (cargo === "Produtor executivo") {
+            window.location.href = "dashboardExecutiva.html";
+        } else if (cargo === "Produtor financeiro") {
+            window.location.href = "dashboardFinanceira.html";
+        } else {
+            alert("Cargo não identificado.");
+        }
+    }
+
+    function pegarCodigoPais() {
+        let opcoes = datalistPaises.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputPais.value) {
+                return opcoes[i].dataset.codigo;
+            }
+        }
+        return "";
+    }
+
+    function pegarMidGenero() {
+        let opcoes = datalistGeneros.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputGenero.value) {
+                return opcoes[i].dataset.mid;
+            }
+        }
+        return "";
+    }
+
+    /*
+    1) Lista de códigos ISO 3166-1 alpha-2 (2 letras por país) 
+    Criamos uma string grande, separando os códigos da ISO citada com espaço/quebra de linha 
+    O split(/\s+/) transforma a string em um array, usando qualquer sequência de espaços ou
+    quebras de linha como separador.
+    Resultado: ["AD", "AE", "AF", ...]
+    */
+
+    let codigos = `AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ
+  CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR
+  GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP
+  KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ
+  NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW
+  SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ
+  UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW`.split(/\s+/);
+
+    /*
+    2) Tradutor nativo de códigos para nomes
+    "pt-BR"        -> idioma de saída (nomes em português)
+    type: "region" -> vamos traduzir códigos de país/região
+    Depois, nomes.of("BR") devolve "Brasil".
+    */
+    let nomes = new Intl.DisplayNames(["pt-BR"], { type: "region" });
+
+    /*
+    3) Monta o array de países
+    Começa com um array vazio e, a cada volta do for, adiciona
+    um objeto { codigo: "BR", nome: "Brasil" } com o push.
+    */
+
+    let paises = [];
+    for (let i = 0; i < codigos.length; i++) {
+        // nomes.of(codigos[i]) converte para o nome em português (ex.: "Brasil")
+        paises.push({ codigo: codigos[i], nome: nomes.of(codigos[i]) });
+    }
+
+    /* 
+    4) Ordena alfabeticamente pelo nome
+     Ordena o array "paises" em ordem alfabética pelo nome.
+     - sort() recebe uma função que compara dois países por vez (a e b).
+     - localeCompare() compara os textos seguindo as regras do português, considerando os acentos
+     Retorna negativo (a antes de b), zero (iguais) ou positivo (a depois de b).
+     Se não usar isso, precisa fazer essa ordenação a mão
+     */
+    paises.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+
+
+    /*
+     5) Preenche o datalist com as opções e guarda o código em cada uma
+     Pega a referência do <datalist> para poder inserir opções nele
+    */
+    let datalistPaises = document.getElementById("paises");
+
+    for (let i = 0; i < paises.length; i++) {
+        let opt = document.createElement("option");  // cria um <option> vazio
+        opt.value = paises[i].nome;                  // o texto sugerido é o nome do país
+        opt.dataset.codigo = paises[i].codigo;       // guarda o código no atributo dataset.codigo (ex.: "BR"). Esse dataset é uma propriedade livre pra guardar valores
+
+        //O nome depois do ponto é livre e ele é lido assim: dataset.codigo =
+        datalistPaises.appendChild(opt);             // coloca dentro do <datalistPaises>
+    }
+    // No fim, o HTML fica equivalente a:
+    // <option value="Brasil" data-codigo="BR">, <option value="Alemanha" data-codigo="DE">, ...
+
+    /*
+    6) Função que devolve o código do país escolhido
+    */
+
+    let inputPais = document.getElementById("pais"); // campo visível
+
+    let generos = [
+        { nome: "Ação", mid: "/m/02kdv5l" },
+        { nome: "Animação", mid: "/g/120pnns2" },
+        { nome: "Aventura", mid: "/m/03k9fj" },
+        { nome: "Comédia", mid: "/m/05p553" },
+        { nome: "Crime", mid: "/m/0119mbcs" },
+        { nome: "Documentário", mid: "/m/0jtdp" },
+        { nome: "Drama", mid: "drama movie" },
+        { nome: "Família", mid: "/g/1215clx1" },
+        { nome: "Fantasia", mid: "/m/011869tv" },
+        { nome: "Ficção Científica", mid: "/m/0119r056" },
+        { nome: "Guerra", mid: "/m/082gq" },
+        { nome: "Musical", mid: "/m/04t36" },
+        { nome: "Romance", mid: "/m/02l7c8" },
+        { nome: "Super-herói", mid: "/m/04pbhw" },
+        { nome: "Suspense", mid: "/g/122hp9x6" },
+        { nome: "Terror", mid: "/m/03npn" }
+    ];
+
+    // Ordena por nome respeitando acentos
+    generos.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+
+    // Preenche o datalist e guarda o MID em cada option
+    let datalistGeneros = document.getElementById("generos");
+    for (let i = 0; i < generos.length; i++) {
+        let opt = document.createElement("option");
+        opt.value = generos[i].nome;           // o que o usuário vê e digita
+        opt.dataset.mid = generos[i].mid;      // vira data-mid="/m/02kdv5l"
+        datalistGeneros.appendChild(opt);
+    }
+    // HTML equivalente: <option value="Ação" data-mid="/m/02kdv5l">, ...
+
+    let inputGenero = document.getElementById("genero");
+
+    // Devolve o MID do gênero escolhido, ou "" se o texto não for um gênero da lista
+    function pegarMidGenero() {
+        let opcoes = datalistGeneros.options;
+        for (let i = 0; i < opcoes.length; i++) {
+            if (opcoes[i].value === inputGenero.value) {
+                return opcoes[i].dataset.mid;
+            }
+        }
+        return "";
+    }
+</script>

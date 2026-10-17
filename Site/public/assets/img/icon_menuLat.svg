@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 74" width="100" height="74" fill="none" stroke="#f1f5f9">
+  <!-- Secção Esquerda (reta por dentro/direita, arredondada por fora/esquerda) -->
+  <path d="M 16,0 
+           A 16,16 0 0 0 0,16 
+           L 0,58 
+           A 16,16 0 0 0 16,74 
+           L 20,74 
+           L 20,0 Z" fill="#f1f5f9" />
+
+  <!-- Secção Direita (reta por dentro/esquerda, arredondada por fora/direita) -->
+  <path d="M 25,0 
+           L 84,0 
+           A 16,16 0 0 1 100,16 
+           L 100,58 
+           A 16,16 0 0 1 84,74 
+           L 25,74 Z" fill="#f1f5f9" />
+
+  <!-- Seta (Chevron) Branca no centro da secção direita -->
+  <path d="M 69,25 
+           L 54,37 
+           L 69,49" stroke="#0a0a0ae0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
