@@ -1,69 +1,64 @@
-CREATE DATABASE nextframe;
-USE nextframe;
+CREATE DATABASE IF NOT EXISTS next_frame;
+USE next_frame;
 
 CREATE TABLE Empresa (
-  idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(45),
-  razao_social VARCHAR(45),
-  cnpj CHAR(14)
+  id_empresa          INT AUTO_INCREMENT PRIMARY KEY,
+  nome                VARCHAR(100) NOT NULL,
+  razao_social        VARCHAR(150) NOT NULL,
+  cnpj                CHAR(14)     NOT NULL UNIQUE,
+  taxa_sucesso_segura DECIMAL(5,2) NULL
 );
 
 CREATE TABLE Usuario (
-  idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-  fkEmpresa INT,
-  nome VARCHAR(45),
-  cargo VARCHAR(45) NOT NULL,
-  cpf CHAR(11),
-  dtNascimento DATE,
-  email VARCHAR(45),
-  senha VARCHAR(45),
-  FOREIGN KEY (fkEmpresa)
-    REFERENCES Empresa (idEmpresa)
-);
-
-CREATE TABLE Projeto (
-  idProjeto INT PRIMARY KEY AUTO_INCREMENT,
-  fkEmpresa INT NOT NULL,
-  titulo VARCHAR(45),
-  dtLancamento DATE,
-  orcamento DECIMAL(11,2),
-  receita DECIMAL(11,2),
-  genero VARCHAR(45),
-  idioma_original VARCHAR(30),
-  pais_de_producao VARCHAR(30),
-  status VARCHAR(15) NOT NULL,
-  FOREIGN KEY (fkEmpresa)
-    REFERENCES Empresa (idEmpresa)
+  id_usuario    INT AUTO_INCREMENT PRIMARY KEY,
+  id_empresa    INT          NOT NULL,
+  nome          VARCHAR(100) NOT NULL,
+  cargo         ENUM('Gestor','Analista','Produtor Executivo','Analista Financeiro') NOT NULL,
+  email         VARCHAR(150) NOT NULL UNIQUE,
+  cpf           CHAR(11)     NOT NULL UNIQUE,
+  dt_nascimento DATE         NOT NULL,
+  senha         VARCHAR(255) NOT NULL,
+  ativo         TINYINT(1)   NOT NULL DEFAULT 1,
+  ultimo_acesso DATETIME     NULL,
+  FOREIGN KEY (id_empresa) REFERENCES Empresa (id_empresa)
 );
 
 CREATE TABLE Log (
-  idLog INT PRIMARY KEY,
-  fkUsuario INT NOT NULL,
-  categoria VARCHAR(45),
-  dtHora DATE,
-  acao VARCHAR(45),
-  FOREIGN KEY (fkUsuario)
-    REFERENCES Usuario (idUsuario)
+  id_log     BIGINT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT          NOT NULL,
+  categoria  VARCHAR(50)  NOT NULL,
+  acao       VARCHAR(255) NOT NULL,
+  dt_hora    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_usuario) REFERENCES Usuario (id_usuario)
 );
 
-CREATE TABLE Filme (
-  idFilme INT PRIMARY KEY,
-  titulo VARCHAR(45) NOT NULL,
-  orcamento DECIMAL(11,2),
-  receita DECIMAL(11,2),
-  roi DECIMAL(11,2),
-  genero VARCHAR(45),
-  idioma_original VARCHAR(45),
-  pais_de_producao VARCHAR(45),
-  popularidade VARCHAR(45),
-  avaliacao_media VARCHAR(45),
-  qtd_de_votos INT,
-  status VARCHAR(45),
-  arq_origem VARCHAR(45)
+CREATE TABLE filme (
+    id_filme INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255) NOT NULL,
+    generos VARCHAR(150),
+    orcamento DECIMAL(15,2),
+    receita DECIMAL(15,2),
+    roi INT,
+    descricao TEXT,
+    produtoras VARCHAR(500),
+    idioma VARCHAR(50),
+    data_lanc DATE
 );
 
-INSERT INTO Empresa (nome, razao_social, cnpj) VALUES 
-(" Ibira cultural"," Ibira cultural LTDA","12345678910111"),
-(" DetonaFilmes"," DetonaLTDA","12345678910111");
-        
-SELECT * FROM Empresa;
+CREATE TABLE Projeto (
+  id_projeto     INT AUTO_INCREMENT PRIMARY KEY,
+  id_empresa     INT           NOT NULL,
+  titulo         VARCHAR(255)  NOT NULL,
+  ano_lancamento YEAR          NOT NULL,
+  diretor        VARCHAR(100)  NOT NULL,
+  sinopse        TEXT          NOT NULL,
+  orcamento      DECIMAL(15,2) NOT NULL,
+  receita        DECIMAL(15,2) NULL,
+  genero         VARCHAR(50)   NOT NULL,
+  pais           VARCHAR(100)  NOT NULL,
+  idioma         VARCHAR(50)   NOT NULL,
+  status         ENUM('Produzido','Em produção','Pendente') NOT NULL,
+  dt_cadastro    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  dt_atualizacao DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_empresa) REFERENCES Empresa (id_empresa)
+);
