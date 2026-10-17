@@ -86,7 +86,6 @@
         </div>
 
         <!-- KPIs -->
-
         <div class="kpi">
             <div class="titulo-linha">
                 <h6 class="titulo">Principais indicadores</h6>
@@ -443,6 +442,52 @@
                     ]
                 },
                 options: opcoesLinha
+            });
+
+            // ---------- Barras horizontais: ROI por gênero ----------
+            const generos = ['Terror', 'Romance', 'Comédia', 'Drama', 'Suspense', 'Animação', 'Ficção científica', 'Fantasia'];
+            const roi = [208, 250, 300, 120, 180, 350, 90, 400];
+
+            new Chart(document.getElementById('graficoRoiGenero'), {
+                type: 'bar',
+                data: {
+                    labels: generos,
+                    datasets: [{
+                        label: 'ROI mediano (%)',
+                        data: roi,
+                        // Terror em destaque (gênero buscado), demais em cinza
+                        backgroundColor: generos.map(g => g === 'Terror' ? '#f5c207' : '#5f5750'),
+                        borderWidth: 0,
+                        borderRadius: 3
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return 'ROI mediano: ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            min: 0,
+                            title: { display: true, text: 'ROI MEDIANO (%)', color: '#dce6f2' },
+                            ticks: { color: '#b8c9da' },
+                            grid: { color: corGrade }
+                        },
+                        y: {
+                            ticks: { color: '#dce6f2' },
+                            grid: { display: false }
+                        }
+                    }
+                }
             });
         </script>
     </main>
