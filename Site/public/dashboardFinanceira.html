@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard-financeira.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Next Frame | Dashboard Financeira</title>
 </head>
+
 <body>
     <!-- Menu lateral -->
-       
+
     <aside class="menu-lateral">
-       <div class="menu-topo">
+        <div class="menu-topo">
             <a class="menu-logotipo-link" href="index.html">
                 <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
             </a>
             <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
-                <img src="assets/img/icone_seta_esquerda.png" alt="">
+                <img src="assets/img/icon_menuLat.svg" alt="">
             </button>
         </div>
 
-<nav class="menu-itens">
+        <nav class="menu-itens">
             <a class="menu-item" href="index.html">
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">Início</span>
@@ -43,7 +47,7 @@
         </nav>
 
 
-            <div class="menu-usuario">
+        <div class="menu-usuario">
             <div class="usuario-linha">
                 <img class="usuario-avatar" src="assets/img/icone_usuario.png" alt="">
                 <div class="usuario-texto">
@@ -59,7 +63,7 @@
     <!-- Inicio dash -->
 
 
-     <main class="conteudo-principal">
+    <main class="conteudo-principal">
 
         <div class="topo-dashboard">
             <div class="topo-titulo">
@@ -158,42 +162,116 @@
                         // ---------- Botão Baixar: gera o PDF em página única ----------
             let botaoBaixar = document.getElementById('botaoBaixar');
 
-            function baixarPdf() {
-                let area = document.querySelector('.conteudo-principal');
+    function baixarPdf() {
+        let area = document.querySelector('.conteudo-principal');
 
-                // mede o conteúdo que vai para o PDF
-                let largura = Math.ceil(area.offsetWidth);
-                let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+        // mede o conteúdo que vai para o PDF
+        let largura = Math.ceil(area.offsetWidth);
+        let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
 
-                // define o tamanho da página como o tamanho do conteúdo
-                let estilo = document.createElement('style');
-                estilo.id = 'estiloPaginaPdf';
-                estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
-                document.head.appendChild(estilo);
+        // define o tamanho da página como o tamanho do conteúdo
+        let estilo = document.createElement('style');
+        estilo.id = 'estiloPaginaPdf';
+        estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
+        document.head.appendChild(estilo);
 
-                window.print();
-            }
+        window.print();
+    }
 
-            // depois de imprimir, remove o tamanho temporário
-            window.addEventListener('afterprint', function () {
-                const estilo = document.getElementById('estiloPaginaPdf');
-                if (estilo) estilo.remove();
-            });
+    // depois de imprimir, remove o tamanho temporário
+    window.addEventListener('afterprint', function () {
+        const estilo = document.getElementById('estiloPaginaPdf');
+        if (estilo) estilo.remove();
+    });
 
-            botaoBaixar.addEventListener('click', baixarPdf);
+    botaoBaixar.addEventListener('click', baixarPdf);
 
-            // ---------- Menu lateral: expandir / minimizar ----------
-            let botaoMenu = document.getElementById('botaoAlternarMenu');
+    // ---------- Menu lateral: expandir / minimizar ----------
+    let botaoMenu = document.getElementById('botaoAlternarMenu');
 
-            function alternarMenu() {
-                document.body.classList.toggle('menu-minimizado');
+    function alternarMenu() {
+        document.body.classList.toggle('menu-minimizado');
 
-                if (document.body.classList.contains('menu-minimizado')) {
-                    botaoMenu.setAttribute('aria-label', 'Expandir menu');
-                } else {
-                    botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+        if (document.body.classList.contains('menu-minimizado')) {
+            botaoMenu.setAttribute('aria-label', 'Expandir menu');
+        } else {
+            botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+        }
+    }
+
+    botaoMenu.addEventListener('click', alternarMenu);
+
+    // ---------- ROI mediano do gênero por período ----------
+    const generoSelecionado = 'Terror';
+
+    const roiPorAno = [
+        { ano: 2014, roi: 50 },
+        { ano: 2015, roi: 100 },
+        { ano: 2016, roi: 150 },
+        { ano: 2017, roi: 220 },
+        { ano: 2018, roi: 250 },
+        { ano: 2019, roi: 300 },
+        { ano: 2020, roi: 350 },
+        { ano: 2021, roi: 400 },
+        { ano: 2022, roi: 350 },
+        { ano: 2023, roi: 300 },
+        { ano: 2024, roi: 250 }
+    ];
+
+    // anos = 0 significa "Geral" (sem corte)
+    function filtrarPorPeriodo(anos) {
+        if (!anos) return roiPorAno;
+        const ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
+        return roiPorAno.filter(d => d.ano > ultimoAno - anos);
+    }
+
+    const dadosInicio = filtrarPorPeriodo(10);
+
+    const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
+        type: 'line',
+        data: {
+            labels: dadosInicio.map(d => d.ano),
+            datasets: [{
+                label: generoSelecionado,
+                data: dadosInicio.map(d => d.roi),
+                borderColor: '#ffc400',
+                backgroundColor: '#ffc400',
+                borderWidth: 2,
+                pointRadius: 3,
+                tension: 0.35
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { usePointStyle: true, color: '#d8d2ce' }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return 'ROI mediano: ' + context.raw + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
+                    ticks: { color: '#d8d2ce' },
+                    grid: { color: 'rgba(255, 255, 255, 0.08)' }
+                },
+                y: {
+                    min: 0,
+                    title: { display: true, text: 'ROI (%)', color: '#d8d2ce' },
+                    ticks: { color: '#d8d2ce' },
+                    grid: { color: 'rgba(255, 255, 255, 0.08)' }
                 }
             }
+        }
+    });
 
             botaoMenu.addEventListener('click', alternarMenu);
 
