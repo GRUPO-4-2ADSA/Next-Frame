@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/editar-usuario.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <title>Next Frame | Edição de Usuário</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="..\assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a href="portfolio.html">Portifólio</a></li>
+                <li><a class="ativo" href="usuarios.html">Usuários</a></li>
+            </ul>
+            <a href="editarPerfil.html">
+                <div class="container-horizontal usuario">
+                    <div class="icone-usuario">
+                        <img src="../assets/img/icon_usuario.png">
+                    </div>
+                    <p>BEM VINDO,<br><span class="amarelo">DONO DA PRODUTORA</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="fachada-editar-usuario">
+        <div class="container-horizontal alinhamento-esquerda">
+            <img class="icon-pequeno" src="../assets/img/icon_claquete.png">
+            <h6 class="texto-divisoria">NOVA PRODUÇÃO</h6>
+            <hr class="linha linha-vermelha">
+        </div>
+
+        <div class="container alinhamento-esquerda">
+            <h1 class="titulo">
+                EDIÇÃO DE <span class="vermelho">PERFIL</span>
+            </h1>
+        </div>
+    </div>
+
+    <div class="secao-editar-usuario">
+        <div class="card-editar-wrapper">
+            <form class="card-editar-usuario">
+
+                <div class="container-horizontal cabecalho-editar-usuario">
+                    <img class="icon-lapis" src="../assets/img/icon_lapis_vermelho.png">
+                    <div class="container alinhamento-esquerda info-usuario">
+                        <p class="rotulo-usuario">NOME DO USUÁRIO</p>
+                        <h2 class="nome-usuario" id="nomeUsuario"></h2>
+                    </div>
+                </div>
+
+                <hr class="linha-divisoria-editar">
+
+                <div class="grade-campos-editar">
+                    <div class="campo">
+                        <label for="nome">NOME</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">EMAIL</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="empresa">EMPRESA</label>
+                        <input type="text" id="empresa" name="empresa" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cargo">CARGO</label>
+                        <input type="text" id="cargo" name="cargo" required>
+                    </div>
+                </div>
+
+                <div class="container-horizontal acao-editar">
+                    <button type="submit" class="btn-confirmar">CONFIRMAR EDIÇÃO</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="../assets/img/logo_footer.png">
+
+            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="../assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+    </div>
+    ```html
+    <script>
+        var parametros = new URLSearchParams(window.location.search);
+        var id = parametros.get("id");
+        var usuarioAtual;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!id) {
+                alert("ID do usuário não informado.");
+                window.location.href = "usuarios.html";
+                return;
+            }
+
+            fetch(`/usuarios/${encodeURIComponent(id)}`)
+                .then(function (resposta) {
+                    if (!resposta.ok) {
+                        throw new Error("Erro ao buscar usuário.");
+                    }
+
+                    return resposta.json();
+                })
+                .then(function (dados) {
+                    usuarioAtual = Array.isArray(dados) ? dados[0] : dados;
+
+                    if (!usuarioAtual || !usuarioAtual.id) {
+                        throw new Error("Usuário não encontrado.");
+                    }
+
+                    document.getElementById("nomeUsuario").textContent =
+                        usuarioAtual.nome || "";
+
+                    document.getElementById("nome").value =
+                        usuarioAtual.nome || "";
+
+                    document.getElementById("email").value =
+                        usuarioAtual.email || "";
+
+                    document.getElementById("empresa").value =
+                        usuarioAtual.empresa || "";
+
+                    document.getElementById("cargo").value =
+                        usuarioAtual.cargo || "";
+                })
+                .catch(function (erro) {
+                    console.error("Erro ao carregar usuário:", erro);
+                    alert("Não foi possível carregar os dados do usuário.");
+                });
+
+            document.querySelector(".card-editar-usuario")
+                .addEventListener("submit", function (evento) {
+                    evento.preventDefault();
+
+                    if (!usuarioAtual) {
+                        alert("Aguarde o carregamento dos dados do usuário.");
+                        return;
+                    }
+
+                    var dados = {
+                        nomeServer: document.getElementById("nome").value.trim(),
+                        emailServer: document.getElementById("email").value.trim(),
+                        cpfServer: usuarioAtual.cpf,
+                        dtNascimentoServer: String(usuarioAtual.dt_nascimento).substring(0, 10),
+                        empresaServer: usuarioAtual.id_empresa,
+                        cargoServer: document.getElementById("cargo").value.trim()
+                    };
+
+                    fetch(`/usuarios/${encodeURIComponent(id)}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    })
+                        .then(function (resposta) {
+                            return resposta.json().then(function (resultado) {
+                                if (!resposta.ok) {
+                                    throw new Error(
+                                        resultado.mensagem || "Erro ao editar usuário."
+                                    );
+                                }
+
+                                return resultado;
+                            });
+                        })
+                        .then(function () {
+                            alert("Usuário atualizado com sucesso!");
+                            window.location.href = "usuarios.html";
+                        })
+                        .catch(function (erro) {
+                            console.error("Erro ao editar usuário:", erro);
+                            alert(
+                                erro.message ||
+                                "Não foi possível salvar as alterações."
+                            );
+                        });
+                });
+        });
+    </script>
+
+</body>
+
+</html>
