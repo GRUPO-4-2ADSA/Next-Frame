@@ -65,13 +65,13 @@
 
         <div class="topo-dashboard">
             <div class="topo-titulo">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Executiva</h1>
                 <p>Visão geral dos dados e análises para o seu novo projeto.</p>
             </div>
 
             <div class="topo-acoes">
-                <button type="button" class="botao-acao">Baixar</button>
-                <a class="botao-acao" href="novoProjeto.html">Novo Projeto</a>
+                <button type="button" class="botao-acao" id="botaoBaixar">Baixar</button>
+                <a class="botao-acao" href="avaliacao.html">Novo Projeto</a>
                 <a class="botao-acao" href="dashboardFinanceira.html">Dashboard Financeira</a>
 
                 <button type="button" class="filtros-aplicados">
@@ -216,6 +216,33 @@
 
         </div>
         <script>
+                        // ---------- Botão Baixar: gera o PDF em página única ----------
+            let botaoBaixar = document.getElementById('botaoBaixar');
+
+            function baixarPdf() {
+                let area = document.querySelector('.conteudo-principal');
+
+                // mede o conteúdo que vai para o PDF
+                let largura = Math.ceil(area.offsetWidth);
+                let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+
+                // define o tamanho da página como o tamanho do conteúdo
+                let estilo = document.createElement('style');
+                estilo.id = 'estiloPaginaPdf';
+                estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
+                document.head.appendChild(estilo);
+
+                window.print();
+            }
+
+            // depois de imprimir, remove o tamanho temporário
+            window.addEventListener('afterprint', function () {
+                const estilo = document.getElementById('estiloPaginaPdf');
+                if (estilo) estilo.remove();
+            });
+
+            botaoBaixar.addEventListener('click', baixarPdf);
+
             // ---------- Menu lateral: expandir / minimizar ----------
             let botaoMenu = document.getElementById('botaoAlternarMenu');
 
