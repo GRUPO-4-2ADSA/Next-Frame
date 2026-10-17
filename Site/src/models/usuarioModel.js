@@ -1,31 +1,139 @@
+
 var database = require("../database/config");
 
 function cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, cargo,cpf, email, senha);
-
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
     var instrucaoSql = `
-        INSERT INTO Usuario (nome, cargo, cpf, dtNascimento, email, senha, fkEmpresa)
-        VALUES ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', '${empresa}')
+        INSERT INTO Usuario
+            (nome, cargo, cpf, dt_nascimento, email, senha, id_empresa)
+        VALUES
+            ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', '${empresa}');
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        SELECT idUsuario AS id, nome, email,senha FROM usuario 
-WHERE email = '${email}' AND senha = '${senha}';
+        SELECT
+            id_usuario AS id,
+            nome,
+            email,
+            senha,
+            cargo,
+            id_empresa
+        FROM Usuario
+        WHERE email = '${email}'
+          AND senha = '${senha}';
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
 
+function listar() {
+    var instrucaoSql = `
+        SELECT
+            u.id_usuario AS id,
+            u.nome,
+            u.email,
+            u.cpf,
+            u.dt_nascimento,
+            u.id_empresa,
+            e.nome AS empresa,
+            u.cargo,
+            u.ultimo_acesso
+        FROM Usuario u
+        INNER JOIN Empresa e
+            ON u.id_empresa = e.id_empresa;
+    `;
 
+    return database.executar(instrucaoSql);
+}
+
+function buscarPorId(id) {
+    var instrucaoSql = `
+        SELECT
+            u.id_usuario AS id,
+            u.nome,
+            u.email,
+            u.cpf,
+            u.dt_nascimento,
+            u.id_empresa,
+            e.nome AS empresa,
+            u.cargo,
+            u.ultimo_acesso
+        FROM Usuario u
+        INNER JOIN Empresa e
+            ON u.id_empresa = e.id_empresa
+        WHERE u.id_usuario = ${id};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function editar(id, dados) {
+    var instrucaoSql = `
+        UPDATE Usuario
+        SET
+            nome = '${dados.nomeServer}',
+            email = '${dados.emailServer}',
+            cpf = '${dados.cpfServer}',
+            dt_nascimento = '${dados.dtNascimentoServer}',
+            id_empresa = '${dados.empresaServer}',
+            cargo = '${dados.cargoServer}'
+        WHERE id_usuario = ${id};
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function excluir(id) {
+    var instrucaoSqlLog = `
+        DELETE FROM Log
+        WHERE id_usuario = ${id};
+    `;
+
+    var instrucaoSqlUsuario = `
+        DELETE FROM Usuario
+        WHERE id_usuario = ${id};
+    `;
+
+    return database.executar(instrucaoSqlLog)
+        .then(function () {
+            return database.executar(instrucaoSqlUsuario);
+        });
+}
+
+function buscarHistorico(id) {
+    var instrucaoSql = `
+        SELECT
+            id_log,
+            categoria,
+            acao,
+            dt_hora
+        FROM Log
+        WHERE id_usuario = ${id}
+        ORDER BY dt_hora DESC;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function listarEmpresas() {
+    var instrucaoSql = `
+        SELECT id_empresa, nome
+        FROM Empresa
+        ORDER BY nome;
+    `;
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     cadastrar,
-    autenticar
+    autenticar,
+    listar,
+    buscarPorId,
+    editar,
+    excluir,
+    buscarHistorico,
+    listarEmpresas
 };
