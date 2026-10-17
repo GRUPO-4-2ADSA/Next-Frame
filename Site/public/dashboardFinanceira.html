@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard-financeira.css">
     <link rel="stylesheet" href="css/footer.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <title>Next Frame | Dashboard Financeira</title>
 </head>
 
@@ -36,7 +37,7 @@
                 <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Meu Portfólio</span>
             </a>
-            <a class="menu-item ativo" href="dashboardExecutiva.html">
+            <a class="menu-item ativo" href="dashboardFinanceira.html">
                 <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Dashboard</span>
             </a>
@@ -45,7 +46,6 @@
                 <span class="menu-rotulo">Usuários</span>
             </a>
         </nav>
-
 
         <div class="menu-usuario">
             <div class="usuario-linha">
@@ -60,8 +60,7 @@
         </div>
     </aside>
 
-    <!-- Inicio dash -->
-
+    <!-- Início da dashboard -->
 
     <main class="conteudo-principal">
 
@@ -127,12 +126,12 @@
                     <p class="kpi-valor">50%</p>
                     <p class="kpi-detalhe">60% abaixo do ROI mediano nesse gênero</p>
                 </div>
-
             </div>
         </div>
 
-           <div class="graficos">
+        <!-- % de sucesso por faixa de orçamento -->
 
+        <div class="graficos">
             <div class="grafico-caixa">
                 <h3 class="grafico-titulo">% de sucesso por faixa de orçamento</h3>
 
@@ -147,202 +146,231 @@
                     <canvas id="graficoEmpilhado"></canvas>
                 </div>
             </div>
-
         </div>
 
-        
+        <!-- ROI mediano do gênero por período -->
+
+        <div class="graficos">
+            <div class="grafico-caixa">
+                <h3 class="grafico-titulo">ROI mediano do "gênero" por período</h3>
+
+                <div class="legenda">
+                    <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero selecionado</span>
+
+                    <label class="legenda-item roi-periodo-filtro">
+                        Período nos últimos
+                        <select id="filtroPeriodo">
+                            <option value="5">5 anos</option>
+                            <option value="10" selected>10 anos</option>
+                            <option value="15">15 anos</option>
+                            <option value="20">20 anos</option>
+                            <option value="25">25 anos</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="grafico-area">
+                    <canvas id="graficoRoiPeriodo"></canvas>
+                </div>
+            </div>
+        </div>
 
     </main>
+</body>
+</html>
+<script>
+        // ---------- Menu lateral: expandir / minimizar ----------
+        const botaoMenu = document.getElementById('botaoAlternarMenu');
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <script>
-       
-        
-                        // ---------- Botão Baixar: gera o PDF em página única ----------
-            let botaoBaixar = document.getElementById('botaoBaixar');
+        function alternarMenu() {
+            document.body.classList.toggle('menu-minimizado');
 
-    function baixarPdf() {
-        let area = document.querySelector('.conteudo-principal');
-
-        // mede o conteúdo que vai para o PDF
-        let largura = Math.ceil(area.offsetWidth);
-        let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
-
-        // define o tamanho da página como o tamanho do conteúdo
-        let estilo = document.createElement('style');
-        estilo.id = 'estiloPaginaPdf';
-        estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
-        document.head.appendChild(estilo);
-
-        window.print();
-    }
-
-    // depois de imprimir, remove o tamanho temporário
-    window.addEventListener('afterprint', function () {
-        const estilo = document.getElementById('estiloPaginaPdf');
-        if (estilo) estilo.remove();
-    });
-
-    botaoBaixar.addEventListener('click', baixarPdf);
-
-    // ---------- Menu lateral: expandir / minimizar ----------
-    let botaoMenu = document.getElementById('botaoAlternarMenu');
-
-    function alternarMenu() {
-        document.body.classList.toggle('menu-minimizado');
-
-        if (document.body.classList.contains('menu-minimizado')) {
-            botaoMenu.setAttribute('aria-label', 'Expandir menu');
-        } else {
-            botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+            if (document.body.classList.contains('menu-minimizado')) {
+                botaoMenu.setAttribute('aria-label', 'Expandir menu');
+            } else {
+                botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+            }
         }
-    }
 
-    botaoMenu.addEventListener('click', alternarMenu);
+        botaoMenu.addEventListener('click', alternarMenu);
 
-    // ---------- ROI mediano do gênero por período ----------
-    const generoSelecionado = 'Terror';
+        // ---------- Botão Baixar: gera o PDF em página única ----------
+        const botaoBaixar = document.getElementById('botaoBaixar');
 
-    const roiPorAno = [
-        { ano: 2014, roi: 50 },
-        { ano: 2015, roi: 100 },
-        { ano: 2016, roi: 150 },
-        { ano: 2017, roi: 220 },
-        { ano: 2018, roi: 250 },
-        { ano: 2019, roi: 300 },
-        { ano: 2020, roi: 350 },
-        { ano: 2021, roi: 400 },
-        { ano: 2022, roi: 350 },
-        { ano: 2023, roi: 300 },
-        { ano: 2024, roi: 250 }
-    ];
+        function baixarPdf() {
+            const area = document.querySelector('.conteudo-principal');
 
-    // anos = 0 significa "Geral" (sem corte)
-    function filtrarPorPeriodo(anos) {
-        if (!anos) return roiPorAno;
-        const ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
-        return roiPorAno.filter(d => d.ano > ultimoAno - anos);
-    }
+            // mede o conteúdo que vai para o PDF
+            const largura = Math.ceil(area.offsetWidth);
+            const altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
 
-    const dadosInicio = filtrarPorPeriodo(10);
+            // define o tamanho da página como o tamanho do conteúdo
+            const estilo = document.createElement('style');
+            estilo.id = 'estiloPaginaPdf';
+            estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
+            document.head.appendChild(estilo);
 
-    const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
-        type: 'line',
-        data: {
-            labels: dadosInicio.map(d => d.ano),
-            datasets: [{
-                label: generoSelecionado,
-                data: dadosInicio.map(d => d.roi),
-                borderColor: '#ffc400',
-                backgroundColor: '#ffc400',
-                borderWidth: 2,
-                pointRadius: 3,
-                tension: 0.35
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: { usePointStyle: true, color: '#d8d2ce' }
+            window.print();
+        }
+
+        botaoBaixar.addEventListener('click', baixarPdf);
+
+        // depois de imprimir, remove o tamanho temporário
+        window.addEventListener('afterprint', function () {
+            const estilo = document.getElementById('estiloPaginaPdf');
+            if (estilo) estilo.remove();
+        });
+
+        // ---------- Gráficos (dados mockados) ----------
+        Chart.defaults.color = '#d8d2ce';
+
+        // % de sucesso por faixa de orçamento
+        const faixasOrcamento = [
+            ['US$ 12 mi', '(-40%)'],
+            ['US$ 16 mi', '(-20%)'],
+            ['US$ 20 mi', '(sua faixa)'],
+            ['US$ 24 mi', '(+20%)'],
+            ['US$ 28 mi', '(+40%)']
+        ];
+        const deficit = [10, 15, 14, 16, 15];
+        const neutro = [60, 50, 39, 34, 36];
+        const superavit = [30, 35, 47, 50, 49];
+        const taxaSegura = [40, 40, 40, 40, 40];
+
+        new Chart(document.getElementById('graficoEmpilhado'), {
+            type: 'bar',
+            plugins: [ChartDataLabels],
+            data: {
+                labels: faixasOrcamento,
+                datasets: [
+                    { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
+                    { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
+                    { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
+                    { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: {
+                        stacked: true,
+                        min: 0,
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        ticks: {
+                            stepSize: 20,
+                            callback: function (valor) {
+                                return valor + '%';
+                            }
+                        }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return 'ROI mediano: ' + context.raw + '%';
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        color: 'white',
+                        font: { weight: 'bold', size: 14 },
+                        formatter: function (valor) {
+                            return valor + '%';
                         }
                     }
                 }
-            },
-            scales: {
-                x: {
-                    title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
-                    ticks: { color: '#d8d2ce' },
-                    grid: { color: 'rgba(255, 255, 255, 0.08)' }
-                },
-                y: {
-                    min: 0,
-                    title: { display: true, text: 'ROI (%)', color: '#d8d2ce' },
-                    ticks: { color: '#d8d2ce' },
-                    grid: { color: 'rgba(255, 255, 255, 0.08)' }
-                }
             }
-        }
-    });
+        });
 
-            botaoMenu.addEventListener('click', alternarMenu);
+        // ---------- ROI mediano do gênero por período ----------
+const generoSelecionado = 'Terror';
 
-                // Graficos abaixo
-
-                // ---------- Gráficos (dados mockados) ----------
-
-    
-Chart.defaults.color = '#d8d2ce';
-
-let faixasOrcamento = [
-    ['US$ 12 mi', '(-40%)'],
-    ['US$ 16 mi', '(-20%)'],
-    ['US$ 20 mi', '(sua faixa)'],
-    ['US$ 24 mi', '(+20%)'],
-    ['US$ 28 mi', '(+40%)']
+const roiPorAno = [
+    { ano: 2000, roi: 10 },
+    { ano: 2001, roi: 15 },
+    { ano: 2002, roi: 12 },
+    { ano: 2003, roi: 20 },
+    { ano: 2004, roi: 18 },
+    { ano: 2005, roi: 25 },
+    { ano: 2006, roi: 30 },
+    { ano: 2007, roi: 28 },
+    { ano: 2008, roi: 22 },
+    { ano: 2009, roi: 35 },
+    { ano: 2010, roi: 32 },
+    { ano: 2011, roi: 40 },
+    { ano: 2012, roi: 38 },
+    { ano: 2013, roi: 45 },
+    { ano: 2014, roi: 50 },
+    { ano: 2015, roi: 100 },
+    { ano: 2016, roi: 150 },
+    { ano: 2017, roi: 220 },
+    { ano: 2018, roi: 250 },
+    { ano: 2019, roi: 300 },
+    { ano: 2020, roi: 350 },
+    { ano: 2021, roi: 400 },
+    { ano: 2022, roi: 350 },
+    { ano: 2023, roi: 300 },
+    { ano: 2024, roi: 250 }
 ];
-let deficit = [10, 15, 14, 16, 15];
-let neutro = [60, 50, 39, 34, 36];
-let superavit = [30, 35, 47, 50, 49];
-let taxaSegura = [40, 40, 40, 40, 40];
 
-new Chart(document.getElementById('graficoEmpilhado'), {
-    type: 'bar',
-    plugins: [ChartDataLabels],
+// devolve só os últimos N anos, contando a partir do ano mais recente
+function filtrarPorPeriodo(anos) {
+    const ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
+    return roiPorAno.filter(d => d.ano > ultimoAno - anos);
+}
+
+const seletorPeriodo = document.getElementById('filtroPeriodo');
+const dadosInicio = filtrarPorPeriodo(Number(seletorPeriodo.value));
+
+const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
+    type: 'line',
     data: {
-        labels: faixasOrcamento,
-        datasets: [
-            { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
-            { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
-            { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-            { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
-        ]
+        labels: dadosInicio.map(d => d.ano),
+        datasets: [{
+            label: generoSelecionado,
+            data: dadosInicio.map(d => d.roi),
+            borderColor: '#ff3030',
+            backgroundColor: '#ff3030',
+            borderWidth: 3,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.35
+        }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-            x: { stacked: true, grid: { display: false } },
-            y: {
-                stacked: true,
-                min: 0,
-                max: 100,
-                grid: { color: 'rgba(255, 255, 255, 0.08)' },
-                ticks: {
-                    stepSize: 20,
-                    callback: function (valor) {
-                        return valor + '%';
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return generoSelecionado + ' - ROI mediano: ' + context.raw + '%';
                     }
                 }
             }
         },
-        plugins: {
-            legend: { display: false },
-            datalabels: {
-                color: 'white',
-                font: { weight: 'bold', size: 14 },
-                formatter: function (valor) {
-                    return valor + '%';
-                }
+        scales: {
+            x: {
+                title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
+                ticks: { color: '#d8d2ce' },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            },
+            y: {
+                min: 0,
+                title: { display: true, text: 'ROI', color: '#d8d2ce' },
+                ticks: {
+                    color: '#d8d2ce',
+                    callback: function (valor) { return valor + '%'; }
+                },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
             }
         }
     }
 });
 
-
-
-
-
-       
+seletorPeriodo.addEventListener('change', function () {
+    const dados = filtrarPorPeriodo(Number(this.value));
+    graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
+    graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
+    graficoRoiPeriodo.update();
+});
     </script>
-    
-</body>
-</html>

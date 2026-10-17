@@ -454,6 +454,21 @@ body.menu-minimizado .conteudo-principal {
     height: 320px;
 }
 
+/* roi por período */
+
+.cor-genero {
+    background-color: #ff3030;
+}
+
+.roi-periodo-filtro select {
+    background-color: #1f1b19;
+    color: white;
+    border: 1px solid #5a524e;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 14px;
+}
+
 /* ---------- IMPRESSÃO / PDF ---------- */
 
 @page {
