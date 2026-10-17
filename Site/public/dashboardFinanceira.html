@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard-financeira.css">
+    <title>Next Frame | Dashboard Financeira</title>
+</head>
+<body>
+    <!-- Menu lateral -->
+       
+    <aside class="menu-lateral">
+       <div class="menu-topo">
+            <a class="menu-logotipo-link" href="index.html">
+                <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
+            </a>
+            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
+                <img src="assets/img/icone_seta_esquerda.png" alt="">
+            </button>
+        </div>
+
+<nav class="menu-itens">
+            <a class="menu-item" href="index.html">
+                <img class="menu-icone" src="assets/img/icon_home.png" alt="">
+                <span class="menu-rotulo">Início</span>
+            </a>
+            <a class="menu-item" href="sucessosAno.html">
+                <img class="menu-icone" src="assets/img/icon_claquete_pb.png" alt="">
+                <span class="menu-rotulo">Sucessos do ano</span>
+            </a>
+            <a class="menu-item" href="portfolio.html">
+                <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
+                <span class="menu-rotulo">Meu Portfólio</span>
+            </a>
+            <a class="menu-item ativo" href="dashboardExecutiva.html">
+                <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
+                <span class="menu-rotulo">Dashboard</span>
+            </a>
+            <a class="menu-item" href="gerenciadorUsuario.html">
+                <img class="menu-icone" src="assets/img/icon_user.png" alt="">
+                <span class="menu-rotulo">Usuários</span>
+            </a>
+        </nav>
+
+
+            <div class="menu-usuario">
+            <div class="usuario-linha">
+                <img class="usuario-avatar" src="assets/img/icone_usuario.png" alt="">
+                <div class="usuario-texto">
+                    <p class="usuario-nome">Usuário</p>
+                    <p class="usuario-cargo">Analista Financeiro</p>
+                </div>
+                <span class="usuario-seta">▾</span>
+            </div>
+            <button type="button" class="botao-sair">Sair</button>
+        </div>
+    </aside>
+
+    <!-- Inicio dash -->
+
+
+     <main class="conteudo-principal">
+
+        <div class="topo-dashboard">
+            <div class="topo-titulo">
+                <h1>Dashboard</h1>
+                <p>Visão geral dos dados e análises para o seu novo projeto.</p>
+            </div>
+
+            <div class="topo-acoes">
+                <button type="button" class="botao-acao" id="botaoBaixar">Baixar</button>
+                <a class="botao-acao" href="avaliacao.html">Novo Projeto</a>
+                <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
+
+                <button type="button" class="filtros-aplicados">
+                    <img class="filtros-icone" src="assets/img/icone_filtros.png" alt="">
+                    <div class="filtros-texto">
+                        <span class="filtros-titulo">Filtros aplicados</span>
+                        <span class="filtros-detalhe">Terror · US$ 20 mi · EUA · Inglês</span>
+                    </div>
+                    <span class="filtros-seta">▾</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="indicadores">
+            <div class="indicadores-topo">
+                <h2>Principais Indicadores</h2>
+                <p class="indicadores-total">87 filmes semelhantes analisados</p>
+            </div>
+
+            <div class="indicadores-lista">
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Risco histórico</p>
+                    <p class="kpi-valor">Baixo</p>
+                    <p class="kpi-detalhe">68% dos filmes similares tiveram retorno positivo</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Retorno mediano por dólar investido</p>
+                    <canvas class="kpi-linha" id="linhaRetorno"></canvas>
+                    <p class="kpi-valor">US$ 3</p>
+                    <p class="kpi-detalhe">US$ 1 a mais comparado com a mediana geral do gênero</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Receita mediana</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 30 mi</p>
+                    <p class="kpi-detalhe">US$ 5 mi acima da receita desejada (US$ 25 mi)</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">Orçamento</p>
+                    <canvas class="kpi-linha" id="linhaOrcamento"></canvas>
+                    <p class="kpi-valor">US$ 20 mi</p>
+                    <p class="kpi-detalhe">Sucesso mediano histórico de 47% nessa faixa de orçamento</p>
+                </div>
+
+                <div class="kpi">
+                    <p class="kpi-titulo">ROI no pior cenário (P10)</p>
+                    <canvas class="kpi-linha" id="linhaRoi"></canvas>
+                    <p class="kpi-valor">50%</p>
+                    <p class="kpi-detalhe">60% abaixo do ROI mediano nesse gênero</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    
+</body>
+</html>
+<script>
+                        // ---------- Botão Baixar: gera o PDF em página única ----------
+            let botaoBaixar = document.getElementById('botaoBaixar');
+
+            function baixarPdf() {
+                let area = document.querySelector('.conteudo-principal');
+
+                // mede o conteúdo que vai para o PDF
+                let largura = Math.ceil(area.offsetWidth);
+                let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+
+                // define o tamanho da página como o tamanho do conteúdo
+                let estilo = document.createElement('style');
+                estilo.id = 'estiloPaginaPdf';
+                estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
+                document.head.appendChild(estilo);
+
+                window.print();
+            }
+
+            // depois de imprimir, remove o tamanho temporário
+            window.addEventListener('afterprint', function () {
+                const estilo = document.getElementById('estiloPaginaPdf');
+                if (estilo) estilo.remove();
+            });
+
+            botaoBaixar.addEventListener('click', baixarPdf);
+
+            // ---------- Menu lateral: expandir / minimizar ----------
+            let botaoMenu = document.getElementById('botaoAlternarMenu');
+
+            function alternarMenu() {
+                document.body.classList.toggle('menu-minimizado');
+
+                if (document.body.classList.contains('menu-minimizado')) {
+                    botaoMenu.setAttribute('aria-label', 'Expandir menu');
+                } else {
+                    botaoMenu.setAttribute('aria-label', 'Minimizar menu');
+                }
+            }
+
+            botaoMenu.addEventListener('click', alternarMenu);
+</script>
