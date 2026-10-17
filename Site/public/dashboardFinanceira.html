@@ -127,11 +127,34 @@
             </div>
         </div>
 
+           <div class="graficos">
+
+            <div class="grafico-caixa">
+                <h3 class="grafico-titulo">% de sucesso por faixa de orçamento</h3>
+
+                <div class="legenda">
+                    <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
+                    <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
+                    <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
+                    <span class="legenda-item"><span class="legenda-linha"></span>Taxa segura para o perfil da empresa</span>
+                </div>
+
+                <div class="grafico-area">
+                    <canvas id="graficoEmpilhado"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        
+
     </main>
-    
-</body>
-</html>
-<script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script>
+       
+        
                         // ---------- Botão Baixar: gera o PDF em página única ----------
             let botaoBaixar = document.getElementById('botaoBaixar');
 
@@ -173,4 +196,75 @@
             }
 
             botaoMenu.addEventListener('click', alternarMenu);
-</script>
+
+                // Graficos abaixo
+
+                // ---------- Gráficos (dados mockados) ----------
+
+    
+Chart.defaults.color = '#d8d2ce';
+
+let faixasOrcamento = [
+    ['US$ 12 mi', '(-40%)'],
+    ['US$ 16 mi', '(-20%)'],
+    ['US$ 20 mi', '(sua faixa)'],
+    ['US$ 24 mi', '(+20%)'],
+    ['US$ 28 mi', '(+40%)']
+];
+let deficit = [10, 15, 14, 16, 15];
+let neutro = [60, 50, 39, 34, 36];
+let superavit = [30, 35, 47, 50, 49];
+let taxaSegura = [40, 40, 40, 40, 40];
+
+new Chart(document.getElementById('graficoEmpilhado'), {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+        labels: faixasOrcamento,
+        datasets: [
+            { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
+            { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
+            { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
+            { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: { stacked: true, grid: { display: false } },
+            y: {
+                stacked: true,
+                min: 0,
+                max: 100,
+                grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                ticks: {
+                    stepSize: 20,
+                    callback: function (valor) {
+                        return valor + '%';
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            datalabels: {
+                color: 'white',
+                font: { weight: 'bold', size: 14 },
+                formatter: function (valor) {
+                    return valor + '%';
+                }
+            }
+        }
+    }
+});
+
+
+
+
+
+       
+    </script>
+    
+</body>
+</html>

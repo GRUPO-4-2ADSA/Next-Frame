@@ -385,6 +385,75 @@ body.menu-minimizado .conteudo-principal {
     color: #d8d2ce;
 }
 
+/* gráficos */
+
+.graficos {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.grafico-caixa {
+    flex: 1;
+    min-width: 0;
+    padding: 18px 20px 16px;
+    background-color: #2f2a27;
+    border: 1px solid #3d3733;
+    border-radius: 8px;
+}
+
+.grafico-titulo {
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: normal;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.legenda {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 24px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #d8d2ce;
+}
+
+.legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legenda-cor {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.cor-deficit {
+    background-color: #d9d9d9;
+}
+
+.cor-neutro {
+    background-color: #7d7d7d;
+}
+
+.cor-superavit {
+    background-color: #ff3030;
+}
+
+.legenda-linha {
+    width: 32px;
+    border-top: 3px dotted #ffd400;
+}
+
+.grafico-area {
+    position: relative;
+    height: 320px;
+}
+
 /* ---------- IMPRESSÃO / PDF ---------- */
 
 @page {
