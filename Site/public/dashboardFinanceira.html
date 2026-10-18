@@ -129,7 +129,39 @@
             </div>
         </div>
 
-        <!-- % de sucesso por faixa de orçamento -->
+
+          <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
+
+        <div class="graficos">
+            <div class="grafico-caixa">
+                <h3 class="grafico-titulo">Resultado dos filmes semelhantes</h3>
+
+                <div class="legenda">
+                    <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
+                    <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
+                    <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
+                </div>
+
+                <div class="grafico-area">
+                    <canvas id="graficoRosca"></canvas>
+                </div>
+            </div>
+
+            <div class="grafico-caixa grafico-caixa-larga">
+                <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
+
+                <div class="legenda">
+                    <span class="legenda-item"><span class="legenda-cor cor-similares"></span>Filmes semelhantes</span>
+                    <span class="legenda-item"><span class="legenda-cor cor-projeto"></span>Seu projeto</span>
+                </div>
+
+                <div class="grafico-area">
+                    <canvas id="graficoDispersao"></canvas>
+                </div>
+            </div>
+        </div>
+
+         <!-- % de sucesso por faixa de orçamento -->
 
         <div class="graficos">
             <div class="grafico-caixa">
@@ -173,6 +205,43 @@
                     <canvas id="graficoRoiPeriodo"></canvas>
                 </div>
             </div>
+        </div>
+
+          <!-- Rodapé -->
+        <div class="rodape-dados">
+            <div class="rodape-item">
+                <h4>Dados da pesquisa</h4>
+                <p>87 filmes semelhantes encontrados. Base de dados analisada para este projeto.</p>
+            </div>
+            <div class="rodape-item">
+                <h4>Fontes dos dados</h4>
+                <p>Kaggle · Dados internos (XLSX). Dados históricos e complementares.</p>
+            </div>
+            <div class="rodape-item">
+                <h4>Período analisado</h4>
+                <p>2010 – 2024. Período de lançamento dos filmes.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+
+            <div class="container-horizontal footer-infos">
+                <p>
+                    A Next Frame utiliza dados históricos do cinema para <br>
+                    transformar informações sobre filmes em análises <br>
+                    que ajudam a avaliar novas produções.
+                </p>
+
+                <img src=" assets/img/logo_footer.png">
+
+                <h2>Acompanhe nossas redes <br> <img class="icon-redes" src=" assets/img/redes_socias.png"></h2>
+            </div>
+
+            <div class="container creditos">
+                <hr class="linha">
+                <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+            </div>
+
         </div>
 
     </main>
@@ -221,7 +290,7 @@
             if (estilo) estilo.remove();
         });
 
-        // ---------- Gráficos (dados mockados) ----------
+        // ---------- Gráficos ----------
         Chart.defaults.color = '#d8d2ce';
 
         // % de sucesso por faixa de orçamento
@@ -372,5 +441,105 @@ seletorPeriodo.addEventListener('change', function () {
     graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
     graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
     graficoRoiPeriodo.update();
+});
+
+// ---------- Resultado dos filmes semelhantes gráfico de rosca ----------
+const resultados = [14, 39, 47]; // déficit, neutro, superávit
+
+new Chart(document.getElementById('graficoRosca'), {
+    type: 'doughnut',
+    plugins: [ChartDataLabels],
+    data: {
+        labels: ['Déficit', 'Neutro', 'Superávit'],
+        datasets: [{
+            data: resultados,
+            backgroundColor: ['#d9d9d9', '#7d7d7d', '#ff3030'],
+            borderColor: '#2f2a27',
+            borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+            legend: { display: false },
+            datalabels: {
+                color: function (contexto) {
+                    if (contexto.dataIndex === 0) {
+                        return '#2a2624';
+                    }
+                    return 'white';
+                },
+                font: { weight: 'bold', size: 14 },
+                formatter: function (valor) {
+                    return valor + '%';
+                }
+            }
+        }
+    }
+});
+
+// ---------- Orçamento x ROI (dispersão) ----------
+const filmesSemelhantes = [
+    { x: 8, y: 90 }, { x: 10, y: 140 }, { x: 11, y: 60 }, { x: 12, y: 210 },
+    { x: 13, y: 30 }, { x: 14, y: 120 }, { x: 15, y: 75 }, { x: 16, y: 180 },
+    { x: 17, y: 20 }, { x: 18, y: 95 }, { x: 19, y: 150 }, { x: 21, y: 65 },
+    { x: 22, y: 110 }, { x: 23, y: 40 }, { x: 24, y: 130 }, { x: 25, y: 85 },
+    { x: 26, y: 15 }, { x: 27, y: 100 }, { x: 28, y: 55 }, { x: 30, y: 70 },
+    { x: 32, y: 25 }, { x: 34, y: 90 }, { x: 36, y: 45 }, { x: 38, y: 10 }
+];
+
+const seuProjeto = [{ x: 20, y: 120 }];
+
+new Chart(document.getElementById('graficoDispersao'), {
+    type: 'scatter',
+    data: {
+        datasets: [
+            {
+                label: 'Filmes semelhantes',
+                data: filmesSemelhantes,
+                backgroundColor: '#d9d9d9',
+                pointRadius: 6,
+                pointHoverRadius: 8
+            },
+            {
+                label: 'Seu projeto',
+                data: seuProjeto,
+                backgroundColor: '#ffc400',
+                pointRadius: 9,
+                pointHoverRadius: 11
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function (contexto) {
+                        return contexto.dataset.label + ': US$ ' + contexto.parsed.x + ' mi, ROI de ' + contexto.parsed.y + '%';
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                min: 0,
+                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#d8d2ce' },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            },
+            y: {
+                min: 0,
+                title: { display: true, text: 'ROI', color: '#d8d2ce' },
+                ticks: {
+                    callback: function (valor) { return valor + '%'; }
+                },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            }
+        }
+    }
 });
     </script>
