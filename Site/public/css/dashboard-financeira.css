@@ -6,7 +6,7 @@
 
 body {
     margin: 0;
-    background-color: #1f1b19;
+    background-color: #181010;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -314,62 +314,49 @@ body.menu-minimizado .conteudo-principal {
 
 .indicadores-topo h2 {
     margin: 0;
-    font-size: 25px;
-    color: #ffc400;
+    font-size: 20px;
+    color: #f1f5f9;
+    font-weight: bold;
 }
 
 .indicadores-total {
     margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffc400;
+    font-size: 13px;
+    font-weight: normal;
+    color:#f6e2b9;
 }
 
 .indicadores-lista {
-    display: flex;
-    gap: 14px;
-    padding: 14px;
-    background-color: #2f2a27;
-    border: 1px solid #3d3733;
-    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
 }
 
 /* kpi */
 
 .kpi {
-    flex: 1;
-    min-width: 0;
-    padding: 16px 12px 14px;
-    background-color: #2a2624;
-    border: 1px solid #5a524e;
-    border-radius: 6px;
+ padding: 20px;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
     text-align: center;
 }
 
 .kpi-titulo {
-    min-height: 32px;
-    margin: 0;
+     min-height: 32px;
+    margin: 0 0 12px;
     font-size: 12px;
     font-weight: bold;
+    color: #f6e2b9;
     line-height: 1.3;
     text-transform: uppercase;
 }
 
-.kpi-linha {
-    display: block;
-    width: 100%;
-    height: 16px;
-    margin-top: 4px;
-}
-
 .kpi-valor {
-    margin: 4px 0 10px;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.kpi-titulo + .kpi-valor {
-    margin-top: 24px;
+    margin: 0 0 10px;
+    font-size: 27px;
+    font-weight: normal;
+    text-transform: uppercase;
 }
 
 .kpi-seta {
@@ -380,9 +367,10 @@ body.menu-minimizado .conteudo-principal {
 .kpi-detalhe {
     margin: 0;
     font-size: 11px;
-    line-height: 1.4;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #f6e2b9;
     text-transform: uppercase;
-    color: #d8d2ce;
 }
 
 /* gráficos */
@@ -396,18 +384,18 @@ body.menu-minimizado .conteudo-principal {
 .grafico-caixa {
     flex: 1;
     min-width: 0;
-    padding: 18px 20px 16px;
-    background-color: #2f2a27;
-    border: 1px solid #3d3733;
-    border-radius: 8px;
+    padding: 20px;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
 }
 
 .grafico-titulo {
-    margin: 0 0 12px;
-    font-size: 22px;
+     margin: 0 0 15px;
+    font-size: 18px;
     font-weight: normal;
+    line-height: 1.4;
     text-align: center;
-    text-transform: uppercase;
 }
 
 .legenda {
@@ -475,13 +463,6 @@ body.menu-minimizado .conteudo-principal {
     flex: 2;
 }
 
-.cor-similares {
-    background-color: #d9d9d9;
-}
-
-.cor-projeto {
-    background-color: #ffc400;
-}
 
 /* ---------- RODAPÉ ---------- */
 
@@ -508,6 +489,52 @@ body.menu-minimizado .conteudo-principal {
     font-size: 12px;
     color: #f6e2b9;
     line-height: 1.5;
+}
+
+.grafico-com-cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 140px;
+    column-gap: 15px;
+}
+
+.grafico-com-cards .grafico-titulo {
+    grid-column: 1 / -1;
+}
+
+.grafico-com-cards .grafico-area {
+    min-width: 0;
+}
+
+.grafico-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grafico-card {
+    padding: 12px;
+    background-color: #232323;
+    border: 1px solid #2a2624;
+    border-radius: 9px;
+}
+
+.grafico-card-titulo {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.grafico-card-valor {
+    margin: 0 0 5px;
+    font-size: 24px;
+    color: #f1f5f9;
+}
+
+.grafico-card-texto {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #fff;
 }
 /* ---------- IMPRESSÃO / PDF ---------- */
 

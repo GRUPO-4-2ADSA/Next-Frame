@@ -102,7 +102,6 @@
 
                 <div class="kpi">
                     <p class="kpi-titulo">Retorno mediano por dólar investido</p>
-                    <canvas class="kpi-linha" id="linhaRetorno"></canvas>
                     <p class="kpi-valor">US$ 3</p>
                     <p class="kpi-detalhe">US$ 1 a mais comparado com a mediana geral do gênero</p>
                 </div>
@@ -115,14 +114,12 @@
 
                 <div class="kpi">
                     <p class="kpi-titulo">Orçamento</p>
-                    <canvas class="kpi-linha" id="linhaOrcamento"></canvas>
                     <p class="kpi-valor">US$ 20 mi</p>
                     <p class="kpi-detalhe">Sucesso mediano histórico de 47% nessa faixa de orçamento</p>
                 </div>
 
                 <div class="kpi">
                     <p class="kpi-titulo">ROI no pior cenário (P10)</p>
-                    <canvas class="kpi-linha" id="linhaRoi"></canvas>
                     <p class="kpi-valor">50%</p>
                     <p class="kpi-detalhe">60% abaixo do ROI mediano nesse gênero</p>
                 </div>
@@ -132,31 +129,33 @@
 
           <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
 
-        <div class="graficos">
-            <div class="grafico-caixa">
-                <h3 class="grafico-titulo">Resultado dos filmes semelhantes</h3>
-
-                <div class="legenda">
-                    <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
-                    <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
-                    <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
-                </div>
-
-                <div class="grafico-area">
-                    <canvas id="graficoRosca"></canvas>
-                </div>
-            </div>
-
-            <div class="grafico-caixa grafico-caixa-larga">
+         <div class="graficos">
+            <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
                 <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
-
-                <div class="legenda">
-                    <span class="legenda-item"><span class="legenda-cor cor-similares"></span>Filmes semelhantes</span>
-                    <span class="legenda-item"><span class="legenda-cor cor-projeto"></span>Seu projeto</span>
-                </div>
 
                 <div class="grafico-area">
                     <canvas id="graficoDispersao"></canvas>
+                </div>
+
+                <div class="grafico-cards">
+                    <div class="grafico-card">
+                        <p class="grafico-card-titulo">Correlação</p>
+                        <p class="grafico-card-valor">-0,45</p>
+                        <p class="grafico-card-texto">Orçamento x ROI</p>
+                    </div>
+
+                    <div class="grafico-card">
+                        <p class="grafico-card-titulo">Filmes analisados</p>
+                        <p class="grafico-card-valor">87</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grafico-caixa">
+                <h3 class="grafico-titulo">Resultado dos filmes semelhantes</h3>
+
+                <div class="grafico-area">
+                    <canvas id="graficoRosca"></canvas>
                 </div>
             </div>
         </div>
@@ -448,14 +447,12 @@ const resultados = [14, 39, 47]; // déficit, neutro, superávit
 
 new Chart(document.getElementById('graficoRosca'), {
     type: 'doughnut',
-    plugins: [ChartDataLabels],
     data: {
         labels: ['Déficit', 'Neutro', 'Superávit'],
         datasets: [{
             data: resultados,
-            backgroundColor: ['#d9d9d9', '#7d7d7d', '#ff3030'],
-            borderColor: '#2f2a27',
-            borderWidth: 3
+            backgroundColor: ['#f5c207', '#fff', '#FF0000'],
+            borderWidth: 0
         }]
     },
     options: {
@@ -463,17 +460,15 @@ new Chart(document.getElementById('graficoRosca'), {
         maintainAspectRatio: false,
         cutout: '60%',
         plugins: {
-            legend: { display: false },
-            datalabels: {
-                color: function (contexto) {
-                    if (contexto.dataIndex === 0) {
-                        return '#2a2624';
+            legend: {
+                position: 'right',
+                labels: { color: '#dce6f2', usePointStyle: true }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return context.label + ': ' + context.raw + '%';
                     }
-                    return 'white';
-                },
-                font: { weight: 'bold', size: 14 },
-                formatter: function (valor) {
-                    return valor + '%';
                 }
             }
         }
@@ -499,16 +494,16 @@ new Chart(document.getElementById('graficoDispersao'), {
             {
                 label: 'Filmes semelhantes',
                 data: filmesSemelhantes,
-                backgroundColor: '#d9d9d9',
-                pointRadius: 6,
-                pointHoverRadius: 8
+                backgroundColor: '#FF0000',
+                borderColor: '#FF0000',
+                pointRadius: 5
             },
             {
                 label: 'Seu projeto',
                 data: seuProjeto,
-                backgroundColor: '#ffc400',
-                pointRadius: 9,
-                pointHoverRadius: 11
+                backgroundColor: '#ffffff',
+                borderColor: '#ffffff',
+                pointRadius: 5
             }
         ]
     },
@@ -516,7 +511,10 @@ new Chart(document.getElementById('graficoDispersao'), {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { display: false },
+            legend: {
+                position: 'top',
+                labels: { usePointStyle: true, color: '#fff' }
+            },
             tooltip: {
                 callbacks: {
                     label: function (contexto) {
@@ -528,16 +526,18 @@ new Chart(document.getElementById('graficoDispersao'), {
         scales: {
             x: {
                 min: 0,
-                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#d8d2ce' },
-                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#ffffff' },
+                ticks: { color: '#b8c9da' },
+                grid: { color: 'rgba(246, 226, 185, 0.15)' }
             },
             y: {
                 min: 0,
-                title: { display: true, text: 'ROI', color: '#d8d2ce' },
+                title: { display: true, text: 'ROI', color: '#dce6f2' },
                 ticks: {
+                    color: '#b8c9da',
                     callback: function (valor) { return valor + '%'; }
                 },
-                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                grid: { color: 'rgba(246, 226, 185, 0.15)' }
             }
         }
     }
