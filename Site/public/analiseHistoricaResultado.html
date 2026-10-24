@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/analise-historica-resultado.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <title>Next Frame | Resultado da Análise Histórica</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a href="portfolio.html">Portifólio</a></li>
+            </ul>
+            <a href="editarPerfil.html">
+                <div class="container-horizontal usuario">
+                    <div class="icone-usuario">
+                        <img src="assets/img/icon_usuario.png">
+                    </div>
+                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="fachada-resultado">
+        <div class="container-horizontal alinhamento-esquerda">
+            <img class="icon-pequeno" src="assets/img/icon_claquete.png">
+            <h6 class="texto-divisoria"><span id="qtdTitulos">*qtd*</span> TÍTULOS ENCONTRADOS</h6>
+            <hr class="linha linha-vermelha">
+        </div>
+
+        <div class="container alinhamento-esquerda">
+            <h1 class="titulo">
+                ANÁLISE HISTÓRICA DOS <span class="vermelho">FILMES DE SUCESSO</span>
+            </h1>
+            <h3 class="texto-conteudo-fixo">
+                Resultados ordenados por retorno sobre investimento.
+            </h3>
+
+            <a class="link-ajustar-filtros" href="analiseHistorica.html">
+                <img src="assets/img/icon_seta_esquerda.png">
+                AJUSTAR FILTROS
+            </a>
+        </div>
+    </div>
+
+    <div class="secao-resultado">
+
+        <!--
+            Lista de resultados.
+            O card abaixo (id="cardModeloResultado") é o ÚNICO card do HTML e serve de modelo:
+            a camada de renderização deve cloná-lo uma vez para cada objeto retornado pela query
+            e preencher cada elemento marcado com data-campo="..." (os textos entre *asteriscos*
+            são apenas placeholders).
+        -->
+        <ol class="lista-resultados" id="listaResultados">
+
+            <li class="card-resultado" id="cardModeloResultado">
+
+                <span class="posicao-resultado" data-campo="posicao">*nº*</span>
+
+                <img class="poster-resultado" data-campo="poster" src="assets/img/posters/poster_padrao.png" alt="Pôster de *título*">
+
+                <div class="info-resultado">
+                    <h2 class="titulo-resultado" data-campo="titulo">*título*</h2>
+                    <p class="subtitulo-resultado">
+                        <span data-campo="diretor">*diretor*</span>
+                        •
+                        <span data-campo="genero">*gênero*</span>
+                    </p>
+                </div>
+
+                <dl class="estatisticas-resultado">
+                    <div class="estatistica-resultado">
+                        <dt class="rotulo-estatistica">ORÇAMENTO</dt>
+                        <dd class="valor-estatistica" data-campo="orcamento">*orçamento*</dd>
+                    </div>
+                    <div class="estatistica-resultado">
+                        <dt class="rotulo-estatistica">BILHETERIA</dt>
+                        <dd class="valor-estatistica" data-campo="bilheteria">*bilheteria*</dd>
+                    </div>
+                    <div class="estatistica-resultado">
+                        <dt class="rotulo-estatistica">ROI</dt>
+                        <dd class="valor-estatistica amarelo" data-campo="roi">*roi*</dd>
+                    </div>
+                </dl>
+
+            </li>
+
+        </ol>
+    </div>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="assets/img/logo_footer.png">
+
+            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
