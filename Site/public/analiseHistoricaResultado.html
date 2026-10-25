@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -58,25 +59,19 @@
 
     <div class="secao-resultado">
 
-        <!--
-            Lista de resultados.
-            O card abaixo (id="cardModeloResultado") é o ÚNICO card do HTML e serve de modelo:
-            a camada de renderização deve cloná-lo uma vez para cada objeto retornado pela query
-            e preencher cada elemento marcado com data-campo="..." (os textos entre *asteriscos*
-            são apenas placeholders).
-        -->
+        <!-- O card abaixo é clonado pelo JavaScript para cada filme encontrado. -->
         <ol class="lista-resultados" id="listaResultados">
 
             <li class="card-resultado" id="cardModeloResultado">
 
                 <span class="posicao-resultado" data-campo="posicao">*nº*</span>
 
-                <img class="poster-resultado" data-campo="poster" src="assets/img/posters/poster_padrao.png" alt="Pôster de *título*">
+                <img class="poster-resultado" data-campo="poster" src="assets/img/icon_placa.png" alt="Pôster de *título*">
 
                 <div class="info-resultado">
                     <h2 class="titulo-resultado" data-campo="titulo">*título*</h2>
                     <p class="subtitulo-resultado">
-                        <span data-campo="diretor">*diretor*</span>
+                        <span data-campo="produtoras">*produtoras*</span>
                         •
                         <span data-campo="genero">*gênero*</span>
                     </p>
@@ -123,6 +118,96 @@
 
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", listarFilmes);
+
+        function listarFilmes() {
+            var lista = document.getElementById("listaResultados");
+            var modelo = document.getElementById("cardModeloResultado");
+            var contador = document.getElementById("qtdTitulos");
+            var filtros = {};
+
+            try {
+                filtros = JSON.parse(sessionStorage.getItem("filtrosAnaliseHistorica") || "{}");
+            } catch (erro) {
+                filtros = {};
+            }
+
+            modelo.remove();
+            contador.textContent = "0";
+
+            fetch("/analise-historica/pesquisar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(filtros)
+            })
+                .then(function (resposta) {
+                    return resposta.json().then(function (dados) {
+                        if (!resposta.ok) {
+                            throw new Error(dados.mensagem || "Erro ao pesquisar filmes.");
+                        }
+                        return dados;
+                    });
+                })
+                .then(function (filmes) {
+                    contador.textContent = filmes.length;
+
+                    if (filmes.length === 0) {
+                        mostrarMensagem("Nenhum filme encontrado para os filtros selecionados.");
+                        return;
+                    }
+
+                    filmes.forEach(function (filme, indice) {
+                        var card = modelo.cloneNode(true);
+                        card.removeAttribute("id");
+
+                        preencher(card, "posicao", (indice + 1) + "º");
+                        preencher(card, "titulo", filme.titulo || "Título não informado");
+                        preencher(card, "produtoras", filme.produtoras || "Produtora não informada");
+                        preencher(card, "genero", filme.genero || "Gênero não informado");
+                        preencher(card, "orcamento", formatarNumero(filme.orcamento));
+                        preencher(card, "bilheteria", formatarNumero(filme.bilheteria));
+                        preencher(card, "roi", formatarROI(filme.roi));
+
+                        card.querySelector('[data-campo="poster"]').alt =
+                            "Imagem ilustrativa de " + (filme.titulo || "filme");
+
+                        lista.appendChild(card);
+                    });
+                })
+                .catch(function (erro) {
+                    console.error("Erro ao consultar filmes:", erro);
+                    mostrarMensagem(erro.message);
+                });
+
+            function mostrarMensagem(texto) {
+                var mensagem = document.createElement("li");
+                mensagem.textContent = texto;
+                mensagem.style.color = "white";
+                mensagem.style.padding = "30px";
+                lista.appendChild(mensagem);
+            }
+        }
+
+        function preencher(card, campo, texto) {
+            var elemento = card.querySelector('[data-campo="' + campo + '"]');
+            if (elemento) elemento.textContent = texto;
+        }
+
+        function formatarNumero(valor) {
+            if (valor === null || valor === undefined || valor === "") return "Não informado";
+            var numero = Number(valor);
+            if (!Number.isFinite(numero)) return "Não informado";
+            return numero.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+        }
+
+        function formatarROI(valor) {
+            if (valor === null || valor === undefined || valor === "") return "Não informado";
+            var numero = Number(valor);
+            if (!Number.isFinite(numero)) return "Não informado";
+            return numero.toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + "%";
+        }
+    </script>
 </body>
 
 </html>
