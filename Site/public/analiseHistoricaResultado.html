@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="css/analise-historica-resultado.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+
     <title>Next Frame | Resultado da Análise Histórica</title>
 </head>
 
@@ -16,85 +17,149 @@
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
-                <img class="logo" src="assets\img\logo.png">
+                <img class="logo" src="assets/img/logo.png">
             </a>
+
             <ul class="navbar">
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
                 <li><a href="portfolio.html">Portifólio</a></li>
+                <li><a href="usuarios.html">Usuários</a></li>
             </ul>
+
             <a href="editarPerfil.html">
                 <div class="container-horizontal usuario">
                     <div class="icone-usuario">
                         <img src="assets/img/icon_usuario.png">
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
+
+                    <p>
+                        BEM VINDO,<br>
+                        <span class="amarelo">USUÁRIO</span>
+                    </p>
                 </div>
             </a>
         </div>
     </div>
 
     <div class="fachada-resultado">
+
         <div class="container-horizontal alinhamento-esquerda">
             <img class="icon-pequeno" src="assets/img/icon_claquete.png">
-            <h6 class="texto-divisoria"><span id="qtdTitulos">*qtd*</span> TÍTULOS ENCONTRADOS</h6>
+
+            <h6 class="texto-divisoria">
+                <span id="qtdTitulos">0</span> TÍTULOS ENCONTRADOS
+            </h6>
+
             <hr class="linha linha-vermelha">
         </div>
 
         <div class="container alinhamento-esquerda">
             <h1 class="titulo">
-                ANÁLISE HISTÓRICA DOS <span class="vermelho">FILMES DE SUCESSO</span>
+                ANÁLISE HISTÓRICA DOS
+                <span class="vermelho">FILMES DE SUCESSO</span>
             </h1>
+
             <h3 class="texto-conteudo-fixo">
-                Resultados ordenados por retorno sobre investimento.
+                RESULTADOS ORDENADOS POR RETORNO SOBRE INVESTIMENTO.
             </h3>
 
             <a class="link-ajustar-filtros" href="analiseHistorica.html">
-                <img src="assets/img/icon_seta_esquerda.png">
                 AJUSTAR FILTROS
             </a>
         </div>
+
     </div>
 
     <div class="secao-resultado">
 
-        <!-- O card abaixo é clonado pelo JavaScript para cada filme encontrado. -->
-        <ol class="lista-resultados" id="listaResultados">
+        <div class="container-ranking-roi">
 
-            <li class="card-resultado" id="cardModeloResultado">
+            <div class="cabecalho-ranking-roi">
+                <div>
+                    <h2 class="titulo-ranking-roi">
+                        RANKING DE MAIORES ROIs
+                    </h2>
 
-                <span class="posicao-resultado" data-campo="posicao">*nº*</span>
-
-                <img class="poster-resultado" data-campo="poster" src="assets/img/icon_placa.png" alt="Pôster de *título*">
-
-                <div class="info-resultado">
-                    <h2 class="titulo-resultado" data-campo="titulo">*título*</h2>
-                    <p class="subtitulo-resultado">
-                        <span data-campo="produtoras">*produtoras*</span>
-                        •
-                        <span data-campo="genero">*gênero*</span>
+                    <p class="descricao-ranking-roi">
+                        Filmes classificados pelo retorno sobre investimento,
+                        do maior para o menor.
                     </p>
                 </div>
 
-                <dl class="estatisticas-resultado">
-                    <div class="estatistica-resultado">
-                        <dt class="rotulo-estatistica">ORÇAMENTO</dt>
-                        <dd class="valor-estatistica" data-campo="orcamento">*orçamento*</dd>
-                    </div>
-                    <div class="estatistica-resultado">
-                        <dt class="rotulo-estatistica">BILHETERIA</dt>
-                        <dd class="valor-estatistica" data-campo="bilheteria">*bilheteria*</dd>
-                    </div>
-                    <div class="estatistica-resultado">
-                        <dt class="rotulo-estatistica">ROI</dt>
-                        <dd class="valor-estatistica amarelo" data-campo="roi">*roi*</dd>
-                    </div>
-                </dl>
+                <span class="icone-ranking-roi"></span>
+            </div>
 
-            </li>
+            <ol class="lista-resultados" id="listaResultados">
 
-        </ol>
+                <li class="card-resultado" id="cardModeloResultado">
+
+                    <span class="posicao-resultado" data-campo="posicao">
+                        *nº*
+                    </span>
+
+                    <div class="info-resultado">
+                        <h2 class="titulo-resultado" data-campo="titulo">
+                            *título*
+                        </h2>
+
+                        <p class="subtitulo-resultado">
+                            <span data-campo="produtoras">
+                                *produtoras*
+                            </span>
+                            •
+                            <span data-campo="genero">
+                                *gênero*
+                            </span>
+                        </p>
+                    </div>
+
+                    <dl class="estatisticas-resultado">
+
+                        <div class="estatistica-resultado">
+                            <dt class="rotulo-estatistica">
+                                ORÇAMENTO
+                            </dt>
+
+                            <dd class="valor-estatistica" data-campo="orcamento">
+                                *orçamento*
+                            </dd>
+                        </div>
+
+                        <div class="estatistica-resultado">
+                            <dt class="rotulo-estatistica">
+                                BILHETERIA
+                            </dt>
+
+                            <dd class="valor-estatistica" data-campo="bilheteria">
+                                *bilheteria*
+                            </dd>
+                        </div>
+
+                        <div class="estatistica-resultado">
+                            <dt class="rotulo-estatistica">
+                                ROI
+                            </dt>
+
+                            <dd class="valor-estatistica amarelo" data-campo="roi">
+                                *roi*
+                            </dd>
+                        </div>
+
+                    </dl>
+
+                </li>
+
+            </ol>
+
+            <p class="rodape-ranking-roi">
+                <span id="totalRanking">0</span>
+                filmes encontrados • Classificação por ROI decrescente
+            </p>
+
+        </div>
+
     </div>
 
     <div class="footer">
@@ -108,12 +173,17 @@
 
             <img src="assets/img/logo_footer.png">
 
-            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
+            <h2>
+                Acompanhe nossas redes <br>
+                <img class="icon-redes" src="assets/img/redes_socias.png">
+            </h2>
         </div>
 
         <div class="container creditos">
             <hr class="linha">
-            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+            <h6>
+                © 2026 Next Frame. Todos os direitos reservados.
+            </h6>
         </div>
 
     </div>
@@ -125,52 +195,97 @@
             var lista = document.getElementById("listaResultados");
             var modelo = document.getElementById("cardModeloResultado");
             var contador = document.getElementById("qtdTitulos");
+            var totalRanking = document.getElementById("totalRanking");
+
             var filtros = {};
 
             try {
-                filtros = JSON.parse(sessionStorage.getItem("filtrosAnaliseHistorica") || "{}");
+                filtros = JSON.parse(
+                    sessionStorage.getItem("filtrosAnaliseHistorica") || "{}"
+                );
             } catch (erro) {
                 filtros = {};
             }
 
             modelo.remove();
             contador.textContent = "0";
+            totalRanking.textContent = "0";
 
             fetch("/analise-historica/pesquisar", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(filtros)
             })
                 .then(function (resposta) {
                     return resposta.json().then(function (dados) {
                         if (!resposta.ok) {
-                            throw new Error(dados.mensagem || "Erro ao pesquisar filmes.");
+                            throw new Error(
+                                dados.mensagem || "Erro ao pesquisar filmes."
+                            );
                         }
+
                         return dados;
                     });
                 })
                 .then(function (filmes) {
                     contador.textContent = filmes.length;
+                    totalRanking.textContent = filmes.length;
 
                     if (filmes.length === 0) {
-                        mostrarMensagem("Nenhum filme encontrado para os filtros selecionados.");
+                        mostrarMensagem(
+                            "Nenhum filme encontrado para os filtros selecionados."
+                        );
                         return;
                     }
 
                     filmes.forEach(function (filme, indice) {
                         var card = modelo.cloneNode(true);
+
                         card.removeAttribute("id");
 
-                        preencher(card, "posicao", (indice + 1) + "º");
-                        preencher(card, "titulo", filme.titulo || "Título não informado");
-                        preencher(card, "produtoras", filme.produtoras || "Produtora não informada");
-                        preencher(card, "genero", filme.genero || "Gênero não informado");
-                        preencher(card, "orcamento", formatarNumero(filme.orcamento));
-                        preencher(card, "bilheteria", formatarNumero(filme.bilheteria));
-                        preencher(card, "roi", formatarROI(filme.roi));
+                        preencher(
+                            card,
+                            "posicao",
+                            (indice + 1) + "º"
+                        );
 
-                        card.querySelector('[data-campo="poster"]').alt =
-                            "Imagem ilustrativa de " + (filme.titulo || "filme");
+                        preencher(
+                            card,
+                            "titulo",
+                            filme.titulo || "Título não informado"
+                        );
+
+                        preencher(
+                            card,
+                            "produtoras",
+                            filme.produtoras || "Produtora não informada"
+                        );
+
+                        preencher(
+                            card,
+                            "genero",
+                            filme.genero || "Gênero não informado"
+                        );
+
+                        preencher(
+                            card,
+                            "orcamento",
+                            formatarNumero(filme.orcamento)
+                        );
+
+                        preencher(
+                            card,
+                            "bilheteria",
+                            formatarNumero(filme.bilheteria)
+                        );
+
+                        preencher(
+                            card,
+                            "roi",
+                            formatarROI(filme.roi)
+                        );
 
                         lista.appendChild(card);
                     });
@@ -182,32 +297,67 @@
 
             function mostrarMensagem(texto) {
                 var mensagem = document.createElement("li");
+
                 mensagem.textContent = texto;
                 mensagem.style.color = "white";
                 mensagem.style.padding = "30px";
+                mensagem.style.listStyle = "none";
+
                 lista.appendChild(mensagem);
             }
         }
 
         function preencher(card, campo, texto) {
-            var elemento = card.querySelector('[data-campo="' + campo + '"]');
-            if (elemento) elemento.textContent = texto;
+            var elemento = card.querySelector(
+                '[data-campo="' + campo + '"]'
+            );
+
+            if (elemento) {
+                elemento.textContent = texto;
+            }
         }
 
         function formatarNumero(valor) {
-            if (valor === null || valor === undefined || valor === "") return "Não informado";
+            if (
+                valor === null ||
+                valor === undefined ||
+                valor === ""
+            ) {
+                return "Não informado";
+            }
+
             var numero = Number(valor);
-            if (!Number.isFinite(numero)) return "Não informado";
-            return numero.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+
+            if (!Number.isFinite(numero)) {
+                return "Não informado";
+            }
+
+            return numero.toLocaleString("pt-BR", {
+                maximumFractionDigits: 2
+            });
         }
 
         function formatarROI(valor) {
-            if (valor === null || valor === undefined || valor === "") return "Não informado";
+            if (
+                valor === null ||
+                valor === undefined ||
+                valor === ""
+            ) {
+                return "Não informado";
+            }
+
             var numero = Number(valor);
-            if (!Number.isFinite(numero)) return "Não informado";
-            return numero.toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + "%";
+
+            if (!Number.isFinite(numero)) {
+                return "Não informado";
+            }
+
+            return numero.toLocaleString("pt-BR", {
+                maximumFractionDigits: 2
+            }) + "%";
         }
     </script>
+
 </body>
 
 </html>

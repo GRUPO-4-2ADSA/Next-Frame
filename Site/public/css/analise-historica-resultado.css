@@ -257,3 +257,107 @@ li {
     color: #ffffff;
     margin: 0;
 }
+
+.container-ranking-roi {
+    border: 1px solid #77706b;
+    background-color: #211c1b;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.cabecalho-ranking-roi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ff3338;
+}
+
+.titulo-ranking-roi {
+    color: #ffffff;
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.descricao-ranking-roi {
+    color: #bcb6b2;
+    font-size: 14px;
+}
+
+.icone-ranking-roi {
+    color: #ffc400;
+    font-size: 38px;
+}
+
+/* Ajustes nos cards existentes */
+.container-ranking-roi .lista-resultados {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.container-ranking-roi .card-resultado {
+    margin-bottom: 18px;
+    padding: 24px;
+    background-color: #292321;
+    border: 1px solid #625853;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.container-ranking-roi .card-resultado:last-child {
+    margin-bottom: 0;
+}
+
+.container-ranking-roi .posicao-resultado {
+    color: #ffc400;
+    font-size: 40px;
+    font-weight: 800;
+    min-width: 70px;
+}
+
+.container-ranking-roi .info-resultado {
+    flex: 1;
+    min-width: 0;
+}
+
+.container-ranking-roi .estatisticas-resultado {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    margin: 0;
+}
+
+.container-ranking-roi .estatisticas-resultado dd {
+    margin: 0;
+}
+
+.container-ranking-roi [data-campo="roi"] {
+    color: #ffc400;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.rodape-ranking-roi {
+    color: #bcb6b2;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .container-ranking-roi .card-resultado {
+        flex-wrap: wrap;
+    }
+
+    .container-ranking-roi .estatisticas-resultado {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .container-ranking-roi {
+        padding: 15px;
+    }
+}
