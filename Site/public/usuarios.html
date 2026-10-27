@@ -90,9 +90,10 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", listarUsuarios);
+        var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
         function listarUsuarios() {
-            fetch('/usuarios')
+            fetch(`/usuarios/listar/${idEmpresa}`)
                 .then(function (resposta) {
                     if (!resposta.ok) {
                         throw new Error("Erro HTTP: " + resposta.status);

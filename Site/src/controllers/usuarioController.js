@@ -82,16 +82,20 @@ function autenticar(req, res) {
     }
 
 }
+
 function listar(req, res) {
-    usuarioModel.listar()
+    var idEmpresa = req.params.idEmpresa;
+
+    usuarioModel.listar(idEmpresa)
         .then(function (resultado) {
             res.status(200).json(resultado);
         })
         .catch(function (erro) {
-            console.error(erro);
-            res.status(500).json({ mensagem: "Erro ao listar usuários." });
+            console.log(erro);
+            res.status(500).json(erro);
         });
 }
+
 
 function buscarPorId(req, res) {
     var id = req.params.id;
