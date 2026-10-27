@@ -165,6 +165,12 @@
 
                     document.getElementById("cargo").value =
                         usuarioAtual.cargo || "";
+                        
+                    var idUsuarioLogado = sessionStorage.getItem("ID_USUARIO");
+
+                    if (Number(usuarioAtual.id) === Number(idUsuarioLogado)) {
+                        document.getElementById("cargo").disabled = true;
+                    }
                 })
                 .catch(function (erro) {
                     console.error("Erro ao carregar usuário:", erro);
