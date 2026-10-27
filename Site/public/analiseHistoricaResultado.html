@@ -25,7 +25,9 @@
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
                 <li><a href="portfolio.html">Portifólio</a></li>
-                <li><a href="usuarios.html">Usuários</a></li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
 
             <a href="editarPerfil.html">
@@ -356,6 +358,18 @@
                 maximumFractionDigits: 2
             }) + "%";
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
     </script>
 
 </body>

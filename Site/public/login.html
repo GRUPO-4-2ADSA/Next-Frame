@@ -126,10 +126,11 @@
                     sessionStorage.setItem("ID_USUARIO", json.id);
                     sessionStorage.setItem("NOME_USUARIO", json.nome);
                     sessionStorage.setItem("EMAIL_USUARIO", json.email);
+                    sessionStorage.setItem("CARGO_USUARIO", json.cargo);
 
                     alert("Login realizado com sucesso. Redirecionando para landpage")
                     setTimeout(function () {
-                        window.location = "usuarios.html";
+                        window.location.href = "sucessosAno.html";
                     }, 1000); // apenas para exibir o loading
 
                 });

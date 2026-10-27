@@ -22,7 +22,9 @@
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
                 <li><a href="portfolio.html">Portifólio</a></li>
-                <li><a class="ativo" href="usuarios.html">Usuários</a></li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
             <a href="editarPerfil.html">
                 <div class="container-horizontal usuario">
@@ -80,9 +82,17 @@
                     </div>
 
                     <div class="campo">
-                        <label for="cargo">CARGO</label>
-                        <input type="text" id="cargo" name="cargo" required>
+                        <label for="cargo">TIPO DE USUÁRIO</label>
+
+                        <select id="cargo" name="cargo" required>
+                            <option value="" disabled>Selecione o tipo de usuário</option>
+                            <option value="Gestor">Gestor</option>
+                            <option value="Analista">Analista</option>
+                            <option value="Produtor Executivo">Produtor Executivo</option>
+                            <option value="Analista Financeiro">Analista Financeiro</option>
+                        </select>
                     </div>
+
                 </div>
 
                 <div class="container-horizontal acao-editar">
@@ -210,6 +220,18 @@
                         });
                 });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
     </script>
 
 </body>
