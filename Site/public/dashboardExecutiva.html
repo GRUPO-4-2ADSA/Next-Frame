@@ -41,10 +41,12 @@
                 <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Dashboard</span>
             </a>
-            <a class="menu-item" href="gerenciadorUsuario.html">
+
+            <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
                 <img class="menu-icone" src="assets/img/icon_user.png" alt="">
                 <span class="menu-rotulo">Usuários</span>
             </a>
+
         </nav>
 
         <div class="menu-usuario">
@@ -216,7 +218,7 @@
 
         </div>
         <script>
-                        // ---------- Botão Baixar: gera o PDF em página única ----------
+            // ---------- Botão Baixar: gera o PDF em página única ----------
             let botaoBaixar = document.getElementById('botaoBaixar');
 
             function baixarPdf() {
@@ -516,6 +518,19 @@
                     }
                 }
             });
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+                if (cargo === "Gestor") {
+                    document.querySelectorAll(".menu-gerenciamento")
+                        .forEach(function (item) {
+                            item.style.display = "";
+                        });
+                }
+            });
+
         </script>
     </main>
 </body>

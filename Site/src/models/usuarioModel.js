@@ -29,7 +29,9 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function listar() {
+
+
+function listar(idEmpresa) {
     var instrucaoSql = `
         SELECT
             u.id_usuario AS id,
@@ -43,11 +45,17 @@ function listar() {
             u.ultimo_acesso
         FROM Usuario u
         INNER JOIN Empresa e
-            ON u.id_empresa = e.id_empresa;
+            ON u.id_empresa = e.id_empresa
+        WHERE u.id_empresa = ?
+        ORDER BY u.nome;
     `;
 
-    return database.executar(instrucaoSql);
+    console.log("Executando SQL:", instrucaoSql);
+
+    return database.executar(instrucaoSql, [idEmpresa]);
 }
+
+
 
 function buscarPorId(id) {
     var instrucaoSql = `

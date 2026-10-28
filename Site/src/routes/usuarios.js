@@ -10,7 +10,7 @@ router.post("/cadastrar", usuarioController.cadastrar);
 router.post("/autenticar", usuarioController.autenticar);
 
 // Listar todos os usuários
-router.get("/", usuarioController.listar);
+router.get("/listar/:idEmpresa", usuarioController.listar);
 
 // Listar empresas (precisa ficar antes de /:id)
 router.get("/empresas", usuarioController.listarEmpresas);
