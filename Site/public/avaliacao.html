@@ -135,11 +135,11 @@
             return;
         }
 
-        let cargo = sessionStorage.getItem("CARGO");
+        let cargo = sessionStorage.getItem("CARGO_USUARIO");
 
-        if (cargo === "Produtor executivo") {
+        if (cargo === "Produtor Executivo") {
             window.location.href = "dashboardExecutiva.html";
-        } else if (cargo === "Produtor financeiro") {
+        } else if (cargo === "Produtor Financeiro") {
             window.location.href = "dashboardFinanceira.html";
         } else {
             alert("Cargo não identificado.");
