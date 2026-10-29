@@ -69,11 +69,10 @@ body {
 }
 
 .botao-menu img {
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     transition: transform 0.2s ease;
 }
-
 .menu-itens {
     display: flex;
     flex-direction: column;
@@ -113,14 +112,6 @@ body {
     object-fit: contain;
 }
 
-.menu-usuario {
-    padding: 14px;
-    border-top: 1px solid #292724;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 .usuario-linha {
     display: flex;
     align-items: center;
@@ -154,6 +145,7 @@ body {
 .usuario-seta {
     color: #f6e2b9;
 }
+
 
 .botao-sair {
     align-self: flex-start;
@@ -262,40 +254,86 @@ body.menu-minimizado .conteudo-principal {
 .filtros-aplicados {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-left: 6px;
-    padding: 0 0 0 20px;
-    background-color: transparent;
-    border: none;
-    border-left: 1px solid #5a524e;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    gap: 10px;
+    background-color: #232222;
+    color: #f1f5f9;
+    border: 1px solid #292724;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: inherit;
     text-align: left;
     cursor: pointer;
+
+    /* novo */
+    width: 190px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+/* novo: largura quando expandido */
+.filtros-aplicados.aberto {
+    width: 380px;
 }
 
 .filtros-icone {
-    width: 20px;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
 }
 
 .filtros-texto {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
 }
 
 .filtros-titulo {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
 }
 
 .filtros-detalhe {
-    margin-top: 3px;
-    font-size: 13px;
-    color: #d8d2ce;
+    font-size: 11px;
+    color: #f6e2b9;
 }
 
 .filtros-seta {
-    color: #d8d2ce;
+    color: #f6e2b9;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.filtros-ver,
+.filtros-detalhe {
+    grid-row: 2;
+    grid-column: 1;
+    font-size: 11px;
+    color: #f6e2b9;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+/* retraído: mostra "ver filtros" */
+.filtros-ver {
+    opacity: 1;
+}
+
+.filtros-detalhe {
+    opacity: 0;
+}
+
+/* expandido: troca os dois e gira a seta */
+.filtros-aplicados.aberto .filtros-ver {
+    opacity: 0;
+}
+
+.filtros-aplicados.aberto .filtros-detalhe {
+    opacity: 1;
+}
+
+.filtros-aplicados.aberto .filtros-seta {
+    transform: rotate(180deg);
 }
 
 

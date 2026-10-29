@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <title>Next Frame | Dashboard Financeira</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
+    <title>Dashboard Financeira</title>
 </head>
 
 <body>
@@ -29,14 +30,6 @@
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">Início</span>
             </a>
-            <a class="menu-item" href="sucessosAno.html">
-                <img class="menu-icone" src="assets/img/icon_claquete_pb.png" alt="">
-                <span class="menu-rotulo">Sucessos do ano</span>
-            </a>
-            <a class="menu-item" href="portfolio.html">
-                <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
-                <span class="menu-rotulo">Meu Portfólio</span>
-            </a>
             <a class="menu-item ativo" href="dashboardFinanceira.html">
                 <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Dashboard</span>
@@ -47,11 +40,12 @@
             </a>
         </nav>
 
+
         <div class="menu-usuario">
             <div class="usuario-linha">
-                <img class="usuario-avatar" src="assets/img/icone_usuario.png" alt="">
+                <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Usuário</p>
+                    <p class="usuario-nome">Steven Spielberg</p>
                     <p class="usuario-cargo">Analista Financeiro</p>
                 </div>
                 <span class="usuario-seta">▾</span>
@@ -72,14 +66,14 @@
 
             <div class="topo-acoes">
                 <button type="button" class="botao-acao" id="botaoBaixar">Baixar</button>
-                <a class="botao-acao" href="avaliacao.html">Novo Projeto</a>
+                <a class="botao-acao" href="avaliacao.html">Nova Avaliação</a>
                 <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
 
-                <button type="button" class="filtros-aplicados">
-                    <img class="filtros-icone" src="assets/img/icone_filtros.png" alt="">
+                                <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
                     <div class="filtros-texto">
                         <span class="filtros-titulo">Filtros aplicados</span>
-                        <span class="filtros-detalhe">Terror · US$ 20 mi · EUA · Inglês</span>
+                        <span class="filtros-ver">ver filtros</span>
+                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 40 mi</span>
                     </div>
                     <span class="filtros-seta">▾</span>
                 </button>
@@ -101,21 +95,21 @@
                 </div>
 
                 <div class="kpi">
-                    <p class="kpi-titulo">Retorno mediano por dólar investido</p>
-                    <p class="kpi-valor">US$ 3</p>
-                    <p class="kpi-detalhe">US$ 1 a mais comparado com a mediana geral do gênero</p>
+                    <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
+                    <p class="kpi-valor">3x</p>
+                    <p class="kpi-detalhe">1X a mais comparado com a mediana geral do gênero</p>
                 </div>
 
                 <div class="kpi">
-                    <p class="kpi-titulo">Receita mediana</p>
-                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 30 mi</p>
-                    <p class="kpi-detalhe">US$ 5 mi acima da receita desejada (US$ 25 mi)</p>
+                    <p class="kpi-titulo">Receita mediana no recorte analisado</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 50 mi</p>
+                    <p class="kpi-detalhe">+US$10mi acima da receita desejada (US$40 mi)</p>
                 </div>
 
                 <div class="kpi">
-                    <p class="kpi-titulo">Orçamento</p>
+                    <p class="kpi-titulo">Seu Orçamento</p>
                     <p class="kpi-valor">US$ 20 mi</p>
-                    <p class="kpi-detalhe">Sucesso mediano histórico de 47% nessa faixa de orçamento</p>
+                    <p class="kpi-detalhe">Aumento no orçamento não impacta significativamente o sucesso(3%)</p>
                 </div>
 
                 <div class="kpi">
@@ -288,6 +282,11 @@
             const estilo = document.getElementById('estiloPaginaPdf');
             if (estilo) estilo.remove();
         });
+
+            function alternarFiltros() {
+        let botao = document.getElementById('filtrosBotao');
+        botao.classList.toggle('aberto');
+    }
 
         // ---------- Gráficos ----------
         Chart.defaults.color = '#d8d2ce';
