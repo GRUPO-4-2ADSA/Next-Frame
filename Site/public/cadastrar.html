@@ -67,7 +67,7 @@
             <div class="cadastro-linha">
                 <div class="campo">
                     <label for="">CPF:</label>
-                    <input type="text" id="iptCpf" placeholder="000.000.000-00">
+                    <input oninput="mascaraCPF(this)" type="text" id="iptCpf" placeholder="000.000.000-00">
                 </div>
             </div>
 
@@ -80,22 +80,10 @@
 
             <div class="cadastro-linha">
                 <div class="campo">
-                    <label for="">Empresa:</label>
-                    <select id="iptEmpresa">
-                        <option value="">Selecione uma empresa</option>
-                        <option value="1">IbiraCultural</option>
-                        <option value="2">DetonaFilmes</option>
-                    </select>
+                    <label for="">Código da empresa:</label>
+                    <input oninput="mascaraCod(this)" type="text" id="iptEmpresa" placeholder="########">
                 </div>
-                <div class="campo">
-                    <label for="">Cargo:</label>
-                    <select id="iptCargo">
-                        <option value="">Selecione um cargo</option>
-                        <option value="Gestor">Gestor</option>
-                        <option value="Analista">Analista</option>
-                    </select>
-                </div>
-            </div>
+            </div><br>
 
             <span>
                 Já possui uma conta?
@@ -156,6 +144,14 @@
         input.value = value;
     }
 
+    function mascaraCod(input) {
+        let value = input.value;
+
+        value = value.substring(0, 8);
+
+        input.value = value;
+    }
+
     let caracteresEspeciais = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', "'", '"', '\\', '|', ',', '.', '<', '>', '/', '?', '`', '~'];
 
     let idUsuario = sessionStorage.getItem("ID_USUARIO");
@@ -168,7 +164,6 @@
         let cpf = iptCpf.value;
         let dtNascimento = iptDtNascimento.value;
         let empresa = iptEmpresa.value;
-        let cargo = iptCargo.value;
 
         let incluiCaracterEspecial = false;
         let incluiArroba = email.includes('@');
@@ -184,7 +179,7 @@
         }
 
         if (
-            nome == "" || senha == "" || confirmarSenha == "" || email == "" || cpf == "" || dtNascimento == "" || empresa == "" || cargo == "") {
+            nome == "" || senha == "" || confirmarSenha == "" || email == "" || cpf == "" || dtNascimento == "" || empresa == "") {
             divMensagem.innerHTML = "Preencha todos os campos.";
             setTimeout(function () {
                 divMensagem.innerHTML = "";
@@ -234,7 +229,6 @@
                 cpfServer: cpf,
                 dtNascimentoServer: dtNascimento,
                 empresaServer: empresa,
-                cargoServer: cargo,
             }),
         })
             .then(function (resposta) {
