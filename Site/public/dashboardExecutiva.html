@@ -49,9 +49,9 @@
 
         <div class="menu-usuario">
             <div class="usuario-linha">
-                <img class="usuario-avatar" src="assets/perfil/Kill_bill.jpg" alt="">
+                <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Clara</p>
+                    <p class="usuario-nome">Steven Spielberg</p>
                     <p class="usuario-cargo">Produtor Executivo</p>
                 </div>
                 <span class="usuario-seta">▾</span>
@@ -74,10 +74,10 @@
                 <a class="botao-acao" href="avaliacao.html">Nova Avaliação</a>
                 <a class="botao-acao" href="dashboardFinanceira.html">Dashboard Financeira</a>
 
-                <button type="button" class="filtros-aplicados">
-                    <img class="filtros-icone" src="assets/img/icone_filtros.png" alt="">
+                <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
                     <div class="filtros-texto">
                         <span class="filtros-titulo">Filtros aplicados</span>
+                        <span class="filtros-ver">ver filtros</span>
                         <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 40 mi</span>
                     </div>
                     <span class="filtros-seta">▾</span>
@@ -534,3 +534,10 @@
 </body>
 
 </html>
+
+<script>
+    function alternarFiltros() {
+        let botao = document.getElementById('filtrosBotao');
+        botao.classList.toggle('aberto');
+    }
+</script>
