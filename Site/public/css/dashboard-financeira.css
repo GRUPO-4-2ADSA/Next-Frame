@@ -53,26 +53,26 @@ body {
 
 .botao-menu {
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     border: none;
-    /* border-radius: 6px; */
     cursor: pointer;
+}
+
+.botao-menu img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease;
 }
 
 .botao-menu:hover {
     border-color: #f5c207;
 }
 
-.botao-menu img {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.2s ease;
-}
 .menu-itens {
     display: flex;
     flex-direction: column;
@@ -112,6 +112,14 @@ body {
     object-fit: contain;
 }
 
+.menu-usuario {
+    padding: 14px;
+    border-top: 1px solid #292724;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .usuario-linha {
     display: flex;
     align-items: center;
@@ -134,10 +142,13 @@ body {
 }
 
 .usuario-nome {
-    font-size: 13px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .usuario-cargo {
+    margin: 2px 0 0;
     font-size: 11px;
     color: #f6e2b9;
 }
@@ -214,14 +225,19 @@ body.menu-minimizado .conteudo-principal {
 }
 
 .topo-titulo h1 {
-    margin: 0;
-    font-size: 40px;
+     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #f6e2b9;
 }
 
 .topo-titulo p {
-    margin: 6px 0 0;
-    font-size: 16px;
-    color: #d8d2ce;
+    color: #f6e2b9;
+    font-size: 14px;
+    margin-top: 4px;
 }
 
 .topo-acoes {
@@ -373,7 +389,8 @@ body.menu-minimizado .conteudo-principal {
 /* kpi */
 
 .kpi {
- padding: 20px;
+    position: relative;
+    padding: 20px;
     background-color: #232222;
     border: 1px solid #2a2624;
     border-radius: 10px;
@@ -389,6 +406,12 @@ body.menu-minimizado .conteudo-principal {
     line-height: 1.3;
     text-transform: uppercase;
 }
+
+.kpi .kpi-titulo {
+    padding: 0 12px;
+}
+
+
 
 .kpi-valor {
     margin: 0 0 10px;
@@ -436,6 +459,8 @@ body.menu-minimizado .conteudo-principal {
     text-align: center;
 }
 
+
+
 .legenda {
     display: flex;
     flex-wrap: wrap;
@@ -459,7 +484,7 @@ body.menu-minimizado .conteudo-principal {
 }
 
 .cor-deficit {
-    background-color: #d9d9d9;
+    background-color: #ff3030;
 }
 
 .cor-neutro {
@@ -467,12 +492,12 @@ body.menu-minimizado .conteudo-principal {
 }
 
 .cor-superavit {
-    background-color: #ff3030;
+    background-color: #ffc400;
 }
 
 .legenda-linha {
     width: 32px;
-    border-top: 3px dotted #ffd400;
+    border-top: 3px dotted #ffffff;
 }
 
 .grafico-area {
@@ -507,23 +532,24 @@ body.menu-minimizado .conteudo-principal {
 .rodape-dados {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 15px;
-    margin-top: 5px;
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .rodape-item {
     background-color: #232222;
-    border: 1px solid #292724;
+    border: 1px solid #2a2624;
     border-radius: 10px;
     padding: 14px 18px;
 }
 
 .rodape-item h4 {
+    margin: 0 0 8px;
     font-size: 13px;
-    margin-bottom: 8px;
 }
 
 .rodape-item p {
+    margin: 0;
     font-size: 12px;
     color: #f6e2b9;
     line-height: 1.5;
@@ -682,6 +708,73 @@ body.menu-minimizado .conteudo-principal {
 .kpi-cenario.trocando .kpi-valor,
 .kpi-cenario.trocando .kpi-detalhe {
     opacity: 0;
+}
+
+/* ---------- ÍCONE DE INFORMAÇÃO (tooltip) ---------- */
+
+.info-dica {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f6e2b9;
+    border-radius: 50%;
+    color: #f6e2b9;
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: none;
+    cursor: help;
+    z-index: 5;
+}
+
+.info-dica:hover,
+.info-dica:focus {
+    background-color: #ffc400;
+    border-color: #ffc400;
+    color: #181010;
+    outline: none;
+}
+
+.info-dica::after {
+    content: attr(data-dica);
+    position: absolute;
+    top: 24px;
+    right: 0;
+    width: 200px;
+    padding: 10px 12px;
+    background-color: #181010;
+    border: 1px solid #ffc400;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: left;
+    white-space: pre-line;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.grafico-caixa {
+    position: relative;
+}
+
+.grafico-titulo {
+    padding: 0 24px;
+}
+
+.info-dica:hover::after,
+.info-dica:focus::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* ---------- Animação do mini gráfico: revela da esquerda para a direita ---------- */

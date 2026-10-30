@@ -45,7 +45,7 @@
             <div class="usuario-linha">
                 <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Steven Spielberg</p>
+                    <p class="usuario-nome">Rafael</p>
                     <p class="usuario-cargo">Analista Financeiro</p>
                 </div>
                 <span class="usuario-seta">▾</span>
@@ -60,7 +60,7 @@
 
         <div class="topo-dashboard">
             <div class="topo-titulo">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Financeira</h1>
                 <p>Visão geral dos dados e análises para o seu novo projeto.</p>
             </div>
 
@@ -89,30 +89,35 @@
             <div class="indicadores-lista">
 
                 <div class="kpi">
+                    <span class="info-dica" tabindex="0" data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
                     <p class="kpi-titulo">Risco histórico</p>
                     <p class="kpi-valor">Baixo</p>
                     <p class="kpi-detalhe">68% dos filmes similares tiveram retorno positivo</p>
                 </div>
 
                 <div class="kpi">
+                    <span class="info-dica" tabindex="0" data-dica="Quanto os filmes semelhantes devolveram para cada US$ 1 investido (valor do meio da lista).&#10;Fórmula: mediana de (receita ÷ orçamento).&#10;Comparação: mediana geral do gênero.">i</span>
                     <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
                     <p class="kpi-valor">3x</p>
                     <p class="kpi-detalhe">+1X comparado com a mediana geral do gênero</p>
                 </div>
 
                 <div class="kpi">
+                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
                     <p class="kpi-titulo">Receita mediana no recorte analisado</p>
                     <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 50 mi</p>
                     <p class="kpi-detalhe">+US$10mi acima da receita desejada (US$40 mi)</p>
                 </div>
 
                 <div class="kpi">
+                    <span class="info-dica" tabindex="0" data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
                     <p class="kpi-titulo">Seu Orçamento</p>
                     <p class="kpi-valor">US$ 20 mi</p>
                     <p class="kpi-detalhe">Aumento no orçamento não impacta significativamente o sucesso(3%)</p>
                 </div>
 
                 <div class="kpi kpi-cenario pior" id="kpiCenario">
+                    <span class="info-dica" id="kpiCenarioInfo" tabindex="0" data-dica="Resultado que só 10% dos filmes semelhantes não alcançaram.&#10;Fórmula: percentil 10 (P10) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
                     <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no pior cenário (P10)</p>
                     <p class="kpi-valor" id="kpiCenarioValor">50%</p>
                     <p class="kpi-detalhe" id="kpiCenarioDetalhe">↓ 60% abaixo do ROI mediano nesse gênero</p>
@@ -136,6 +141,7 @@
 
         <div class="graficos">
             <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
+                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e ROI no vertical. O ponto branco é o seu projeto.&#10;Correlação: vai de -1 a 1. O valor -0,45 indica que, nesses filmes, orçamento maior tende a vir com ROI menor.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
                 <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
 
                 <div class="grafico-area">
@@ -157,6 +163,7 @@
             </div>
 
             <div class="grafico-caixa">
+                <span class="info-dica" tabindex="0" data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
                 <h3 class="grafico-titulo">Resultado dos filmes semelhantes</h3>
 
                 <div class="grafico-area">
@@ -169,6 +176,7 @@
 
         <div class="graficos">
             <div class="grafico-caixa">
+               <span class="info-dica" tabindex="0" data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
                 <h3 class="grafico-titulo">% de sucesso por faixa de orçamento</h3>
 
                 <div class="legenda">
@@ -189,6 +197,7 @@
 
         <div class="graficos">
             <div class="grafico-caixa">
+                <span class="info-dica" tabindex="0" data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
                 <h3 class="grafico-titulo">ROI mediano do "gênero" por período</h3>
 
                 <div class="legenda">
@@ -330,10 +339,10 @@
         data: {
             labels: faixasOrcamento,
             datasets: [
-                { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
-                { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
-                { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-                { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
+                { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffffff', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
+{ label: 'Déficit', data: deficit, backgroundColor: '#ff3030' },
+{ label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
+{ label: 'Superávit', data: superavit, backgroundColor: '#ffc400', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false, datalabels: { color: '#2a2624' } }
             ]
         },
         options: {
@@ -463,40 +472,83 @@
         graficoRoiPeriodo.update();
     });
 
-    // ---------- Resultado dos filmes semelhantes (rosca) ----------
-    let resultados = [14, 39, 47]; // déficit, neutro, superávit
+    // ---------- Faixas de retorno financeiro (rosca) ----------
+let faixasRetorno = ['ROI < 1', 'ROI < 1,5', 'ROI < 2', 'ROI > 2'];
+let resultados = [32, 18, 17, 33]; // % dos filmes em cada faixa (valores de exemplo)
 
-    const ctxRosca = document.getElementById('graficoRosca');
+// só a primeira faixa (ROI < 1) é prejuízo; as outras três somam o retorno positivo
+let retornoPositivo = resultados[1] + resultados[2] + resultados[3];
 
-    new Chart(ctxRosca, {
-        type: 'doughnut',
-        data: {
-            labels: ['Déficit', 'Neutro', 'Superávit'],
-            datasets: [{
-                data: resultados,
-                backgroundColor: ['#f5c207', '#fff', '#FF0000'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '60%',
-            plugins: {
-                legend: {
-                    position: 'right',
-                    labels: { color: '#dce6f2', usePointStyle: true }
+// escreve o texto no centro da rosca
+let textoCentralRosca = {
+    id: 'textoCentralRosca',
+    afterDraw: function (grafico) {
+        let ctx = grafico.ctx;
+        let area = grafico.chartArea;
+        let centroX = (area.left + area.right) / 2;
+        let centroY = (area.top + area.bottom) / 2;
+
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 34px Arial';
+        ctx.fillText(retornoPositivo + '%', centroX, centroY - 14);
+
+        ctx.fillStyle = '#d8d2ce';
+        ctx.font = '13px Arial';
+        ctx.fillText('com retorno', centroX, centroY + 12);
+        ctx.fillText('positivo', centroX, centroY + 28);
+
+        ctx.restore();
+    }
+};
+
+const ctxRosca = document.getElementById('graficoRosca');
+
+new Chart(ctxRosca, {
+    type: 'doughnut',
+    plugins: [ChartDataLabels, textoCentralRosca],
+    data: {
+        labels: faixasRetorno,
+        datasets: [{
+            data: resultados,
+            backgroundColor: ['#ff3030', '#fff0a8', '#ffdd55', '#ffc400'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: { color: '#dce6f2', usePointStyle: true }
+            },
+            datalabels: {
+                font: { weight: 'bold', size: 12 },
+                color: function (contexto) {
+                    if (contexto.dataIndex === 0) {
+                        return '#ffffff';
+                    }
+                    return '#2a2624';
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.label + ': ' + context.raw + '%';
-                        }
+                formatter: function (valor) {
+                    return valor + '%';
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (contexto) {
+                        return contexto.label + ': ' + contexto.raw + '% dos filmes';
                     }
                 }
             }
         }
-    });
+    }
+});
 
     // ---------- Orçamento x ROI (dispersão) ----------
     let filmesSemelhantes = [
@@ -570,20 +622,22 @@
 
     // ---------- KPI de cenário: alternar pior / melhor ----------
     let cenarios = {
-        pior: {
-            titulo: 'ROI no pior cenário (P10)',
-            valor: '50%',
-            detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
-            cor: '#ff3030',
-            corFundo: 'rgba(255, 48, 48, 0.18)'
-        },
-        melhor: {
-            titulo: 'ROI no melhor cenário (P90)',
-            valor: '250%',                                       
-            detalhe: '↑ 120% acima do ROI mediano nesse gênero', 
-            cor: '#2ecc71',
-            corFundo: 'rgba(46, 204, 113, 0.18)'
-        }
+       pior: {
+    titulo: 'ROI no pior cenário (P10)',
+    valor: '50%',
+    detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
+    dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.',
+    cor: '#ff3030',
+    corFundo: 'rgba(255, 48, 48, 0.18)'
+},
+melhor: {
+    titulo: 'ROI no melhor cenário (P90)',
+    valor: '250%',
+    detalhe: '↑ 120% acima do ROI mediano nesse gênero',
+    dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.',
+    cor: '#2ecc71',
+    corFundo: 'rgba(46, 204, 113, 0.18)'
+}
     };
 
     let cenarioAtual = 'pior';
@@ -672,6 +726,7 @@
         document.getElementById('kpiCenarioTitulo').textContent = dados.titulo;
         document.getElementById('kpiCenarioValor').textContent = dados.valor;
         document.getElementById('kpiCenarioDetalhe').textContent = dados.detalhe;
+        document.getElementById('kpiCenarioInfo').setAttribute('data-dica', dados.dica);
 
         kpiCenario.classList.remove('pior', 'melhor');
         kpiCenario.classList.add(chave);

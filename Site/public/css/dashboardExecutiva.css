@@ -51,26 +51,26 @@ body {
 
 .botao-menu {
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
     border: none;
-    /* border-radius: 6px; */
     cursor: pointer;
+}
+
+.botao-menu img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease;
 }
 
 .botao-menu:hover {
     border-color: #f5c207;
 }
 
-.botao-menu img {
-    width: 14px;
-    height: 14px;
-    transition: transform 0.2s ease;
-}
 
 .menu-itens {
     display: flex;
@@ -141,10 +141,13 @@ body {
 }
 
 .usuario-nome {
-    font-size: 13px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .usuario-cargo {
+    margin: 2px 0 0;
     font-size: 11px;
     color: #f6e2b9;
 }
@@ -219,13 +222,18 @@ body.menu-minimizado .conteudo-principal {
 }
 
 .topo-titulo h1 {
-    font-size: 28px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
     font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #f6e2b9;
 }
 
 .topo-titulo p {
     color: #f6e2b9;
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 4px;
 }
 
@@ -329,6 +337,7 @@ body.menu-minimizado .conteudo-principal {
 .box-kpi2,
 .box-kpi3,
 .box-kpi4 {
+    position: relative;
     background-color: #232222;
     border: 1px solid #2a2624;
     border-radius: 10px;
@@ -340,6 +349,7 @@ body.menu-minimizado .conteudo-principal {
     color: #f6e2b9;
     font-size: 12px;
     margin-bottom: 12px;
+    padding: 0 12px;
     text-align: center;
 }
 
@@ -516,8 +526,8 @@ body.menu-minimizado .conteudo-principal {
 .rodape-dados {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 15px;
-    margin-top: 5px;
+    gap: 16px;
+    margin-top: 16px;
 }
 
 .rodape-item {
@@ -528,14 +538,85 @@ body.menu-minimizado .conteudo-principal {
 }
 
 .rodape-item h4 {
+   margin: 0 0 8px;
     font-size: 13px;
-    margin-bottom: 8px;
 }
 
 .rodape-item p {
+    margin: 0;
     font-size: 12px;
     color: #f6e2b9;
     line-height: 1.5;
+}
+
+/* ---------- ÍCONE DE INFORMAÇÃO (tooltip) ---------- */
+
+.info-dica {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f6e2b9;
+    border-radius: 50%;
+    color: #f6e2b9;
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: none;
+    cursor: help;
+    z-index: 5;
+}
+
+.info-dica:hover,
+.info-dica:focus {
+    background-color: #ffc400;
+    border-color: #ffc400;
+    color: #181010;
+    outline: none;
+}
+
+.info-dica::after {
+    content: attr(data-dica);
+    position: absolute;
+    top: 24px;
+    right: 0;
+    width: 200px;
+    padding: 10px 12px;
+    background-color: #181010;
+    border: 1px solid #ffc400;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: left;
+    white-space: pre-line;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.box-grafico1,
+.box-grafico2,
+.box-linha,
+.box-roi {
+    position: relative;
+}
+
+.titulo-grafico {
+    padding: 0 24px;
+}
+
+.info-dica:hover::after,
+.info-dica:focus::after {
+    opacity: 1;
+    visibility: visible;
 }
 /* ---------- IMPRESSÃO / PDF ---------- */
 
