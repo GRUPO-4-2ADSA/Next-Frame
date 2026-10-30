@@ -141,8 +141,8 @@
 
         <div class="graficos">
             <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
-                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e ROI no vertical. O ponto branco é o seu projeto.&#10;Correlação: vai de -1 a 1. Valores negativos indicam que, nesses filmes, orçamento maior tende a vir com ROI menor.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
-                <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
+                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
+                <h3 class="grafico-titulo">Orçamento x Receita</h3>
 
                 <div class="grafico-area">
                     <canvas id="graficoDispersao"></canvas>
@@ -151,8 +151,8 @@
                 <div class="grafico-cards">
                     <div class="grafico-card">
                         <p class="grafico-card-titulo">Correlação</p>
-                        <p class="grafico-card-valor" id="valorCorrelacao">-0,45</p>
-                        <p class="grafico-card-texto">Orçamento x ROI</p>
+                        <p class="grafico-card-valor">0,70</p>
+                        <p class="grafico-card-texto">Orçamento x receita</p>
                     </div>
 
                     <div class="grafico-card">
@@ -551,103 +551,80 @@ new Chart(ctxRosca, {
 });
 
     // ---------- Orçamento x ROI (dispersão) ----------
-    let totalFilmes = 87;
-
-// dados de exemplo: orçamento maior tende a ter ROI menor (até vir do banco)
-let filmesSemelhantes = [];
-for (let i = 0; i < totalFilmes; i++) {
-    let orcamento = 8 + (i * 7) % 31;
-    let variacao = ((i * 37) % 90) - 45;
-    let roi = Math.max(5, Math.round(190 - orcamento * 1.5 + variacao));
-    filmesSemelhantes.push({ x: orcamento, y: roi });
+    let filmesBase = [];
+for (let i = 0; i < 80; i++) {
+    let receita = 10 + (i * 11) % 36;
+    let variacao = ((i * 29) % 18) - 9;
+    let orcamento = Math.max(3, Math.round(receita * 0.9 + variacao));
+    filmesBase.push({ x: receita, y: orcamento, filme: 'Filme ' + (i + 1) });
 }
 
-function calcularCorrelacao(pontos) {
-    let total = pontos.length;
-    let somaX = 0;
-    let somaY = 0;
+let filmesOutlier = [
+    { x: 8, y: 85, filme: 'Filme 81' },
+    { x: 21, y: 63, filme: 'Filme 82' },
+    { x: 33, y: 65, filme: 'Filme 83' },
+    { x: 47, y: 12, filme: 'Filme 84' },
+    { x: 58, y: 76, filme: 'Filme 85' },
+    { x: 72, y: 38, filme: 'Filme 86' },
+    { x: 87, y: 90, filme: 'Filme 87' }
+];
 
-    for (let i = 0; i < total; i++) {
-        somaX += pontos[i].x;
-        somaY += pontos[i].y;
-    }
+let seuProjeto = [{ x: 25, y: 20, filme: 'Seu projeto' }];
 
-    let mediaX = somaX / total;
-    let mediaY = somaY / total;
-    let soma = 0;
-    let varianciaX = 0;
-    let varianciaY = 0;
+let corGrade = 'rgba(246, 226, 185, 0.15)';
 
-    for (let i = 0; i < total; i++) {
-        soma += (pontos[i].x - mediaX) * (pontos[i].y - mediaY);
-        varianciaX += (pontos[i].x - mediaX) * (pontos[i].x - mediaX);
-        varianciaY += (pontos[i].y - mediaY) * (pontos[i].y - mediaY);
-    }
+const ctxDispersao = document.getElementById('graficoDispersao');
 
-    return soma / Math.sqrt(varianciaX * varianciaY);
-}
-
-document.getElementById('valorCorrelacao').textContent = calcularCorrelacao(filmesSemelhantes).toFixed(2).replace('.', ',');
-document.getElementById('valorTotalFilmes').textContent = totalFilmes;
-    let seuProjeto = [{ x: 20, y: 120 }];
-
-    const ctxDispersao = document.getElementById('graficoDispersao');
-
-    new Chart(ctxDispersao, {
-        type: 'scatter',
-        data: {
-            datasets: [
-                {
-                    label: 'Filmes semelhantes',
-                    data: filmesSemelhantes,
-                    backgroundColor: '#FF0000',
-                    borderColor: '#FF0000',
-                    pointRadius: 5
-                },
-                {
-                    label: 'Seu projeto',
-                    data: seuProjeto,
-                    backgroundColor: '#ffffff',
-                    borderColor: '#ffffff',
-                    pointRadius: 5
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: { usePointStyle: true, color: '#fff' }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (contexto) {
-                            return contexto.dataset.label + ': US$ ' + contexto.parsed.x + ' mi, ROI de ' + contexto.parsed.y + '%';
-                        }
+new Chart(ctxDispersao, {
+    type: 'scatter',
+    data: {
+        datasets: [
+            { label: 'Base', data: filmesBase, backgroundColor: '#FF0000', borderColor: '#FF0000', pointRadius: 5 },
+            { label: 'Outlier', data: filmesOutlier, backgroundColor: '#f5c207', borderColor: '#f5c207', pointRadius: 5 },
+            { label: 'Seu Projeto', data: seuProjeto, backgroundColor: '#ffffff', borderColor: '#ffffff', pointRadius: 5 }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { usePointStyle: true, color: '#fff' }
+            },
+            tooltip: {
+                callbacks: {
+                    title: function (itens) {
+                        return itens[0].raw.filme || 'Filme sem nome';
+                    },
+                    label: function (contexto) {
+                        let ponto = contexto.raw;
+                        return [
+                            'Receita: US$ ' + ponto.x + ' mi',
+                            'Orçamento: US$ ' + ponto.y + ' mi'
+                        ];
                     }
                 }
+            }
+        },
+        scales: {
+            x: {
+                min: 0,
+                max: 100,
+                title: { display: true, text: 'RECEITA (US$ mi)', color: '#ffffff' },
+                ticks: { color: '#b8c9da' },
+                grid: { color: corGrade }
             },
-            scales: {
-                x: {
-                    min: 0,
-                    title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#ffffff' },
-                    ticks: { color: '#b8c9da' },
-                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
-                },
-                y: {
-                    min: 0,
-                    title: { display: true, text: 'ROI', color: '#dce6f2' },
-                    ticks: {
-                        color: '#b8c9da',
-                        callback: function (valor) { return valor + '%'; }
-                    },
-                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
-                }
+            y: {
+                min: 0,
+                max: 100,
+                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#dce6f2' },
+                ticks: { color: '#b8c9da' },
+                grid: { color: corGrade }
             }
         }
-    });
+    }
+});
 
     // ---------- KPI de cenário: alternar pior / melhor ----------
     let cenarios = {
