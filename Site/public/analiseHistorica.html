@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Análise Histórica</title>
-    <style>
-        .btn-operador.ativo {
-            outline: 3px solid #ffc400;
-            outline-offset: 2px;
-        }
-    </style>
 </head>
 
 <body>
@@ -27,7 +21,6 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portifólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -105,7 +98,8 @@
                             RECEITA
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="receita" placeholder="Ex: 50 milhões">
+                            <input type="text" name="receita" inputmode="numeric" pattern="[0-9]*"
+                                placeholder="Ex: 50000000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -127,7 +121,8 @@
                             ORÇAMENTO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="orcamento" placeholder="Ex: 20 milhões">
+                            <input type="text" name="orcamento" inputmode="numeric" pattern="[0-9]*"
+                                placeholder="Ex: 20000000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -149,7 +144,25 @@
                             GÊNERO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="genero" placeholder="Ex: Drama">
+                            <select name="genero">
+                                <option value="">Selecione um gênero</option>
+                                <option value="Action">Ação</option>
+                                <option value="Animation">Animação</option>
+                                <option value="Adventure">Aventura</option>
+                                <option value="Comedy">Comédia</option>
+                                <option value="Crime">Crime</option>
+                                <option value="Documentary">Documentário</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Family">Família</option>
+                                <option value="Fantasy">Fantasia</option>
+                                <option value="Science Fiction">Ficção Científica</option>
+                                <option value="War">Guerra</option>
+                                <option value="Music">Musical</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Superhero">Super-herói</option>
+                                <option value="Thriller">Suspense</option>
+                                <option value="Horror">Terror</option>
+                            </select>
                         </div>
                         <div class="grupo-operadores sem-operador"></div>
                     </div>
@@ -160,10 +173,6 @@
                     <button type="submit" class="btn-pesquisar">
                         <img src="assets/img/icon_lupa_branca.png">
                         PESQUISAR
-                    </button>
-                    <button type="button" class="btn-adicionar-filtro">
-                        <img src="assets/img/icon_mais.png">
-                        ADICIONAR FILTRO
                     </button>
                 </div>
 
@@ -197,6 +206,13 @@
             var formulario = document.getElementById("formAnaliseHistorica");
             var chaveFiltros = "filtrosAnaliseHistorica";
 
+            // Permite apenas algarismos em receita e orçamento, inclusive ao colar valores.
+            formulario.querySelectorAll('input[name="receita"], input[name="orcamento"]').forEach(function (campo) {
+                campo.addEventListener("input", function () {
+                    campo.value = campo.value.replace(/[^0-9]/g, "");
+                });
+            });
+
             // Marca o operador escolhido em cada filtro.
             document.querySelectorAll(".grupo-operadores:not(.sem-operador)").forEach(function (grupo) {
                 grupo.querySelectorAll(".btn-operador").forEach(function (botao) {
@@ -215,7 +231,7 @@
                 try {
                     var filtros = JSON.parse(filtrosSalvos);
                     formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
-                        var campo = linha.querySelector("input[name]");
+                        var campo = linha.querySelector("input[name], select[name]");
                         var checkbox = linha.querySelector('input[type="checkbox"]');
                         var filtro = filtros[campo.name];
 
@@ -245,7 +261,7 @@
 
                 formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
                     var checkbox = linha.querySelector('input[type="checkbox"]');
-                    var campo = linha.querySelector("input[name]");
+                    var campo = linha.querySelector("input[name], select[name]");
                     if (!checkbox.checked || !campo.value.trim()) return;
 
                     var botaoAtivo = linha.querySelector(".btn-operador.ativo");

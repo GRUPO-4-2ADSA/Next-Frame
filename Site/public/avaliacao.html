@@ -21,7 +21,6 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a class="ativo" href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portifólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -135,11 +134,11 @@
             return;
         }
 
-        let cargo = sessionStorage.getItem("CARGO");
+        let cargo = sessionStorage.getItem("CARGO_USUARIO");
 
-        if (cargo === "Produtor executivo") {
+        if (cargo === "Produtor Executivo") {
             window.location.href = "dashboardExecutiva.html";
-        } else if (cargo === "Produtor financeiro") {
+        } else if (cargo === "Produtor Financeiro") {
             window.location.href = "dashboardFinanceira.html";
         } else {
             alert("Cargo não identificado.");

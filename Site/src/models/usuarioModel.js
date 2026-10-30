@@ -29,7 +29,22 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
+function verificarCodEmpresa(codEmpresa) {
+    var instrucaoSql = `
+        SELECT EXISTS (
+            SELECT 1
+            FROM Empresa
+            WHERE cod_empresa = '${codEmpresa}'
+        ) AS existe,
+        (
+        SELECT id_empresa
+        FROM Empresa
+        WHERE cod_empresa = '${codEmpresa}'
+        ) AS id_empresa;
+    `;
 
+    return database.executar(instrucaoSql);
+}
 
 function listar(idEmpresa) {
     var instrucaoSql = `
@@ -54,8 +69,6 @@ function listar(idEmpresa) {
 
     return database.executar(instrucaoSql, [idEmpresa]);
 }
-
-
 
 function buscarPorId(id) {
     var instrucaoSql = `
@@ -137,6 +150,7 @@ function listarEmpresas() {
 
 module.exports = {
     cadastrar,
+    verificarCodEmpresa,
     autenticar,
     listar,
     buscarPorId,
