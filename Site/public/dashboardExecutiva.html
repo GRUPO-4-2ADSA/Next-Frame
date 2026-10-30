@@ -7,6 +7,7 @@
     <title>Dashboard Executiva</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="stylesheet" href="css/dashboardExecutiva.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
@@ -51,8 +52,8 @@
             <div class="usuario-linha">
                 <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Steven Spielberg</p>
-                    <p class="usuario-cargo">Produtor Executivo</p>
+                    <p class="usuario-nome">Mariana</p>
+                    <p class="usuario-cargo">Produtora Executiva</p>
                 </div>
                 <span class="usuario-seta">▾</span>
             </div>
@@ -94,24 +95,28 @@
 
             <div class="container-kpi">
                 <div class="box-kpi1">
+                    <span class="info-dica" tabindex="0" data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO</h6>
                     <h5 class="informacao-kpi">▲ BAIXO</h5>
                     <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO</h6>
                 </div>
 
                 <div class="box-kpi2">
+                    <span class="info-dica" tabindex="0" data-dica="Valor do meio do retorno dos filmes semelhantes.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;Comparação: mediana do ROI do gênero.">i</span>
                     <h6 class="titulo-kpi">ROI MEDIANO</h6>
                     <h5 class="informacao-kpi">▲ 208%</h5>
                     <h6 class="descricao-kpi">10% A MAIS COMPARADO COM A MEDIANA DO GÊNERO</h6>
                 </div>
 
                 <div class="box-kpi3">
+                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA</h6>
                     <h5 class="informacao-kpi">▲ US$ 30 mi</h5>
                     <h6 class="descricao-kpi">US$ 5 MI ACIMA DA RECEITA DESEJADA (US$25MI)</h6>
                 </div>
 
                 <div class="box-kpi4">
+                    <span class="info-dica" tabindex="0" data-dica="Posição do gênero no ranking de interesse de busca entre os gêneros analisados.&#10;Comparação: posição nos 12 meses anteriores.&#10;Base: dados de interesse de busca (Google Trends).">i</span>
                     <h6 class="titulo-kpi">INTERESSE DO PÚBLICO</h6>
                     <h5 class="informacao-kpi">▲ 3°/10</h5>
                     <h6 class="descricao-kpi">SUBIU UMA POSIÇÃO EM RELAÇÃO AO ÚLTIMO ANO - 12 MESES</h6>
@@ -123,6 +128,7 @@
         <div class="grafico">
             <div class="container-grafico">
                 <div class="box-grafico1">
+                    <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
                     <h3 class="titulo-grafico">Orçamento x Receita</h3>
 
                     <div class="area-grafico">
@@ -144,6 +150,7 @@
                 </div>
 
                 <div class="box-grafico2">
+                    <span class="info-dica" tabindex="0" data-dica="Divisão dos projetos da faixa de orçamento buscada em déficit, neutro e superávit.&#10;Fórmula: projetos da categoria ÷ total de projetos da faixa.">i</span>
                     <h3 class="titulo-grafico">Desempenho financeiro dos projetos na faixa buscada</h3>
 
                     <div class="area-grafico-pizza">
@@ -157,6 +164,7 @@
         <div class="grafico">
             <div class="container-linhas">
                 <div class="box-linha">
+                    <span class="info-dica" tabindex="0" data-dica="Interesse de busca por gênero a cada trimestre.&#10;A escala vai de 0 a 100, sendo 100 o pico de busca no período.&#10;Base: dados de interesse de busca (Google Trends).">i</span>
                     <h3 class="titulo-grafico">INTERESSE DO PÚBLICO - ANO</h3>
                     <div class="area-linha">
                         <canvas id="graficoInteresseAno"></canvas>
@@ -164,6 +172,7 @@
                 </div>
 
                 <div class="box-roi">
+                    <span class="info-dica" tabindex="0" data-dica="ROI mediano de cada gênero.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;O gênero buscado (Terror) aparece em destaque.">i</span>
                     <h3 class="titulo-grafico">ROI POR GÊNERO</h3>
                     <div class="area-roi">
                         <canvas id="graficoRoiGenero"></canvas>
@@ -171,6 +180,7 @@
                 </div>
 
                 <div class="box-linha">
+                    <span class="info-dica" tabindex="0" data-dica="Interesse de busca pelo gênero Terror mês a mês, comparando os últimos 4 anos.&#10;A escala vai de 0 a 100, sendo 100 o pico de busca no período.&#10;Mostra a sazonalidade do gênero.">i</span>
                     <h3 class="titulo-grafico">INTERESSE DO PÚBLICO EM TERROR - MESES</h3>
                     <div class="area-linha">
                         <canvas id="graficoInteresseMeses"></canvas>
@@ -363,15 +373,16 @@
 
             // ---------- Rosca: desempenho financeiro ----------
             new Chart(document.getElementById('graficoPizza'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Défict', 'Neutro', 'Superávit'],
-                    datasets: [{
-                        data: [15, 25, 60],
-                        backgroundColor: ['#f5c207', '#fff', '#FF0000'],
-                        borderWidth: 0
-                    }]
-                },
+    type: 'doughnut',
+    plugins: [ChartDataLabels],
+    data: {
+        labels: ['Déficit', 'Neutro', 'Superávit'],
+        datasets: [{
+            data: [15, 25, 60],
+            backgroundColor: ['#ff3030', '#7d7d7d', '#ffc400'],
+            borderWidth: 0
+        }]
+    },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -380,7 +391,19 @@
                         legend: {
                             position: 'right',
                             labels: { color: '#dce6f2', usePointStyle: true }
-                        },
+                        }, datalabels: {
+    font: { weight: 'bold', size: 14 },
+    color: function (contexto) {
+        if (contexto.dataIndex === 2) {
+            return '#2a2624';
+        }
+        return '#ffffff';
+    },
+    formatter: function (valor, contexto) {
+        let total = contexto.dataset.data.reduce((soma, n) => soma + n, 0);
+        return Math.round(valor / total * 100) + '%';
+    }
+},
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
