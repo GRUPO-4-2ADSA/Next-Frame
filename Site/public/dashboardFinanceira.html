@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="css/dashboard-financeira.css">
     <link rel="stylesheet" href="css/footer.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
     <title>Dashboard Financeira</title>
 </head>
@@ -40,7 +41,6 @@
             </a>
         </nav>
 
-
         <div class="menu-usuario">
             <div class="usuario-linha">
                 <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
@@ -69,7 +69,7 @@
                 <a class="botao-acao" href="avaliacao.html">Nova Avaliação</a>
                 <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
 
-                                <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
+                <button type="button" class="filtros-aplicados" id="filtrosBotao">
                     <div class="filtros-texto">
                         <span class="filtros-titulo">Filtros aplicados</span>
                         <span class="filtros-ver">ver filtros</span>
@@ -97,7 +97,7 @@
                 <div class="kpi">
                     <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
                     <p class="kpi-valor">3x</p>
-                    <p class="kpi-detalhe">1X a mais comparado com a mediana geral do gênero</p>
+                    <p class="kpi-detalhe">+1X comparado com a mediana geral do gênero</p>
                 </div>
 
                 <div class="kpi">
@@ -112,18 +112,29 @@
                     <p class="kpi-detalhe">Aumento no orçamento não impacta significativamente o sucesso(3%)</p>
                 </div>
 
-                <div class="kpi">
-                    <p class="kpi-titulo">ROI no pior cenário (P10)</p>
-                    <p class="kpi-valor">50%</p>
-                    <p class="kpi-detalhe">60% abaixo do ROI mediano nesse gênero</p>
+                <div class="kpi kpi-cenario pior" id="kpiCenario">
+                    <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no pior cenário (P10)</p>
+                    <p class="kpi-valor" id="kpiCenarioValor">50%</p>
+                    <p class="kpi-detalhe" id="kpiCenarioDetalhe">↓ 60% abaixo do ROI mediano nesse gênero</p>
+
+                    <div class="kpi-mini">
+                        <canvas id="kpiCenarioGrafico"></canvas>
+                    </div>
+
+                    <div class="kpi-cenario-botoes" role="group" aria-label="Alternar cenário">
+                        <button type="button" class="kpi-cenario-btn pior ativo" data-cenario="pior">Pior
+                            cenário</button>
+                        <button type="button" class="kpi-cenario-btn melhor" data-cenario="melhor">Melhor
+                            cenário</button>
+                    </div>
                 </div>
+
             </div>
         </div>
 
+        <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
 
-          <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
-
-         <div class="graficos">
+        <div class="graficos">
             <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
                 <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
 
@@ -154,7 +165,7 @@
             </div>
         </div>
 
-         <!-- % de sucesso por faixa de orçamento -->
+        <!-- % de sucesso por faixa de orçamento -->
 
         <div class="graficos">
             <div class="grafico-caixa">
@@ -164,7 +175,8 @@
                     <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
                     <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
                     <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
-                    <span class="legenda-item"><span class="legenda-linha"></span>Taxa segura para o perfil da empresa</span>
+                    <span class="legenda-item"><span class="legenda-linha"></span>Taxa segura para o perfil da
+                        empresa</span>
                 </div>
 
                 <div class="grafico-area">
@@ -200,7 +212,7 @@
             </div>
         </div>
 
-          <!-- Rodapé -->
+        <!-- Rodapé -->
         <div class="rodape-dados">
             <div class="rodape-item">
                 <h4>Dados da pesquisa</h4>
@@ -225,9 +237,9 @@
                     que ajudam a avaliar novas produções.
                 </p>
 
-                <img src=" assets/img/logo_footer.png">
+                <img src="assets/img/logo_footer.png">
 
-                <h2>Acompanhe nossas redes <br> <img class="icon-redes" src=" assets/img/redes_socias.png"></h2>
+                <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
             </div>
 
             <div class="container creditos">
@@ -239,306 +251,451 @@
 
     </main>
 </body>
+
 </html>
+
 <script>
-        // ---------- Menu lateral: expandir / minimizar ----------
-        const botaoMenu = document.getElementById('botaoAlternarMenu');
+    // ---------- Menu lateral: expandir / minimizar ----------
+    let botaoMenu = document.getElementById('botaoAlternarMenu');
 
-        function alternarMenu() {
-            document.body.classList.toggle('menu-minimizado');
+    function alternarMenu() {
+        document.body.classList.toggle('menu-minimizado');
 
-            if (document.body.classList.contains('menu-minimizado')) {
-                botaoMenu.setAttribute('aria-label', 'Expandir menu');
-            } else {
-                botaoMenu.setAttribute('aria-label', 'Minimizar menu');
-            }
+        if (document.body.classList.contains('menu-minimizado')) {
+            botaoMenu.setAttribute('aria-label', 'Expandir menu');
+        } else {
+            botaoMenu.setAttribute('aria-label', 'Minimizar menu');
         }
-
-        botaoMenu.addEventListener('click', alternarMenu);
-
-        // ---------- Botão Baixar: gera o PDF em página única ----------
-        const botaoBaixar = document.getElementById('botaoBaixar');
-
-        function baixarPdf() {
-            const area = document.querySelector('.conteudo-principal');
-
-            // mede o conteúdo que vai para o PDF
-            const largura = Math.ceil(area.offsetWidth);
-            const altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
-
-            // define o tamanho da página como o tamanho do conteúdo
-            const estilo = document.createElement('style');
-            estilo.id = 'estiloPaginaPdf';
-            estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
-            document.head.appendChild(estilo);
-
-            window.print();
-        }
-
-        botaoBaixar.addEventListener('click', baixarPdf);
-
-        // depois de imprimir, remove o tamanho temporário
-        window.addEventListener('afterprint', function () {
-            const estilo = document.getElementById('estiloPaginaPdf');
-            if (estilo) estilo.remove();
-        });
-
-            function alternarFiltros() {
-        let botao = document.getElementById('filtrosBotao');
-        botao.classList.toggle('aberto');
     }
 
-        // ---------- Gráficos ----------
-        Chart.defaults.color = '#d8d2ce';
+    botaoMenu.addEventListener('click', alternarMenu);
 
-        // % de sucesso por faixa de orçamento
-        const faixasOrcamento = [
-            ['US$ 12 mi', '(-40%)'],
-            ['US$ 16 mi', '(-20%)'],
-            ['US$ 20 mi', '(sua faixa)'],
-            ['US$ 24 mi', '(+20%)'],
-            ['US$ 28 mi', '(+40%)']
-        ];
-        const deficit = [10, 15, 14, 16, 15];
-        const neutro = [60, 50, 39, 34, 36];
-        const superavit = [30, 35, 47, 50, 49];
-        const taxaSegura = [40, 40, 40, 40, 40];
+    // ---------- Botão Baixar: gera o PDF em página única ----------
+    let botaoBaixar = document.getElementById('botaoBaixar');
 
-        new Chart(document.getElementById('graficoEmpilhado'), {
-            type: 'bar',
-            plugins: [ChartDataLabels],
-            data: {
-                labels: faixasOrcamento,
-                datasets: [
-                    { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
-                    { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
-                    { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-                    { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: {
-                        stacked: true,
-                        min: 0,
-                        max: 100,
-                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
-                        ticks: {
-                            stepSize: 20,
-                            callback: function (valor) {
-                                return valor + '%';
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    datalabels: {
-                        color: 'white',
-                        font: { weight: 'bold', size: 14 },
-                        formatter: function (valor) {
+    function baixarPdf() {
+        let area = document.querySelector('.conteudo-principal');
+
+        // mede o conteúdo que vai para o PDF
+        let largura = Math.ceil(area.offsetWidth);
+        let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+
+        // define o tamanho da página como o tamanho do conteúdo
+        let estilo = document.createElement('style');
+        estilo.id = 'estiloPaginaPdf';
+        estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
+        document.head.appendChild(estilo);
+
+        window.print();
+    }
+
+    botaoBaixar.addEventListener('click', baixarPdf);
+
+    // depois de imprimir, remove o tamanho temporário
+    window.addEventListener('afterprint', function () {
+        let estilo = document.getElementById('estiloPaginaPdf');
+        if (estilo) estilo.remove();
+    });
+
+    // ---------- Filtros aplicados ----------
+    let botaoFiltros = document.getElementById('filtrosBotao');
+
+    function alternarFiltros() {
+        botaoFiltros.classList.toggle('aberto');
+    }
+
+    botaoFiltros.addEventListener('click', alternarFiltros);
+
+    // ---------- Gráficos ----------
+    Chart.defaults.color = '#d8d2ce';
+
+    // % de sucesso por faixa de orçamento
+    let faixasOrcamento = [
+        ['US$ 12 mi', '(-40%)'],
+        ['US$ 16 mi', '(-20%)'],
+        ['US$ 20 mi', '(sua faixa)'],
+        ['US$ 24 mi', '(+20%)'],
+        ['US$ 28 mi', '(+40%)']
+    ];
+    let deficit = [10, 15, 14, 16, 15];
+    let neutro = [60, 50, 39, 34, 36];
+    let superavit = [30, 35, 47, 50, 49];
+    let taxaSegura = [40, 40, 40, 40, 40];
+
+    const ctxEmpilhado = document.getElementById('graficoEmpilhado');
+
+    new Chart(ctxEmpilhado, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+            labels: faixasOrcamento,
+            datasets: [
+                { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffd400', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
+                { label: 'Déficit', data: deficit, backgroundColor: '#d9d9d9', datalabels: { color: '#2a2624' } },
+                { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
+                { label: 'Superávit', data: superavit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { stacked: true, grid: { display: false } },
+                y: {
+                    stacked: true,
+                    min: 0,
+                    max: 100,
+                    grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                    ticks: {
+                        stepSize: 20,
+                        callback: function (valor) {
                             return valor + '%';
                         }
                     }
                 }
+            },
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    color: 'white',
+                    font: { weight: 'bold', size: 14 },
+                    formatter: function (valor) {
+                        return valor + '%';
+                    }
+                }
             }
+        }
+    });
+
+    // ---------- ROI mediano do gênero por período ----------
+    let generoSelecionado = 'Terror';
+
+    let roiPorAno = [
+        { ano: 2000, roi: 10 },
+        { ano: 2001, roi: 15 },
+        { ano: 2002, roi: 12 },
+        { ano: 2003, roi: 20 },
+        { ano: 2004, roi: 18 },
+        { ano: 2005, roi: 25 },
+        { ano: 2006, roi: 30 },
+        { ano: 2007, roi: 28 },
+        { ano: 2008, roi: 22 },
+        { ano: 2009, roi: 35 },
+        { ano: 2010, roi: 32 },
+        { ano: 2011, roi: 40 },
+        { ano: 2012, roi: 38 },
+        { ano: 2013, roi: 45 },
+        { ano: 2014, roi: 50 },
+        { ano: 2015, roi: 100 },
+        { ano: 2016, roi: 150 },
+        { ano: 2017, roi: 220 },
+        { ano: 2018, roi: 250 },
+        { ano: 2019, roi: 300 },
+        { ano: 2020, roi: 350 },
+        { ano: 2021, roi: 400 },
+        { ano: 2022, roi: 350 },
+        { ano: 2023, roi: 300 },
+        { ano: 2024, roi: 250 }
+    ];
+
+    // devolve só os últimos N anos, contando a partir do ano mais recente
+    function filtrarPorPeriodo(anos) {
+        let ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
+        return roiPorAno.filter(d => d.ano > ultimoAno - anos);
+    }
+
+    let seletorPeriodo = document.getElementById('filtroPeriodo');
+    let dadosInicio = filtrarPorPeriodo(Number(seletorPeriodo.value));
+
+    const ctxRoiPeriodo = document.getElementById('graficoRoiPeriodo');
+
+    let graficoRoiPeriodo = new Chart(ctxRoiPeriodo, {
+        type: 'line',
+        data: {
+            labels: dadosInicio.map(d => d.ano),
+            datasets: [{
+                label: generoSelecionado,
+                data: dadosInicio.map(d => d.roi),
+                borderColor: '#ff3030',
+                backgroundColor: '#ff3030',
+                borderWidth: 3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                tension: 0.35
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return generoSelecionado + ' - ROI mediano: ' + context.raw + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
+                    ticks: { color: '#d8d2ce' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                },
+                y: {
+                    min: 0,
+                    title: { display: true, text: 'ROI', color: '#d8d2ce' },
+                    ticks: {
+                        color: '#d8d2ce',
+                        callback: function (valor) { return valor + '%'; }
+                    },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                }
+            }
+        }
+    });
+
+    seletorPeriodo.addEventListener('change', function () {
+        let dados = filtrarPorPeriodo(Number(this.value));
+        graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
+        graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
+        graficoRoiPeriodo.update();
+    });
+
+    // ---------- Resultado dos filmes semelhantes (rosca) ----------
+    let resultados = [14, 39, 47]; // déficit, neutro, superávit
+
+    const ctxRosca = document.getElementById('graficoRosca');
+
+    new Chart(ctxRosca, {
+        type: 'doughnut',
+        data: {
+            labels: ['Déficit', 'Neutro', 'Superávit'],
+            datasets: [{
+                data: resultados,
+                backgroundColor: ['#f5c207', '#fff', '#FF0000'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { color: '#dce6f2', usePointStyle: true }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return context.label + ': ' + context.raw + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // ---------- Orçamento x ROI (dispersão) ----------
+    let filmesSemelhantes = [
+        { x: 8, y: 90 }, { x: 10, y: 140 }, { x: 11, y: 60 }, { x: 12, y: 210 },
+        { x: 13, y: 30 }, { x: 14, y: 120 }, { x: 15, y: 75 }, { x: 16, y: 180 },
+        { x: 17, y: 20 }, { x: 18, y: 95 }, { x: 19, y: 150 }, { x: 21, y: 65 },
+        { x: 22, y: 110 }, { x: 23, y: 40 }, { x: 24, y: 130 }, { x: 25, y: 85 },
+        { x: 26, y: 15 }, { x: 27, y: 100 }, { x: 28, y: 55 }, { x: 30, y: 70 },
+        { x: 32, y: 25 }, { x: 34, y: 90 }, { x: 36, y: 45 }, { x: 38, y: 10 }
+    ];
+
+    let seuProjeto = [{ x: 20, y: 120 }];
+
+    const ctxDispersao = document.getElementById('graficoDispersao');
+
+    new Chart(ctxDispersao, {
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Filmes semelhantes',
+                    data: filmesSemelhantes,
+                    backgroundColor: '#FF0000',
+                    borderColor: '#FF0000',
+                    pointRadius: 5
+                },
+                {
+                    label: 'Seu projeto',
+                    data: seuProjeto,
+                    backgroundColor: '#ffffff',
+                    borderColor: '#ffffff',
+                    pointRadius: 5
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { usePointStyle: true, color: '#fff' }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (contexto) {
+                            return contexto.dataset.label + ': US$ ' + contexto.parsed.x + ' mi, ROI de ' + contexto.parsed.y + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: 0,
+                    title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#ffffff' },
+                    ticks: { color: '#b8c9da' },
+                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
+                },
+                y: {
+                    min: 0,
+                    title: { display: true, text: 'ROI', color: '#dce6f2' },
+                    ticks: {
+                        color: '#b8c9da',
+                        callback: function (valor) { return valor + '%'; }
+                    },
+                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
+                }
+            }
+        }
+    });
+
+    // ---------- KPI de cenário: alternar pior / melhor ----------
+    let cenarios = {
+        pior: {
+            titulo: 'ROI no pior cenário (P10)',
+            valor: '50%',
+            detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
+            cor: '#ff3030',
+            corFundo: 'rgba(255, 48, 48, 0.18)'
+        },
+        melhor: {
+            titulo: 'ROI no melhor cenário (P90)',
+            valor: '250%',                                       
+            detalhe: '↑ 120% acima do ROI mediano nesse gênero', 
+            cor: '#2ecc71',
+            corFundo: 'rgba(46, 204, 113, 0.18)'
+        }
+    };
+
+    let cenarioAtual = 'pior';
+    let kpiCenario = document.getElementById('kpiCenario');
+    let botoesCenario = document.querySelectorAll('.kpi-cenario-btn');
+
+    // gera 16 pontos: tendência geral + zigue-zague forte (sobe/desce a cada ponto)
+    let totalPontos = 16;
+
+    function gerarSerie(subindo) {
+        let pontos = [];
+
+        for (let i = 0; i < totalPontos; i++) {
+            let progresso = i / (totalPontos - 1);
+
+            // tendência: de 15 até 65 (melhor) ou de 85 até 15 (pior)
+            let base = subindo ? 15 + progresso * 50 : 85 - progresso * 70;
+
+            // zigue-zague: pontos pares sobem, ímpares descem, com força aleatória
+            let direcao = i % 2 === 0 ? 1 : -1;
+            let oscilacao = direcao * (1 + Math.random() * 14);
+
+            let valor = Math.round(base + oscilacao);
+            pontos.push(Math.min(100, Math.max(0, valor)));
+        }
+
+        return pontos;
+    }
+
+    const ctxMini = document.getElementById('kpiCenarioGrafico');
+
+    let graficoMini = new Chart(ctxMini, {
+        type: 'line',
+        data: {
+            labels: new Array(totalPontos).fill(''),
+            datasets: [{
+                data: gerarSerie(false),
+                borderColor: cenarios.pior.cor,
+                backgroundColor: cenarios.pior.corFundo,
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            animation: false,
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false },
+                datalabels: { display: false }
+            },
+            scales: {
+                x: { display: false },
+                y: { display: false, min: 0, max: 100 }   // fixa a escala para os picos não "achatarem"
+            }
+        }
+    });
+
+    let areaMini = document.querySelector('.kpi-mini');
+
+    // reinicia a animação de revelar o gráfico
+    function animarMini() {
+        areaMini.classList.remove('revelando');
+        void areaMini.offsetWidth;          // força o navegador a reiniciar a animação
+        areaMini.classList.add('revelando');
+    }
+
+    function atualizarMini(chave) {
+        let dados = cenarios[chave];
+        let dataset = graficoMini.data.datasets[0];
+
+        dataset.data = gerarSerie(chave === 'melhor');
+        dataset.borderColor = dados.cor;
+        dataset.backgroundColor = dados.corFundo;
+        graficoMini.update();
+
+        animarMini();
+    }
+
+    function mostrarCenario(chave) {
+        let dados = cenarios[chave];
+
+        document.getElementById('kpiCenarioTitulo').textContent = dados.titulo;
+        document.getElementById('kpiCenarioValor').textContent = dados.valor;
+        document.getElementById('kpiCenarioDetalhe').textContent = dados.detalhe;
+
+        kpiCenario.classList.remove('pior', 'melhor');
+        kpiCenario.classList.add(chave);
+
+        botoesCenario.forEach(function (botao) {
+            botao.classList.toggle('ativo', botao.dataset.cenario === chave);
         });
 
-        // ---------- ROI mediano do gênero por período ----------
-const generoSelecionado = 'Terror';
-
-const roiPorAno = [
-    { ano: 2000, roi: 10 },
-    { ano: 2001, roi: 15 },
-    { ano: 2002, roi: 12 },
-    { ano: 2003, roi: 20 },
-    { ano: 2004, roi: 18 },
-    { ano: 2005, roi: 25 },
-    { ano: 2006, roi: 30 },
-    { ano: 2007, roi: 28 },
-    { ano: 2008, roi: 22 },
-    { ano: 2009, roi: 35 },
-    { ano: 2010, roi: 32 },
-    { ano: 2011, roi: 40 },
-    { ano: 2012, roi: 38 },
-    { ano: 2013, roi: 45 },
-    { ano: 2014, roi: 50 },
-    { ano: 2015, roi: 100 },
-    { ano: 2016, roi: 150 },
-    { ano: 2017, roi: 220 },
-    { ano: 2018, roi: 250 },
-    { ano: 2019, roi: 300 },
-    { ano: 2020, roi: 350 },
-    { ano: 2021, roi: 400 },
-    { ano: 2022, roi: 350 },
-    { ano: 2023, roi: 300 },
-    { ano: 2024, roi: 250 }
-];
-
-// devolve só os últimos N anos, contando a partir do ano mais recente
-function filtrarPorPeriodo(anos) {
-    const ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
-    return roiPorAno.filter(d => d.ano > ultimoAno - anos);
-}
-
-const seletorPeriodo = document.getElementById('filtroPeriodo');
-const dadosInicio = filtrarPorPeriodo(Number(seletorPeriodo.value));
-
-const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
-    type: 'line',
-    data: {
-        labels: dadosInicio.map(d => d.ano),
-        datasets: [{
-            label: generoSelecionado,
-            data: dadosInicio.map(d => d.roi),
-            borderColor: '#ff3030',
-            backgroundColor: '#ff3030',
-            borderWidth: 3,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            tension: 0.35
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return generoSelecionado + ' - ROI mediano: ' + context.raw + '%';
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
-                ticks: { color: '#d8d2ce' },
-                grid: { color: 'rgba(255, 255, 255, 0.1)' }
-            },
-            y: {
-                min: 0,
-                title: { display: true, text: 'ROI', color: '#d8d2ce' },
-                ticks: {
-                    color: '#d8d2ce',
-                    callback: function (valor) { return valor + '%'; }
-                },
-                grid: { color: 'rgba(255, 255, 255, 0.1)' }
-            }
-        }
+        atualizarMini(chave);
     }
-});
 
-seletorPeriodo.addEventListener('change', function () {
-    const dados = filtrarPorPeriodo(Number(this.value));
-    graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
-    graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
-    graficoRoiPeriodo.update();
-});
+    botoesCenario.forEach(function (botao) {
+        botao.addEventListener('click', function () {
+            let escolhido = botao.dataset.cenario;
 
-// ---------- Resultado dos filmes semelhantes gráfico de rosca ----------
-const resultados = [14, 39, 47]; // déficit, neutro, superávit
+            if (escolhido === cenarioAtual) return;
 
-new Chart(document.getElementById('graficoRosca'), {
-    type: 'doughnut',
-    data: {
-        labels: ['Déficit', 'Neutro', 'Superávit'],
-        datasets: [{
-            data: resultados,
-            backgroundColor: ['#f5c207', '#fff', '#FF0000'],
-            borderWidth: 0
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '60%',
-        plugins: {
-            legend: {
-                position: 'right',
-                labels: { color: '#dce6f2', usePointStyle: true }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return context.label + ': ' + context.raw + '%';
-                    }
-                }
-            }
-        }
-    }
-});
+            cenarioAtual = escolhido;
+            kpiCenario.classList.add('trocando');
 
-// ---------- Orçamento x ROI (dispersão) ----------
-const filmesSemelhantes = [
-    { x: 8, y: 90 }, { x: 10, y: 140 }, { x: 11, y: 60 }, { x: 12, y: 210 },
-    { x: 13, y: 30 }, { x: 14, y: 120 }, { x: 15, y: 75 }, { x: 16, y: 180 },
-    { x: 17, y: 20 }, { x: 18, y: 95 }, { x: 19, y: 150 }, { x: 21, y: 65 },
-    { x: 22, y: 110 }, { x: 23, y: 40 }, { x: 24, y: 130 }, { x: 25, y: 85 },
-    { x: 26, y: 15 }, { x: 27, y: 100 }, { x: 28, y: 55 }, { x: 30, y: 70 },
-    { x: 32, y: 25 }, { x: 34, y: 90 }, { x: 36, y: 45 }, { x: 38, y: 10 }
-];
-
-const seuProjeto = [{ x: 20, y: 120 }];
-
-new Chart(document.getElementById('graficoDispersao'), {
-    type: 'scatter',
-    data: {
-        datasets: [
-            {
-                label: 'Filmes semelhantes',
-                data: filmesSemelhantes,
-                backgroundColor: '#FF0000',
-                borderColor: '#FF0000',
-                pointRadius: 5
-            },
-            {
-                label: 'Seu projeto',
-                data: seuProjeto,
-                backgroundColor: '#ffffff',
-                borderColor: '#ffffff',
-                pointRadius: 5
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-                labels: { usePointStyle: true, color: '#fff' }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (contexto) {
-                        return contexto.dataset.label + ': US$ ' + contexto.parsed.x + ' mi, ROI de ' + contexto.parsed.y + '%';
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                min: 0,
-                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#ffffff' },
-                ticks: { color: '#b8c9da' },
-                grid: { color: 'rgba(246, 226, 185, 0.15)' }
-            },
-            y: {
-                min: 0,
-                title: { display: true, text: 'ROI', color: '#dce6f2' },
-                ticks: {
-                    color: '#b8c9da',
-                    callback: function (valor) { return valor + '%'; }
-                },
-                grid: { color: 'rgba(246, 226, 185, 0.15)' }
-            }
-        }
-    }
-});
-    </script>
+            setTimeout(function () {
+                mostrarCenario(cenarioAtual);
+                kpiCenario.classList.remove('trocando');
+            }, 150);
+        });
+    });
+</script>

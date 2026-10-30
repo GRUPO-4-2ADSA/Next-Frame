@@ -574,6 +574,125 @@ body.menu-minimizado .conteudo-principal {
     line-height: 1.5;
     color: #fff;
 }
+
+/* ---------- KPI de cenário ---------- */
+.kpi-cenario {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 36px;
+}
+
+/* ---------- Mini gráfico como fundo do KPI ---------- */
+.kpi-mini {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 65%;
+    margin: 0 0 40px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.15s;
+}
+
+.kpi-cenario.trocando .kpi-mini {
+    opacity: 0;
+}
+
+/* textos acima do gráfico (o rodapé NÃO entra aqui) */
+.kpi-cenario .kpi-titulo,
+.kpi-cenario .kpi-valor,
+.kpi-cenario .kpi-detalhe {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Rodapé dividido 50/50, dentro do card ---------- */
+.kpi-cenario-botoes {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 2;
+}
+
+.kpi-cenario-btn {
+    flex: 1;                     /* cada botão ocupa metade */
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-top: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    color: #9a928d;
+    font: inherit;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* linha divisória entre os dois */
+.kpi-cenario-btn.melhor {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kpi-cenario-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* ativo: pior = vermelho */
+.kpi-cenario-btn.pior.ativo {
+    border-top-color: #ff3030;
+    background: rgba(255, 48, 48, 0.12);
+    color: #ff3030;
+}
+
+/* ativo: melhor = verde */
+.kpi-cenario-btn.melhor.ativo {
+    border-top-color: #2ecc71;
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+}
+
+/* cor do valor e do detalhe conforme o cenário */
+.kpi-cenario.pior .kpi-valor {
+    color: #ff3030;
+}
+
+.kpi-cenario.melhor .kpi-valor{
+    color: #2ecc71;
+}
+
+/* transição suave ao trocar */
+.kpi-cenario .kpi-titulo,
+.kpi-cenario .kpi-valor,
+.kpi-cenario .kpi-detalhe {
+    transition: opacity 0.15s, color 0.2s;
+}
+
+.kpi-cenario.trocando .kpi-titulo,
+.kpi-cenario.trocando .kpi-valor,
+.kpi-cenario.trocando .kpi-detalhe {
+    opacity: 0;
+}
+
+/* ---------- Animação do mini gráfico: revela da esquerda para a direita ---------- */
+.kpi-mini.revelando {
+    animation: revelarGrafico 1s ease-out forwards;
+}
+
+@keyframes revelarGrafico {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+}
 /* ---------- IMPRESSÃO / PDF ---------- */
 
 @page {
