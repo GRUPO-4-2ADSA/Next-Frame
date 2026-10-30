@@ -73,7 +73,7 @@
                     <div class="filtros-texto">
                         <span class="filtros-titulo">Filtros aplicados</span>
                         <span class="filtros-ver">ver filtros</span>
-                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 40 mi</span>
+                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 25 mi</span>
                     </div>
                     <span class="filtros-seta">▾</span>
                 </button>
@@ -98,15 +98,15 @@
                 <div class="kpi">
                     <span class="info-dica" tabindex="0" data-dica="Quanto os filmes semelhantes devolveram para cada US$ 1 investido (valor do meio da lista).&#10;Fórmula: mediana de (receita ÷ orçamento).&#10;Comparação: mediana geral do gênero.">i</span>
                     <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
-                    <p class="kpi-valor">3x</p>
-                    <p class="kpi-detalhe">+1X comparado com a mediana geral do gênero</p>
+                    <p class="kpi-valor">1,5x</p>
+                    <p class="kpi-detalhe">+0,3x comparado com a mediana geral do gênero</p>
                 </div>
 
                 <div class="kpi">
-                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
+                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
                     <p class="kpi-titulo">Receita mediana no recorte analisado</p>
-                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 50 mi</p>
-                    <p class="kpi-detalhe">+US$10mi acima da receita desejada (US$40 mi)</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 30 mi</p>
+                    <p class="kpi-detalhe">+US$5mi acima da receita desejada (US$25 mi)</p>
                 </div>
 
                 <div class="kpi">
@@ -119,7 +119,7 @@
                 <div class="kpi kpi-cenario pior" id="kpiCenario">
                     <span class="info-dica" id="kpiCenarioInfo" tabindex="0" data-dica="Resultado que só 10% dos filmes semelhantes não alcançaram.&#10;Fórmula: percentil 10 (P10) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
                     <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no pior cenário (P10)</p>
-                    <p class="kpi-valor" id="kpiCenarioValor">50%</p>
+                    <p class="kpi-valor" id="kpiCenarioValor"></p>
                     <p class="kpi-detalhe" id="kpiCenarioDetalhe">↓ 60% abaixo do ROI mediano nesse gênero</p>
 
                     <div class="kpi-mini">
@@ -141,7 +141,7 @@
 
         <div class="graficos">
             <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
-                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e ROI no vertical. O ponto branco é o seu projeto.&#10;Correlação: vai de -1 a 1. O valor -0,45 indica que, nesses filmes, orçamento maior tende a vir com ROI menor.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
+                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e ROI no vertical. O ponto branco é o seu projeto.&#10;Correlação: vai de -1 a 1. Valores negativos indicam que, nesses filmes, orçamento maior tende a vir com ROI menor.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
                 <h3 class="grafico-titulo">Orçamento x ROI dos filmes semelhantes</h3>
 
                 <div class="grafico-area">
@@ -151,13 +151,13 @@
                 <div class="grafico-cards">
                     <div class="grafico-card">
                         <p class="grafico-card-titulo">Correlação</p>
-                        <p class="grafico-card-valor">-0,45</p>
+                        <p class="grafico-card-valor" id="valorCorrelacao">-0,45</p>
                         <p class="grafico-card-texto">Orçamento x ROI</p>
                     </div>
 
                     <div class="grafico-card">
                         <p class="grafico-card-titulo">Filmes analisados</p>
-                        <p class="grafico-card-valor">87</p>
+                        <p class="grafico-card-valor" id="valorTotalFilmes">87</p>
                     </div>
                 </div>
             </div>
@@ -340,9 +340,9 @@
             labels: faixasOrcamento,
             datasets: [
                 { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffffff', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
-{ label: 'Déficit', data: deficit, backgroundColor: '#ff3030' },
+{ label: 'Superávit', data: superavit, backgroundColor: '#ffc400', datalabels: { color: '#2a2624' } },
 { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-{ label: 'Superávit', data: superavit, backgroundColor: '#ffc400', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false, datalabels: { color: '#2a2624' } }
+{ label: 'Déficit', data: deficit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
             ]
         },
         options: {
@@ -551,15 +551,44 @@ new Chart(ctxRosca, {
 });
 
     // ---------- Orçamento x ROI (dispersão) ----------
-    let filmesSemelhantes = [
-        { x: 8, y: 90 }, { x: 10, y: 140 }, { x: 11, y: 60 }, { x: 12, y: 210 },
-        { x: 13, y: 30 }, { x: 14, y: 120 }, { x: 15, y: 75 }, { x: 16, y: 180 },
-        { x: 17, y: 20 }, { x: 18, y: 95 }, { x: 19, y: 150 }, { x: 21, y: 65 },
-        { x: 22, y: 110 }, { x: 23, y: 40 }, { x: 24, y: 130 }, { x: 25, y: 85 },
-        { x: 26, y: 15 }, { x: 27, y: 100 }, { x: 28, y: 55 }, { x: 30, y: 70 },
-        { x: 32, y: 25 }, { x: 34, y: 90 }, { x: 36, y: 45 }, { x: 38, y: 10 }
-    ];
+    let totalFilmes = 87;
 
+// dados de exemplo: orçamento maior tende a ter ROI menor (até vir do banco)
+let filmesSemelhantes = [];
+for (let i = 0; i < totalFilmes; i++) {
+    let orcamento = 8 + (i * 7) % 31;
+    let variacao = ((i * 37) % 90) - 45;
+    let roi = Math.max(5, Math.round(190 - orcamento * 1.5 + variacao));
+    filmesSemelhantes.push({ x: orcamento, y: roi });
+}
+
+function calcularCorrelacao(pontos) {
+    let total = pontos.length;
+    let somaX = 0;
+    let somaY = 0;
+
+    for (let i = 0; i < total; i++) {
+        somaX += pontos[i].x;
+        somaY += pontos[i].y;
+    }
+
+    let mediaX = somaX / total;
+    let mediaY = somaY / total;
+    let soma = 0;
+    let varianciaX = 0;
+    let varianciaY = 0;
+
+    for (let i = 0; i < total; i++) {
+        soma += (pontos[i].x - mediaX) * (pontos[i].y - mediaY);
+        varianciaX += (pontos[i].x - mediaX) * (pontos[i].x - mediaX);
+        varianciaY += (pontos[i].y - mediaY) * (pontos[i].y - mediaY);
+    }
+
+    return soma / Math.sqrt(varianciaX * varianciaY);
+}
+
+document.getElementById('valorCorrelacao').textContent = calcularCorrelacao(filmesSemelhantes).toFixed(2).replace('.', ',');
+document.getElementById('valorTotalFilmes').textContent = totalFilmes;
     let seuProjeto = [{ x: 20, y: 120 }];
 
     const ctxDispersao = document.getElementById('graficoDispersao');
@@ -624,7 +653,7 @@ new Chart(ctxRosca, {
     let cenarios = {
        pior: {
     titulo: 'ROI no pior cenário (P10)',
-    valor: '50%',
+    valor: '0,5x',
     detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
     dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.',
     cor: '#ff3030',
@@ -632,7 +661,7 @@ new Chart(ctxRosca, {
 },
 melhor: {
     titulo: 'ROI no melhor cenário (P90)',
-    valor: '250%',
+    valor: '4x',
     detalhe: '↑ 120% acima do ROI mediano nesse gênero',
     dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.',
     cor: '#2ecc71',
