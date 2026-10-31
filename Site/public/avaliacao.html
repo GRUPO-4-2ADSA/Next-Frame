@@ -10,7 +10,7 @@
     <title>Next Frame | Avaliação</title>
 </head>
 
-<body>
+<body onload="buscarHistorico()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -54,45 +54,46 @@
     </div>
 
     <div class="secao-avaliacao">
-        <div class="card-avaliacao-wrapper">
-            <form class="card-avaliacao">
 
-                <div class="grade-campos-avaliacao">
-
-                    <div class="campo">
-                        <label for="genero">GÊNERO</label>
-                        <input list="generos" id="genero" name="genero" placeholder="Digite para buscar..."
-                            autocomplete="off">
-                        <datalist id="generos"></datalist>
-                    </div>
-
-                    <div class="campo">
-                        <label for="orcamento">ORÇAMENTO</label>
-                        <input type="text" id="orcamento" name="orcamento" placeholder="Ex: 20 milhões">
-                    </div>
-
-                    <div class="campo">
-                        <label for="pais">PAÍS</label>
-                        <input list="paises" id="pais" name="pais" placeholder="Ex: Brasil" autocomplete="off">
-                        <datalist id="paises"></datalist>
-                    </div>
-
-                    <div class="campo">
-                        <label for="idioma">IDIOMA</label>
-                        <input type="text" id="idioma" name="idioma" placeholder="Ex: Português">
-                    </div>
-
-                </div>
-
-                <div class="container-horizontal acao-avaliacao">
-                    <button type="button" class="btn-pesquisar" onclick="verificarCargo()">
-                        <img src=" assets/img/icon_lupa_branca.png">
-                        PESQUISAR
-                    </button>
-                </div>
-
-            </form>
+        <div class="historico-dash" onclick="abriHistorico()">
+            <p>Histórico de avalições</p>
+            <img src="assets/img/icon_seta_preta_baixo.png" id="imgSeta">
         </div>
+        <div class="container-itens" id="ContainerItens"></div>
+
+        <form class="card-avaliacao">
+
+            <div class="grade-campos-avaliacao">
+
+                <div class="campo">
+                    <label for="orcamento">ORÇAMENTO</label>
+                    <input oninput="mascaraNumerica(this)" type="text" id="iptOrcamento" name="orcamento"
+                        placeholder="Ex: 2.000.000">
+                </div>
+
+                <div class="campo">
+                    <label for="receita">RECEITA ESPERADA</label>
+                    <input oninput="mascaraNumerica(this)" type="text" id="iptReceita" name="receita"
+                        placeholder="Ex: 5.000.000">
+                </div>
+
+                <div class="campo">
+                    <label for="genero">GÊNERO</label>
+                    <input list="generos" id="iptGenero" name="genero" placeholder="Digite para buscar..."
+                        autocomplete="off">
+                    <datalist id="generos"></datalist>
+                </div>
+
+            </div>
+
+            <div class="container-horizontal acao-avaliacao">
+                <button type="button" class="btn-pesquisar" onclick="salvar()">
+                    <img src=" assets/img/icon_lupa_branca.png">
+                    PESQUISAR
+                </button>
+            </div>
+
+        </form>
     </div>
 
     <div class="footer">
@@ -121,137 +122,264 @@
 </html>
 
 <script>
-    function verificarCargo() {
-        let codigoPais = pegarCodigoPais();
+
+    let historicoAvaliacoes = [];
+
+    function salvar() {
+        let orcamento = iptOrcamento.value;
+        let receita = iptReceita.value;
+        let genero = pegarGeneroIngles(inputGenero.value);
+
         let midGenero = pegarMidGenero();
 
         if (midGenero === "") {
             alert("Escolha um gênero da lista.");
             return;
-        }
-        if (codigoPais === "") {
-            alert("Escolha um país da lista.");
+        } else if (orcamento === "") {
+            alert("Digite um valor em orçamento");
+            return;
+        } else if (receita === "") {
+            alert("Digite um valor em receita esperada");
             return;
         }
 
         let cargo = sessionStorage.getItem("CARGO_USUARIO");
 
-        if (cargo === "Produtor Executivo") {
-            window.location.href = "dashboardExecutiva.html";
-        } else if (cargo === "Produtor Financeiro") {
-            window.location.href = "dashboardFinanceira.html";
-        } else {
-            alert("Cargo não identificado.");
+        fetch("/avaliacao/salvarDash", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                orcamentoServer: orcamento,
+                receitaServer: receita,
+                generoServer: genero,
+                idUsuarioServer: sessionStorage.getItem("ID_USUARIO")
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    if (cargo === "Produtor Executivo" || cargo === "Gestor") {
+                        window.location.href = "dashboardExecutiva.html";
+                    } else if (cargo === "Produtor Financeiro") {
+                        window.location.href = "dashboardFinanceira.html";
+                    } else {
+                        alert("Cargo não identificado.");
+                    }
+                } else {
+                    throw "Houve um erro ao salvar os dados!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                alert("Erro ao efetuar o cadastro")
+            });
+
+    }
+
+    function buscarHistorico() {
+        fetch("/avaliacao/buscarHistorico", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuarioServer: sessionStorage.getItem("ID_USUARIO")
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    plotarHistorico(json);
+                });
+
+            } else {
+                resposta.text().then(texto => {
+                    plotarHistorico(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+    }
+
+    function plotarHistorico(dadosHistorico) {
+        ContainerItens.innerHTML = "";
+        historicoAvaliacoes = [];
+
+        if (typeof dadosHistorico === "string") {
+            ContainerItens.innerHTML = `<p class="sem-historico">${dadosHistorico}</p>`;
+            return;
+        }
+
+        historicoAvaliacoes = dadosHistorico;
+
+        for (let i = 0; i < dadosHistorico.length; i++) {
+            let orcamento = Math.round(Number(dadosHistorico[i].orcamento));
+            let receita = Math.round(Number(dadosHistorico[i].receita));
+            let genero = pegarNomePortugues(dadosHistorico[i].genero);
+
+            ContainerItens.innerHTML += `
+                <div class="item" onclick="preencherCampos(${i})">
+                    <div class="item-dado">
+                        <label class="item-rotulo" for="iptItemOrcamento${i}">Orçamento</label>
+                        <input class="item-input" type="text" id="iptItemOrcamento${i}"
+                            value="${orcamento}" oninput="mascaraNumerica(this)"
+                            onclick="event.stopPropagation()">
+                    </div>
+                    <div class="item-dado">
+                        <label class="item-rotulo" for="iptItemReceita${i}">Receita esperada</label>
+                        <input class="item-input" type="text" id="iptItemReceita${i}"
+                            value="${receita}" oninput="mascaraNumerica(this)"
+                            onclick="event.stopPropagation()">
+                    </div>
+                    <div class="item-dado">
+                        <label class="item-rotulo" for="iptItemGenero${i}">Gênero</label>
+                        <input class="item-input" list="generos" id="iptItemGenero${i}"
+                            value="${genero}" autocomplete="off" onclick="event.stopPropagation()">
+                    </div>
+                    <div class="item-acoes">
+                        <button type="button" class="btn-confirmar" title="Confirmar edição"
+                            onclick="event.stopPropagation(); editarAvaliacao(${i})">
+                            <img src="assets/img/icon_editar.png">
+                        </button>
+                        <button type="button" class="btn-lixeira" title="Excluir avaliação"
+                            onclick="event.stopPropagation(); excluirAvaliacao(${dadosHistorico[i].idAvaliacao})">
+                            <img src="assets/img/icon_lixeira.png">
+                        </button>
+                    </div>
+                </div>`;
         }
     }
 
-    function pegarCodigoPais() {
-        let opcoes = datalistPaises.options;
-        for (let i = 0; i < opcoes.length; i++) {
-            if (opcoes[i].value === inputPais.value) {
-                return opcoes[i].dataset.codigo;
+    function excluirAvaliacao(idAvaliacao) {
+        if (!confirm("Deseja excluir esta avaliação?")) {
+            return;
+        }
+
+        fetch("/avaliacao/excluirAvaliacao", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idAvaliacaoServer: idAvaliacao,
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                ContainerItens.innerHTML = "";
+                buscarHistorico();
+            } else {
+                alert("Erro ao excluir a avaliação.");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+        });
+    }
+
+    function editarAvaliacao(indice) {
+        let idAvaliacao = historicoAvaliacoes[indice].idAvaliacao;
+        let orcamento = document.getElementById(`iptItemOrcamento${indice}`).value;
+        let receita = document.getElementById(`iptItemReceita${indice}`).value;
+        let genero = pegarGeneroIngles(document.getElementById(`iptItemGenero${indice}`).value);
+
+        if (orcamento === "") {
+            alert("Digite um valor em orçamento");
+            return;
+        } else if (receita === "") {
+            alert("Digite um valor em receita esperada");
+            return;
+        } else if (genero === "") {
+            alert("Escolha um gênero da lista.");
+            return;
+        }
+
+        fetch("/avaliacao/editarAvaliacao", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idAvaliacaoServer: idAvaliacao,
+                orcamentoServer: orcamento,
+                receitaServer: receita,
+                generoServer: genero,
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                buscarHistorico();
+                alert("Edição completa!");
+            } else {
+                alert("Erro ao editar a avaliação.");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+        });
+    }
+
+    function pegarGeneroIngles(genero) {
+        for (let i = 0; i < generos.length; i++) {
+            if (generos[i].nome.toLowerCase() === genero.toLowerCase()) {
+                return generos[i].genero;
             }
         }
+
         return "";
     }
 
-    function pegarMidGenero() {
-        let opcoes = datalistGeneros.options;
-        for (let i = 0; i < opcoes.length; i++) {
-            if (opcoes[i].value === inputGenero.value) {
-                return opcoes[i].dataset.mid;
+    function pegarNomePortugues(generoIngles) {
+        for (let i = 0; i < generos.length; i++) {
+            if (generos[i].genero.toLowerCase() === generoIngles.toLowerCase()) {
+                return generos[i].nome;
             }
         }
-        return "";
+        return generoIngles;
     }
 
-    /*
-    1) Lista de códigos ISO 3166-1 alpha-2 (2 letras por país) 
-    Criamos uma string grande, separando os códigos da ISO citada com espaço/quebra de linha 
-    O split(/\s+/) transforma a string em um array, usando qualquer sequência de espaços ou
-    quebras de linha como separador.
-    Resultado: ["AD", "AE", "AF", ...]
-    */
+    function abriHistorico() {
+        let seta = document.getElementById("imgSeta")
+        let modal = document.getElementById("ContainerItens")
 
-    let codigos = `AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ
-  CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR
-  GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP
-  KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ
-  NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW
-  SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ
-  UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW`.split(/\s+/);
-
-    /*
-    2) Tradutor nativo de códigos para nomes
-    "pt-BR"        -> idioma de saída (nomes em português)
-    type: "region" -> vamos traduzir códigos de país/região
-    Depois, nomes.of("BR") devolve "Brasil".
-    */
-    let nomes = new Intl.DisplayNames(["pt-BR"], { type: "region" });
-
-    /*
-    3) Monta o array de países
-    Começa com um array vazio e, a cada volta do for, adiciona
-    um objeto { codigo: "BR", nome: "Brasil" } com o push.
-    */
-
-    let paises = [];
-    for (let i = 0; i < codigos.length; i++) {
-        // nomes.of(codigos[i]) converte para o nome em português (ex.: "Brasil")
-        paises.push({ codigo: codigos[i], nome: nomes.of(codigos[i]) });
+        seta.classList.toggle('seta-cima')
+        modal.classList.toggle('modal-aparecer')
     }
 
-    /* 
-    4) Ordena alfabeticamente pelo nome
-     Ordena o array "paises" em ordem alfabética pelo nome.
-     - sort() recebe uma função que compara dois países por vez (a e b).
-     - localeCompare() compara os textos seguindo as regras do português, considerando os acentos
-     Retorna negativo (a antes de b), zero (iguais) ou positivo (a depois de b).
-     Se não usar isso, precisa fazer essa ordenação a mão
-     */
-    paises.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+    function preencherCampos(indice) {
+        let avaliacao = historicoAvaliacoes[indice];
 
+        iptOrcamento.value = Number(avaliacao.orcamento);
+        iptReceita.value = Number(avaliacao.receita);
+        iptGenero.value = pegarNomePortugues(avaliacao.genero);
 
-    /*
-     5) Preenche o datalist com as opções e guarda o código em cada uma
-     Pega a referência do <datalist> para poder inserir opções nele
-    */
-    let datalistPaises = document.getElementById("paises");
-
-    for (let i = 0; i < paises.length; i++) {
-        let opt = document.createElement("option");  // cria um <option> vazio
-        opt.value = paises[i].nome;                  // o texto sugerido é o nome do país
-        opt.dataset.codigo = paises[i].codigo;       // guarda o código no atributo dataset.codigo (ex.: "BR"). Esse dataset é uma propriedade livre pra guardar valores
-
-        //O nome depois do ponto é livre e ele é lido assim: dataset.codigo =
-        datalistPaises.appendChild(opt);             // coloca dentro do <datalistPaises>
+        abriHistorico();
     }
-    // No fim, o HTML fica equivalente a:
-    // <option value="Brasil" data-codigo="BR">, <option value="Alemanha" data-codigo="DE">, ...
 
-    /*
-    6) Função que devolve o código do país escolhido
-    */
+    function mascaraNumerica(input) {
+        let mascara = input.value.replace(/\D/g, "");
 
-    let inputPais = document.getElementById("pais"); // campo visível
+        input.value = mascara;
+    }
 
     let generos = [
-        { nome: "Ação", mid: "/m/02kdv5l" },
-        { nome: "Animação", mid: "/g/120pnns2" },
-        { nome: "Aventura", mid: "/m/03k9fj" },
-        { nome: "Comédia", mid: "/m/05p553" },
-        { nome: "Crime", mid: "/m/0119mbcs" },
-        { nome: "Documentário", mid: "/m/0jtdp" },
-        { nome: "Drama", mid: "drama movie" },
-        { nome: "Família", mid: "/g/1215clx1" },
-        { nome: "Fantasia", mid: "/m/011869tv" },
-        { nome: "Ficção Científica", mid: "/m/0119r056" },
-        { nome: "Guerra", mid: "/m/082gq" },
-        { nome: "Musical", mid: "/m/04t36" },
-        { nome: "Romance", mid: "/m/02l7c8" },
-        { nome: "Super-herói", mid: "/m/04pbhw" },
-        { nome: "Suspense", mid: "/g/122hp9x6" },
-        { nome: "Terror", mid: "/m/03npn" }
+        { nome: "Ação", mid: "/m/02kdv5l", genero: "Action" },
+        { nome: "Animação", mid: "/g/120pnns2", genero: "Animation" },
+        { nome: "Aventura", mid: "/m/03k9fj", genero: "Adventure" },
+        { nome: "Comédia", mid: "/m/05p553", genero: "Comedy" },
+        { nome: "Crime", mid: "/m/0119mbcs", genero: "Crime" },
+        { nome: "Documentário", mid: "/m/0jtdp", genero: "Documentary" },
+        { nome: "Drama", mid: "drama movie", genero: "Drama" },
+        { nome: "Família", mid: "/g/1215clx1", genero: "Family" },
+        { nome: "Fantasia", mid: "/m/011869tv", genero: "Fantasy" },
+        { nome: "Ficção Científica", mid: "/m/0119r056", genero: "Science Fiction" },
+        { nome: "Faroeste", mid: null, genero: "Western" },
+        { nome: "Filme para TV", mid: null, genero: "TV Movie" },
+        { nome: "Guerra", mid: "/m/082gq", genero: "War" },
+        { nome: "História", mid: null, genero: "History" },
+        { nome: "Mistério", mid: null, genero: "Mystery" },
+        { nome: "Música", mid: null, genero: "Music" },
+        { nome: "Romance", mid: "/m/02l7c8", genero: "Romance" },
+        { nome: "Super-herói", mid: "/m/04pbhw", genero: "Superhero" },
+        { nome: "Suspense", mid: "/g/122hp9x6", genero: "Thriller" },
+        { nome: "Terror", mid: "/m/03npn", genero: "Horror" }
     ];
 
     // Ordena por nome respeitando acentos
@@ -267,7 +395,7 @@
     }
     // HTML equivalente: <option value="Ação" data-mid="/m/02kdv5l">, ...
 
-    let inputGenero = document.getElementById("genero");
+    let inputGenero = document.getElementById("iptGenero");
 
     // Devolve o MID do gênero escolhido, ou "" se o texto não for um gênero da lista
     function pegarMidGenero() {
@@ -279,7 +407,6 @@
         }
         return "";
     }
-
 
     document.addEventListener("DOMContentLoaded", function () {
         var cargo = sessionStorage.getItem("CARGO_USUARIO");

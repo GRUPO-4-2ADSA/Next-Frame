@@ -15,6 +15,7 @@ var path = require("path");
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var analiseHistoricaRouter = require("./src/routes/analiseHistorica");
+var avaliacaoRouter = require("./src/routes/avaliacao")
 
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
@@ -31,6 +32,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/analise-historica", analiseHistoricaRouter);
+app.use("/avaliacao", avaliacaoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
