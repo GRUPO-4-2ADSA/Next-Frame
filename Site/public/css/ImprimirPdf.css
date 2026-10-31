@@ -1,0 +1,31 @@
+/* ---------- IMPRESSÃO / PDF ---------- */
+
+@page {
+    margin: 0;
+}
+
+@media print {
+
+    /* mantém o fundo escuro e as cores no PDF */
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    html,
+    body {
+        background-color: #181010;
+    }
+
+    /* esconde o que não deve aparecer no PDF */
+    .menu-lateral,
+    .botao-acao {
+        display: none;
+    }
+
+    /* sem o menu, o conteúdo começa na borda da página */
+    .conteudo-principal,
+    body.menu-minimizado .conteudo-principal {
+        margin-left: 0;
+    }
+}
