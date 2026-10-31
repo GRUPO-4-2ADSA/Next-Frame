@@ -1,0 +1,70 @@
+/* ---------- ÍCONE DE INFORMAÇÃO (tooltip) ---------- */
+
+.info-dica {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f6e2b9;
+    border-radius: 50%;
+    color: #f6e2b9;
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: none;
+    cursor: help;
+    z-index: 5;
+}
+
+.info-dica:hover,
+.info-dica:focus {
+    background-color: #ffc400;
+    border-color: #ffc400;
+    color: #181010;
+    outline: none;
+}
+
+.info-dica::after {
+    content: attr(data-dica);
+    position: absolute;
+    top: 24px;
+    right: 0;
+    width: 200px;
+    padding: 10px 12px;
+    background-color: #181010;
+    border: 1px solid #ffc400;
+    border-radius: 6px;
+    color: #f1f5f9;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: left;
+    white-space: pre-line;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.box-grafico1,
+.box-grafico2,
+.box-linha,
+.box-roi,
+.box-heatmap {
+    position: relative;
+}
+
+.titulo-grafico {
+    padding: 0 24px;
+}
+
+.info-dica:hover::after,
+.info-dica:focus::after {
+    opacity: 1;
+    visibility: visible;
+}

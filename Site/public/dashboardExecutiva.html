@@ -7,9 +7,16 @@
     <title>Dashboard Executiva</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="stylesheet" href="css/dashboardExecutiva.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/menuLateral.css">
+    <link rel="stylesheet" href="css/menuTopo.css">
+    <link rel="stylesheet" href="css/tooltip.css">
+    <link rel="stylesheet" href="css/ImprimirPdf.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
+
 </head>
 
 <body>
@@ -30,7 +37,6 @@
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">Início</span>
             </a>
-            
             <a class="menu-item ativo" href="dashboardExecutiva.html">
                 <img class="menu-icone" src="assets/img/icon_portfolio.png" alt="">
                 <span class="menu-rotulo">Dashboard</span>
@@ -55,10 +61,8 @@
             <button type="button" class="botao-sair">Sair</button>
         </div>
     </aside>
-
     <!-- Inicio dashboard -->
     <main class="conteudo-principal">
-
         <div class="topo-dashboard">
             <div class="topo-titulo">
                 <h1>Dashboard Executiva</h1>
@@ -67,54 +71,49 @@
 
             <div class="topo-acoes">
                 <button type="button" class="botao-acao" id="botaoBaixar">Baixar</button>
-                <a class="botao-acao" href="avaliacao.html">Novo Projeto</a>
+                <a class="botao-acao" href="avaliacao.html">Nova Avaliação</a>
                 <a class="botao-acao" href="dashboardFinanceira.html">Dashboard Financeira</a>
 
-                <button type="button" class="filtros-aplicados">
-                    <img class="filtros-icone" src="assets/img/icone_filtros.png" alt="">
+                <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
                     <div class="filtros-texto">
                         <span class="filtros-titulo">Filtros aplicados</span>
-                        <span class="filtros-detalhe">Terror · US$ 20 mi · EUA · Inglês</span>
+                        <span class="filtros-ver">ver filtros</span>
+                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 40 mi</span>
                     </div>
                     <span class="filtros-seta">▾</span>
                 </button>
             </div>
         </div>
-
         <!-- KPIs -->
         <div class="kpi">
             <div class="titulo-linha">
-                <h6 class="titulo">Principais indicadores</h6>
+                <h6 class="titulo">Análise da busca e do desempenho financeiro</h6>
                 <span class="subtitulo-kpi">87 filmes semelhantes analisados</span>
             </div>
 
-            <div class="container-kpi">
+            <div class="container-kpi tres">
                 <div class="box-kpi1">
-                    <span class="info-dica" tabindex="0" data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO</h6>
                     <h5 class="informacao-kpi">▲ BAIXO</h5>
                     <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO</h6>
                 </div>
 
                 <div class="box-kpi2">
-                    <span class="info-dica" tabindex="0" data-dica="Valor do meio do retorno dos filmes semelhantes.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;Comparação: mediana do ROI do gênero.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Valor do meio do retorno dos filmes semelhantes.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;Comparação: mediana do ROI do gênero.">i</span>
                     <h6 class="titulo-kpi">ROI MEDIANO</h6>
                     <h5 class="informacao-kpi">▲ 208%</h5>
                     <h6 class="descricao-kpi">10% A MAIS COMPARADO COM A MEDIANA DO GÊNERO</h6>
                 </div>
 
                 <div class="box-kpi3">
-                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA</h6>
                     <h5 class="informacao-kpi">▲ US$ 30 mi</h5>
                     <h6 class="descricao-kpi">US$ 5 MI ACIMA DA RECEITA DESEJADA (US$25MI)</h6>
-                </div>
-
-                <div class="box-kpi4">
-                    <span class="info-dica" tabindex="0" data-dica="Posição do gênero no ranking de interesse de busca entre os gêneros analisados.&#10;Comparação: posição nos 12 meses anteriores.&#10;Base: dados de interesse de busca (Google Trends).">i</span>
-                    <h6 class="titulo-kpi">INTERESSE DO PÚBLICO</h6>
-                    <h5 class="informacao-kpi">▲ 3°/10</h5>
-                    <h6 class="descricao-kpi">SUBIU UMA POSIÇÃO EM RELAÇÃO AO ÚLTIMO ANO - 12 MESES</h6>
                 </div>
             </div>
         </div>
@@ -123,7 +122,8 @@
         <div class="grafico">
             <div class="container-grafico">
                 <div class="box-grafico1">
-                    <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
                     <h3 class="titulo-grafico">Orçamento x Receita</h3>
 
                     <div class="area-grafico">
@@ -145,7 +145,8 @@
                 </div>
 
                 <div class="box-grafico2">
-                    <span class="info-dica" tabindex="0" data-dica="Divisão dos projetos da faixa de orçamento buscada em déficit, neutro e superávit.&#10;Fórmula: projetos da categoria ÷ total de projetos da faixa.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Divisão dos projetos da faixa de orçamento buscada em déficit, neutro e superávit.&#10;Fórmula: projetos da categoria ÷ total de projetos da faixa.">i</span>
                     <h3 class="titulo-grafico">Desempenho financeiro dos projetos na faixa buscada</h3>
 
                     <div class="area-grafico-pizza">
@@ -155,28 +156,72 @@
             </div>
         </div>
 
-        <!-- Interesse do público (ano e meses) + ROI por gênero -->
+        <!-- ===== BLOCO 2 — Análise comparativa ===== -->
+        <div class="kpi bloco2">
+            <div class="titulo-linha">
+                <h6 class="titulo">Análise comparativa de gêneros</h6>
+            </div>
+
+            <div class="container-kpi">
+                <div class="box-kpi4">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Posição do gênero no ranking de interesse de busca entre os gêneros analisados.&#10;Comparação: posição nos 12 meses anteriores.&#10;Base: dados de interesse de busca (Google Trends).">i</span>
+                    <h6 class="titulo-kpi">INTERESSE DO PÚBLICO</h6>
+                    <h5 class="informacao-kpi">▲ 3°/10</h5>
+                    <h6 class="descricao-kpi">SUBIU UMA POSIÇÃO EM RELAÇÃO AO ÚLTIMO ANO - 12 MESES</h6>
+                </div>
+
+                <div class="box-kpi5">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Mês com a maior média de interesse de busca do gênero.&#10;Fórmula: média do índice de cada mês nos anos analisados; vence o maior.&#10;Base: Google Trends (índice de 0 a 100).">i</span>
+                    <h6 class="titulo-kpi">PERIODO DE MAIOR SAZONALIDADE</h6>
+                    <h5 class="informacao-kpi">OUTUBRO</h5>
+                    <h6 class="descricao-kpi">PICO DE BUSCA EM TERROR · ÍNDICE DE 73/100</h6>
+                </div>
+
+                <div class="box-kpi6">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Posição do gênero entre todos os gêneros, ordenados pelo ROI mediano.&#10;Fórmula do ROI: mediana de (receita − orçamento) ÷ orçamento.&#10;Mostra também o gênero líder.">i</span>
+                    <h6 class="titulo-kpi">POSIÇÃO DO GÊNERO ESCOLHIDO NO TOP10 ROIS</h6>
+                    <h5 class="informacao-kpi">5°/10</h5>
+                    <h6 class="descricao-kpi">LÍDER: FANTASIA (400%)</h6>
+                </div>
+
+                <div class="box-kpi7">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Quanto o interesse de busca varia ao longo dos meses.&#10;Fórmula: desvio padrão do índice nos anos analisados.&#10;Estável: varia pouco. Moderado: varia um pouco. Sazonal: tem picos e vales marcados.">i</span>
+                    <h6 class="titulo-kpi">ESTABILIDADE DO INTERESSE</h6>
+                    <h5 class="informacao-kpi">SAZONAL</h5>
+                    <h6 class="descricao-kpi">DESVIO PADRÃO DO ÍNDICE: 12,0 PONTOS</h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interesse do público (Google Trends) + ROI por gênero -->
         <div class="grafico">
             <div class="container-linhas">
                 <div class="box-linha">
-                    <span class="info-dica" tabindex="0" data-dica="Interesse de busca por gênero a cada trimestre.&#10;A escala vai de 0 a 100, sendo 100 o pico de busca no período.&#10;Base: dados de interesse de busca (Google Trends).">i</span>
-                    <h3 class="titulo-grafico">INTERESSE DO PÚBLICO - ANO</h3>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Interesse de busca a cada trimestre.&#10;Escala de 0 a 100, sendo 100 o pico de busca no período e na região consultados (não é porcentagem nem volume de buscas).&#10;Base: Google Trends, Brasil.">i</span>
+                    <h3 class="titulo-grafico">TOP 5 GÊNEROS MAIS BUSCADOS — GOOGLE TRENDS</h3>
                     <div class="area-linha">
                         <canvas id="graficoInteresseAno"></canvas>
                     </div>
                 </div>
 
                 <div class="box-roi">
-                    <span class="info-dica" tabindex="0" data-dica="ROI mediano de cada gênero.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;O gênero buscado (Terror) aparece em destaque.">i</span>
-                    <h3 class="titulo-grafico">ROI POR GÊNERO</h3>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="ROI mediano de cada gênero, com base nos filmes históricos (2010–2024).&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;O gênero selecionado (Terror) aparece em destaque.">i</span>
+                    <h3 class="titulo-grafico">ROI MEDIANO POR GÊNERO — FILMES 2010–2024</h3>
                     <div class="area-roi">
                         <canvas id="graficoRoiGenero"></canvas>
                     </div>
                 </div>
 
                 <div class="box-linha">
-                    <span class="info-dica" tabindex="0" data-dica="Interesse de busca pelo gênero Terror mês a mês, comparando os últimos 4 anos.&#10;A escala vai de 0 a 100, sendo 100 o pico de busca no período.&#10;Mostra a sazonalidade do gênero.">i</span>
-                    <h3 class="titulo-grafico">INTERESSE DO PÚBLICO EM TERROR - MESES</h3>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Interesse de busca pelo gênero selecionado mês a mês, comparando os anos.&#10;Escala de 0 a 100, sendo 100 o pico de busca no período.&#10;Base: Google Trends, Brasil.">i</span>
+                    <h3 class="titulo-grafico">INTERESSE EM TERROR POR MÊS — GOOGLE TRENDS</h3>
                     <div class="area-linha">
                         <canvas id="graficoInteresseMeses"></canvas>
                     </div>
@@ -193,6 +238,7 @@
             <div class="rodape-item">
                 <h4>Fontes dos dados</h4>
                 <p>Kaggle · Dados internos (XLSX). Dados históricos e complementares.</p>
+                <p>Google Trends · Dados externos(Biblioteca Python). Dados históricos e complementares.</p>
             </div>
             <div class="rodape-item">
                 <h4>Período analisado</h4>
@@ -272,40 +318,40 @@
             // ---------- Dispersão: Orçamento x Receita ----------
 
             // ---------- Dispersão: 87 filmes (80 base + 7 outliers) ----------
-// x = receita, y = orçamento
-let filmesBase = [];
-for (let i = 0; i < 80; i++) {
-    let receita = 10 + (i * 11) % 36;
-    let variacao = ((i * 29) % 18) - 9;
-    let orcamento = Math.max(3, Math.round(receita * 0.9 + variacao));
-    filmesBase.push({ x: receita, y: orcamento, filme: 'Filme ' + (i + 1) });
-}
+            // x = receita, y = orçamento
+            let filmesBase = [];
+            for (let i = 0; i < 80; i++) {
+                let receita = 10 + (i * 11) % 36;
+                let variacao = ((i * 29) % 18) - 9;
+                let orcamento = Math.max(3, Math.round(receita * 0.9 + variacao));
+                filmesBase.push({ x: receita, y: orcamento, filme: 'Filme ' + (i + 1) });
+            }
 
-let filmesOutlier = [
-    { x: 8, y: 85, filme: 'Filme 81' },
-    { x: 21, y: 63, filme: 'Filme 82' },
-    { x: 33, y: 65, filme: 'Filme 83' },
-    { x: 47, y: 12, filme: 'Filme 84' },
-    { x: 58, y: 76, filme: 'Filme 85' },
-    { x: 72, y: 38, filme: 'Filme 86' },
-    { x: 87, y: 90, filme: 'Filme 87' }
-];
+            let filmesOutlier = [
+                { x: 8, y: 85, filme: 'Filme 81' },
+                { x: 21, y: 63, filme: 'Filme 82' },
+                { x: 33, y: 65, filme: 'Filme 83' },
+                { x: 47, y: 12, filme: 'Filme 84' },
+                { x: 58, y: 76, filme: 'Filme 85' },
+                { x: 72, y: 38, filme: 'Filme 86' },
+                { x: 87, y: 90, filme: 'Filme 87' }
+            ];
             const dados = {
                 datasets: [
-                   {
-    label: 'Base',
-    data: filmesBase,
-    backgroundColor: '#FF0000',
-    borderColor: '#FF0000',
-    pointRadius: 5
-},
-{
-    label: 'Outlier',
-    data: filmesOutlier,
-    backgroundColor: '#f5c207',
-    borderColor: '#f5c207',
-    pointRadius: 5
-},
+                    {
+                        label: 'Base',
+                        data: filmesBase,
+                        backgroundColor: '#FF0000',
+                        borderColor: '#FF0000',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Outlier',
+                        data: filmesOutlier,
+                        backgroundColor: '#f5c207',
+                        borderColor: '#f5c207',
+                        pointRadius: 5
+                    },
                     {
                         label: 'Seu Projeto',
                         data: [
@@ -372,16 +418,16 @@ let filmesOutlier = [
 
             // ---------- Rosca: desempenho financeiro ----------
             new Chart(document.getElementById('graficoPizza'), {
-    type: 'doughnut',
-    plugins: [ChartDataLabels],
-    data: {
-        labels: ['Déficit', 'Neutro', 'Superávit'],
-        datasets: [{
-            data: [15, 25, 60],
-            backgroundColor: ['#ff3030', '#7d7d7d', '#ffc400'],
-            borderWidth: 0
-        }]
-    },
+                type: 'doughnut',
+                plugins: [ChartDataLabels],
+                data: {
+                    labels: ['Déficit', 'Neutro', 'Superávit'],
+                    datasets: [{
+                        data: [15, 25, 60],
+                        backgroundColor: ['#ff3030', '#7d7d7d', '#ffc400'],
+                        borderWidth: 0
+                    }]
+                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -391,18 +437,18 @@ let filmesOutlier = [
                             position: 'right',
                             labels: { color: '#dce6f2', usePointStyle: true }
                         }, datalabels: {
-    font: { weight: 'bold', size: 14 },
-    color: function (contexto) {
-        if (contexto.dataIndex === 2) {
-            return '#2a2624';
-        }
-        return '#ffffff';
-    },
-    formatter: function (valor, contexto) {
-        let total = contexto.dataset.data.reduce((soma, n) => soma + n, 0);
-        return Math.round(valor / total * 100) + '%';
-    }
-},
+                            font: { weight: 'bold', size: 14 },
+                            color: function (contexto) {
+                                if (contexto.dataIndex === 2) {
+                                    return '#2a2624';
+                                }
+                                return '#ffffff';
+                            },
+                            formatter: function (valor, contexto) {
+                                let total = contexto.dataset.data.reduce((soma, n) => soma + n, 0);
+                                return Math.round(valor / total * 100) + '%';
+                            }
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (context) {
@@ -417,28 +463,42 @@ let filmesOutlier = [
                 }
             });
 
-            // ---------- Linhas: interesse do público por ano ----------
-            const rotulosAno = [];
-            const trimestres = ['Jan', 'Abr', 'Jul', 'Out'];
+            // ---------- Utilitários de cor ----------
+            function suavizar(hex, alfa) {
+                let h = hex.replace('#', '');
+                let r = parseInt(h.substr(0, 2), 16);
+                let g = parseInt(h.substr(2, 2), 16);
+                let b = parseInt(h.substr(4, 2), 16);
+                return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alfa + ')';
+            }
+
+
+            // ---------- Linhas: Top 5 gêneros mais buscados (Google Trends) ----------
+            let rotulosAno = [];
+            let trimestres = ['Jan', 'Abr', 'Jul', 'Out'];
             for (let ano = 2022; ano <= 2025; ano++) {
                 trimestres.forEach(t => rotulosAno.push(t + ' ' + ano));
             }
             rotulosAno.push('Jan 2026');
 
+            // destaque = gênero selecionado: cor cheia, linha grossa e desenhada por cima.
+            // Os demais: mesma cor com transparência, linha fina.
             function linha(nome, valores, cor, destaque) {
                 return {
                     label: nome,
                     data: valores,
-                    borderColor: cor,
-                    backgroundColor: cor,
-                    borderWidth: destaque ? 3 : 1.5,
+                    borderColor: destaque ? cor : suavizar(cor, 0.45),
+                    backgroundColor: destaque ? cor : suavizar(cor, 0.45),
+                    borderWidth: destaque ? 3.5 : 1.5,
                     pointRadius: 0,
                     pointHoverRadius: 4,
-                    tension: 0.35
+                    tension: 0.35,
+                    order: destaque ? 0 : 1
                 };
             }
 
-            const opcoesLinha = {
+            // Escala do Google Trends: pontuação de 0 a 100 (sem %)
+            let opcoesLinha = {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
@@ -446,6 +506,13 @@ let filmesOutlier = [
                     legend: {
                         position: 'top',
                         labels: { usePointStyle: true, color: '#dce6f2' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' pts';
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -456,8 +523,8 @@ let filmesOutlier = [
                     y: {
                         min: 0,
                         max: 100,
-                        title: { display: true, text: 'INTERESSE', color: '#dce6f2' },
-                        ticks: { color: '#b8c9da' },
+                        title: { display: true, text: 'PONTUAÇÃO DE INTERESSE (0–100)', color: '#dce6f2' },
+                        ticks: { color: '#b8c9da', stepSize: 20 },
                         grid: { color: corGrade }
                     }
                 }
@@ -479,15 +546,24 @@ let filmesOutlier = [
             });
 
             // ---------- Linhas: interesse em Terror por mês ----------
+            // Fonte única dos dados: usada no gráfico, nas KPIs e no heatmap
+            let mesesRotulos = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+            let interesseMeses = {
+                '2026': [36, 28, 30, 34, 38, 40, 37, 36, 52, 78, 60, 40],
+                '2025': [34, 30, 32, 36, 40, 42, 40, 38, 50, 74, 58, 42],
+                '2024': [32, 28, 31, 38, 44, 46, 41, 38, 48, 70, 56, 38],
+                '2023': [30, 27, 30, 36, 42, 44, 40, 37, 46, 68, 54, 36]
+            };
+
             new Chart(document.getElementById('graficoInteresseMeses'), {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    labels: mesesRotulos,
                     datasets: [
-                        linha('2026', [36, 28, 30, 34, 38, 40, 37, 36, 52, 78, 60, 40], '#f5c207', true),
-                        linha('2025', [34, 30, 32, 36, 40, 42, 40, 38, 50, 74, 58, 42], '#f6e2b9', false),
-                        linha('2024', [32, 28, 31, 38, 44, 46, 41, 38, 48, 70, 56, 38], '#9a8f80', false),
-                        linha('2023', [30, 27, 30, 36, 42, 44, 40, 37, 46, 68, 54, 36], '#5f5750', false)
+                        linha('2026', interesseMeses['2026'], '#f5c207', true),
+                        linha('2025', interesseMeses['2025'], '#f6e2b9', false),
+                        linha('2024', interesseMeses['2024'], '#9a8f80', false),
+                        linha('2023', interesseMeses['2023'], '#5f5750', false)
                     ]
                 },
                 options: opcoesLinha
@@ -556,3 +632,10 @@ let filmesOutlier = [
 </body>
 
 </html>
+
+<script>
+    function alternarFiltros() {
+        let botao = document.getElementById('filtrosBotao');
+        botao.classList.toggle('aberto');
+    }
+</script>
