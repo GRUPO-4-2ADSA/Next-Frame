@@ -12,7 +12,7 @@
     <title>Next Frame | Resultado da Análise Histórica</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -37,7 +37,7 @@
 
                     <p>
                         BEM VINDO,<br>
-                        <span class="amarelo">USUÁRIO</span>
+                        <span class="amarelo" id="infoNome">USUÁRIO</span>
                     </p>
                 </div>
             </a>
@@ -188,6 +188,8 @@
         </div>
 
     </div>
+
+    <script src="js/infoSessao.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", listarFilmes);
