@@ -247,6 +247,84 @@ function listarEmpresas(req, res) {
             });
         });
 }
+
+function buscarPerfil(req, res) {
+    var id = req.params.id;
+
+    if (!id || isNaN(id) || Number(id) <= 0) {
+        return res.status(400).json({
+            mensagem: "ID do usuário inválido."
+        });
+    }
+
+    usuarioModel.buscarPerfil(id)
+        .then(function (resultado) {
+            if (resultado.length === 0) {
+                return res.status(404).json({
+                    mensagem: "Usuário não encontrado."
+                });
+            }
+
+            res.status(200).json(resultado[0]);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({
+                mensagem: "Erro ao buscar perfil."
+            });
+        });
+}
+
+function editarPerfil(req, res) {
+    var id = req.params.id;
+    var dados = req.body;
+
+    usuarioModel.buscarPerfil(id)
+        .then(function (resultado) {
+            if (resultado.length === 0) {
+                return res.status(404).json({
+                    mensagem: "Usuário não encontrado."
+                });
+            }
+
+            return usuarioModel.editarPerfil(id, dados);
+        })
+        .then(function (resultado) {
+            if (!resultado) return;
+
+            res.status(200).json({
+                mensagem: "Perfil atualizado com sucesso."
+            });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({
+                mensagem: "Erro ao atualizar perfil."
+            });
+        });
+}
+
+function atualizarFoto(req, res) {
+    var id = req.params.id;
+
+    if (!req.file) {
+        return res.status(400).send("Nenhuma foto foi enviada.");
+    }
+
+    var caminhoFoto = `assets/img/perfis/${req.file.filename}`;
+
+    usuarioModel.atualizarFoto(id, caminhoFoto)
+        .then(function (resultado) {
+            res.status(200).json({
+                mensagem: "Foto atualizada com sucesso!",
+                foto: caminhoFoto
+            });
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro);
+        });
+}
+
 module.exports = {
     cadastrar,
     autenticar,
@@ -255,5 +333,8 @@ module.exports = {
     editar,
     excluir,
     buscarHistorico,
-    listarEmpresas
+    listarEmpresas,
+    buscarPerfil,
+    editarPerfil,
+    atualizarFoto,
 };
