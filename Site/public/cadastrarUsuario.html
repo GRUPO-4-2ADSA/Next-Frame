@@ -10,7 +10,7 @@
     <title>Next Frame | Cadastro de Usuário</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -22,7 +22,6 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portfólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -34,7 +33,7 @@
                         <img src="assets/img/icon_usuario.png" alt="Usuário">
                     </div>
                     <p>BEM VINDO,<br>
-                        <span class="amarelo">DONO DA PRODUTORA</span>
+                        <span class="amarelo" id="infoNome">DONO DA PRODUTORA</span>
                     </p>
                 </div>
             </a>
@@ -168,6 +167,8 @@
             <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
         </div>
     </div>
+
+    <script src="js/infoSessao.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

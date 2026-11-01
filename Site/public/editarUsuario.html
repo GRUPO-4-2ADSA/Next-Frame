@@ -10,7 +10,7 @@
     <title>Next Frame | Edição de Usuário</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -30,7 +30,7 @@
                     <div class="icone-usuario">
                         <img src="assets/img/icon_usuario.png">
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">DONO DA PRODUTORA</span></p>
+                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">DONO DA PRODUTORA</span></p>
                 </div>
             </a>
         </div>
@@ -122,7 +122,9 @@
         </div>
 
     </div>
-    ```html
+
+    <script src="js/infoSessao.js"></script>
+
     <script>
         var parametros = new URLSearchParams(window.location.search);
         var id = parametros.get("id");

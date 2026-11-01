@@ -10,7 +10,7 @@
     <title>Next Frame | Avaliação</title>
 </head>
 
-<body onload="buscarHistorico()">
+<body onload="buscarHistorico(); plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -30,7 +30,7 @@
                     <div class="icone-usuario">
                         <img src=" assets/img/icon_usuario.png">
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
+                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -120,6 +120,8 @@
 </body>
 
 </html>
+
+<script src="js/infoSessao.js"></script>
 
 <script>
 
@@ -377,7 +379,6 @@
         { nome: "Mistério", mid: null, genero: "Mystery" },
         { nome: "Música", mid: null, genero: "Music" },
         { nome: "Romance", mid: "/m/02l7c8", genero: "Romance" },
-        { nome: "Super-herói", mid: "/m/04pbhw", genero: "Superhero" },
         { nome: "Suspense", mid: "/g/122hp9x6", genero: "Thriller" },
         { nome: "Terror", mid: "/m/03npn", genero: "Horror" }
     ];
