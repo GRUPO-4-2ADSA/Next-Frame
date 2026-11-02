@@ -239,17 +239,6 @@
             window.location.href = "questionarioRisco.html";
         }
 
-        function concluir() {
-
-            document.querySelector(".resultado-perfil").hidden = true;
-
-            document.getElementById("resumoCapacidade").textContent = perfil.capacidade;
-            document.getElementById("resumoTolerancia").textContent = perfil.tolerancia;
-            document.getElementById("resumoClassificacao").textContent = perfil.perfil;
-
-            document.getElementById("confirmacaoPerfil").hidden = false;
-        }
-
         function visualizarPerfil() {
 
             document.getElementById("confirmacaoPerfil").hidden = true;
@@ -257,6 +246,48 @@
             document.querySelector(".resultado-perfil").hidden = false;
 
             document.getElementById("botaoConcluir").style.display = "none";
+        }
+
+        async function concluir() {
+
+            var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+            if (idEmpresa == null || idEmpresa == "") {
+                alert("Não foi possível identificar sua empresa.");
+                return;
+            }
+
+            try {
+
+                var resposta = await fetch("http://localhost:3333/risco/atualizar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idEmpresaServer: idEmpresa,
+                        riscoServer: perfil.perfil
+                    })
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao salvar o perfil de risco.");
+                }
+
+                document.querySelector(".resultado-perfil").hidden = true;
+
+                document.getElementById("resumoCapacidade").textContent = perfil.capacidade;
+                document.getElementById("resumoTolerancia").textContent = perfil.tolerancia;
+                document.getElementById("resumoClassificacao").textContent = perfil.perfil;
+
+                document.getElementById("confirmacaoPerfil").hidden = false;
+
+            } catch (erro) {
+
+                console.log(erro);
+                alert("Não foi possível salvar seu perfil de risco. Tente novamente.");
+
+            }
         }
 
     </script>
