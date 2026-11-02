@@ -5,18 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/analise-historica.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Análise Histórica</title>
-    <style>
-        .btn-operador.ativo {
-            outline: 3px solid #ffc400;
-            outline-offset: 2px;
-        }
-    </style>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -27,17 +22,27 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portifólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
             </ul>
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -105,7 +110,8 @@
                             RECEITA
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="receita" placeholder="Ex: 50 milhões">
+                            <input type="text" name="receita" inputmode="numeric" pattern="[0-9]*"
+                                placeholder="Ex: 50000000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -127,7 +133,8 @@
                             ORÇAMENTO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="orcamento" placeholder="Ex: 20 milhões">
+                            <input type="text" name="orcamento" inputmode="numeric" pattern="[0-9]*"
+                                placeholder="Ex: 20000000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -149,7 +156,25 @@
                             GÊNERO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="genero" placeholder="Ex: Drama">
+                            <select name="genero">
+                                <option value="">Selecione um gênero</option>
+                                <option value="Action">Ação</option>
+                                <option value="Animation">Animação</option>
+                                <option value="Adventure">Aventura</option>
+                                <option value="Comedy">Comédia</option>
+                                <option value="Crime">Crime</option>
+                                <option value="Documentary">Documentário</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Family">Família</option>
+                                <option value="Fantasy">Fantasia</option>
+                                <option value="Science Fiction">Ficção Científica</option>
+                                <option value="War">Guerra</option>
+                                <option value="Music">Musical</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Superhero">Super-herói</option>
+                                <option value="Thriller">Suspense</option>
+                                <option value="Horror">Terror</option>
+                            </select>
                         </div>
                         <div class="grupo-operadores sem-operador"></div>
                     </div>
@@ -160,10 +185,6 @@
                     <button type="submit" class="btn-pesquisar">
                         <img src="assets/img/icon_lupa_branca.png">
                         PESQUISAR
-                    </button>
-                    <button type="button" class="btn-adicionar-filtro">
-                        <img src="assets/img/icon_mais.png">
-                        ADICIONAR FILTRO
                     </button>
                 </div>
 
@@ -192,10 +213,19 @@
 
     </div>
 
+    <script src="js/infoSessao.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var formulario = document.getElementById("formAnaliseHistorica");
             var chaveFiltros = "filtrosAnaliseHistorica";
+
+            // Permite apenas algarismos em receita e orçamento, inclusive ao colar valores.
+            formulario.querySelectorAll('input[name="receita"], input[name="orcamento"]').forEach(function (campo) {
+                campo.addEventListener("input", function () {
+                    campo.value = campo.value.replace(/[^0-9]/g, "");
+                });
+            });
 
             // Marca o operador escolhido em cada filtro.
             document.querySelectorAll(".grupo-operadores:not(.sem-operador)").forEach(function (grupo) {
@@ -215,7 +245,7 @@
                 try {
                     var filtros = JSON.parse(filtrosSalvos);
                     formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
-                        var campo = linha.querySelector("input[name]");
+                        var campo = linha.querySelector("input[name], select[name]");
                         var checkbox = linha.querySelector('input[type="checkbox"]');
                         var filtro = filtros[campo.name];
 
@@ -245,7 +275,7 @@
 
                 formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
                     var checkbox = linha.querySelector('input[type="checkbox"]');
-                    var campo = linha.querySelector("input[name]");
+                    var campo = linha.querySelector("input[name], select[name]");
                     if (!checkbox.checked || !campo.value.trim()) return;
 
                     var botaoAtivo = linha.querySelector(".btn-operador.ativo");

@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=" css/editar-perfil.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href=" css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Edição de Perfil</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -21,17 +22,27 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portifólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
             </ul>
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario ativo">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -53,18 +64,22 @@
 
     <div class="secao-perfil">
         <div class="card-perfil-wrapper">
-            <form class="card-perfil">
+            <form class="card-perfil" id="formPerfil">
 
                 <div class="container-horizontal cabecalho-perfil">
                     <div class="avatar-perfil">
-                        <img src="assets/img/icon_usuario.png">
-                        <span class="editar-avatar">
+                        <img src="assets/img/icon_usuario.png" id="fotoPerfil">
+
+                        <label for="foto" class="editar-avatar">
                             <img src="assets/img/icon_trocar_foto.png">
-                        </span>
+                        </label>
+
+                        <input type="file" id="foto" accept="image/jpeg, image/png, image/webp" hidden>
                     </div>
                     <div class="container alinhamento-esquerda info-usuario">
                         <p class="rotulo-usuario">NOME DO USUÁRIO</p>
-                        <h2 class="nome-usuario">Yuri Raphael</h2>
+                        <h2 class="nome-usuario" id="nomeExibido"></h2>
+                        </h2>
                     </div>
                 </div>
 
@@ -127,7 +142,17 @@
         </div>
 
     </div>
+
+    <script src="js/infoSessao.js"></script>
+
     <script>
+
+        function buscarPerfil() {
+            var id = sessionStorage.getItem("ID_USUARIO");
+
+            console.log("ID do usuário:", id);
+            carregarDadosPerfil(id);
+        }
 
         document.addEventListener("DOMContentLoaded", function () {
             var cargo = sessionStorage.getItem("CARGO_USUARIO");
@@ -138,9 +163,135 @@
                         item.style.display = "";
                     });
             }
+
+            buscarPerfil();
         });
 
+        function carregarDadosPerfil(id) {
+            fetch(`/usuarios/perfil/${id}`)
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+
+                    throw new Error("Erro ao buscar perfil.");
+                })
+                .then(function (dados) {
+                    document.getElementById("nome").value = dados.nome;
+                    document.getElementById("email").value = dados.email;
+                    document.getElementById("cpf").value = dados.cpf;
+                    document.getElementById("nascimento").value = dados.dt_nascimento.split("T")[0];
+                    if (dados.foto_perfil) {
+                        document.getElementById("fotoPerfil").src = dados.foto_perfil;
+                    }
+
+                    document.getElementById("nomeExibido").innerHTML = dados.nome;
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                });
+        }
+
+        // parte para receber os itens do forms 
+
+        document.getElementById("formPerfil").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            editarPerfil();
+            enviarFoto();
+ 
+        });
+
+        function editarPerfil() {
+            var id = sessionStorage.getItem("ID_USUARIO");
+
+            var nome = document.getElementById("nome").value;
+            var email = document.getElementById("email").value;
+            var cpf = document.getElementById("cpf").value;
+            var nascimento = document.getElementById("nascimento").value;
+            var senha = document.getElementById("senha").value;
+            var confirmarSenha = document.getElementById("confirmarSenha").value;
+
+            if (senha !== confirmarSenha) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            fetch(`/usuarios/perfil/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeServer: nome,
+                    emailServer: email,
+                    cpfServer: cpf,
+                    dtNascimentoServer: nascimento,
+                    senhaServer: senha
+                })
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Perfil atualizado com sucesso!");
+                        document.getElementById("nomeExibido").innerHTML = nome;
+                                   window.location.href = "login.html";
+                    } else {
+                        alert("Erro ao atualizar perfil.");
+                    }
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                });
+        }
+
+        // pre- visualização
+        document.getElementById("foto").addEventListener("change", function () {
+            var arquivo = this.files[0];
+
+            if (arquivo) {
+                var imagem = URL.createObjectURL(arquivo);
+                document.getElementById("fotoPerfil").src = imagem;
+            }
+        });
+
+        function enviarFoto() {
+            var id = sessionStorage.getItem("ID_USUARIO");
+            var foto = document.getElementById("foto").files[0];
+
+            if (!foto) {
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("foto", foto);
+
+            fetch(`/usuarios/perfil/${id}/foto`, {
+                method: "POST",
+                body: formData
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Foto atualizada com sucesso!");
+                    } else {
+                        alert("Erro ao atualizar foto.");
+                    }
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                });
+        }
+
+
+
     </script>
+
+
+
+
+
+
+
+
 </body>
 
 </html>

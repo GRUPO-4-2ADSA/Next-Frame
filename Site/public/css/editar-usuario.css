@@ -253,10 +253,10 @@ li {
     width: 100%;
     box-sizing: border-box;
     padding: 12px;
-    border: 1px solid #777;
+    border: 1px solid #121110;
     border-radius: 4px;
-    background-color: #262222;
-    color: #fff;
+    background-color: #f2ecdf;
+    color: #000000;
     font: inherit;
     cursor: pointer;
 }
@@ -269,4 +269,12 @@ li {
 #cargo:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+#empresa {
+    background-color: #f1ebdf;
+    color: #555;
+    border: 1px solid #888;
+    border-radius: 4px;
+    cursor: not-allowed;
 }

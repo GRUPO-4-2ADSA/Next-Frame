@@ -1,32 +1,18 @@
-
 var analiseHistoricaModel = require("../models/analiseHistoricaModel");
 
+let generosPermitidos = [
+    "Action", "Animation", "Adventure", "Comedy",
+    "Crime", "Documentary", "Drama", "Family",
+    "Fantasy", "Science Fiction", "War",
+    "Music", "Romance", "Superhero",
+    "Thriller", "Horror"
+];
 function converterNumero(valor) {
-    if (typeof valor === "number") return Number.isFinite(valor) ? valor : NaN;
-    if (typeof valor !== "string") return NaN;
+    // Somente inteiros não negativos, escritos apenas com algarismos.
+    if (typeof valor !== "string" || !/^\d+$/.test(valor)) return NaN;
 
-    var texto = valor.toLowerCase().trim().replace(/r\$/g, "").replace(/\s+/g, "");
-    var multiplicador = 1;
-
-    if (/bilh(ão|ões|ao|oes)$|bi$/.test(texto)) {
-        multiplicador = 1000000000;
-        texto = texto.replace(/bilh(ão|ões|ao|oes)$|bi$/, "");
-    } else if (/milh(ão|ões|ao|oes)$|mi$/.test(texto)) {
-        multiplicador = 1000000;
-        texto = texto.replace(/milh(ão|ões|ao|oes)$|mi$/, "");
-    } else if (/mil$/.test(texto)) {
-        multiplicador = 1000;
-        texto = texto.replace(/mil$/, "");
-    }
-
-    if (texto.includes(",")) {
-        texto = texto.replace(/\./g, "").replace(",", ".");
-    } else if (/^\d{1,3}(\.\d{3})+$/.test(texto)) {
-        texto = texto.replace(/\./g, "");
-    }
-
-    if (!/^\d+(\.\d+)?$/.test(texto)) return NaN;
-    return Number(texto) * multiplicador;
+    var numero = Number(valor);
+    return Number.isSafeInteger(numero) ? numero : NaN;
 }
 
 function validarFiltros(dados) {
@@ -41,26 +27,24 @@ function validarFiltros(dados) {
     for (var campo of campos) {
         var filtro = dados[campo];
 
-        if (!filtro || filtro.valor === undefined ||
-            filtro.valor === null || String(filtro.valor).trim() === "") {
-            continue;
-        }
-
+        if (filtro === undefined || filtro === null) continue;
         if (typeof filtro !== "object" || Array.isArray(filtro)) {
             throw new Error("Filtro inválido: " + campo);
         }
+        if (filtro.valor === undefined || filtro.valor === null ||
+            String(filtro.valor).trim() === "") continue;
 
         if (campo === "genero") {
-            if (typeof filtro.valor !== "string" || filtro.valor.length > 150) {
+            if (typeof filtro.valor !== "string" ||
+                !generosPermitidos.includes(filtro.valor)) {
                 throw new Error("Informe um gênero válido.");
             }
 
-            filtros.genero = { valor: filtro.valor.trim() };
+            filtros.genero = { valor: filtro.valor };
             continue;
         }
 
         var operador = filtro.operador || "igual";
-
         if (!operadores.includes(operador)) {
             throw new Error("Operador inválido em: " + campo);
         }
@@ -80,7 +64,7 @@ function validarFiltros(dados) {
             var numero = converterNumero(filtro.valor);
 
             if (!Number.isFinite(numero) || numero < 0) {
-                throw new Error("Valor inválido em: " + campo);
+                throw new Error("Valor inválido em: " + campo + ". Use apenas algarismos.");
             }
 
             filtros[campo] = { valor: numero, operador: operador };
@@ -105,7 +89,6 @@ function pesquisar(req, res) {
         })
         .catch(function (erro) {
             console.error("Erro na análise histórica:", erro);
-
             res.status(500).json({
                 mensagem: "Erro ao buscar filmes no banco de dados."
             });
