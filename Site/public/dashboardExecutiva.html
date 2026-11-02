@@ -21,7 +21,7 @@
 
 <body>
 
-    
+
     <!-- Menu lateral -->
     <aside class="menu-lateral">
         <div class="menu-topo">
@@ -91,7 +91,8 @@
         <div class="kpi">
             <div class="titulo-linha">
                 <h6 class="titulo">DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h6>
-                <span class="subtitulo-kpi">87 FILMES DE TERROR COM ORÇAMENTO SEMELHANTE, LANÇADOS ENTRE 2010 E 2024</span>
+                <span class="subtitulo-kpi">87 FILMES DE TERROR COM ORÇAMENTO SEMELHANTE, LANÇADOS ENTRE 2010 E
+                    2024</span>
             </div>
 
             <div class="container-kpi">
@@ -254,8 +255,8 @@
         <div class="rodape-dados">
             <div class="rodape-item">
                 <h4>Dados da pesquisa</h4>
-                <p>87 filmes de terror com orçamento semelhante. Comparação entre gêneros analisa todos os gêneros dentro da faixa de orçamento.</p>
-                <span class="subtitulo-kpi">87 FILMES DE TERROR COM ORÇAMENTO SEMELHANTE, LANÇADOS ENTRE 2010 E 2024</span>
+                <p>87 filmes de terror com orçamento semelhante. Comparação entre gêneros analisa todos os gêneros
+                    dentro da faixa de orçamento.</p>
             </div>
             <div class="rodape-item">
                 <h4>Fontes dos dados</h4>
@@ -278,9 +279,9 @@
                     que ajudam a avaliar novas produções.
                 </p>
 
-                <img src=" assets/img/logo_footer.png">
+                <img src="assets/img/logo_footer.png">
 
-                <h2>Acompanhe nossas redes <br> <img class="icon-redes" src=" assets/img/redes_socias.png"></h2>
+                <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
             </div>
 
             <div class="container creditos">
@@ -290,29 +291,40 @@
 
         </div>
         <script>
+            // ---------- Botão Ver filtros: Alternar entre aberto e fechado ----------
+            function alternarFiltros() {
+                let botao = document.getElementById('filtrosBotao');
+                botao.classList.toggle('aberto');
+            }
             // ---------- Botão Baixar: gera o PDF em página única ----------
-            let botaoBaixar = document.getElementById('botaoBaixar');
-
             function baixarPdf() {
                 let area = document.querySelector('.conteudo-principal');
 
                 // mede o conteúdo que vai para o PDF
-                let largura = Math.ceil(area.offsetWidth);
-                let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+                let largura = Math.ceil(area.offsetWidth); // offsetWidth e offsetHeight pegam a largura e a altura do elemento; Math.ceil arredonda para cima
+                let alturaConteudo = Math.ceil(area.offsetHeight);
 
-                // define o tamanho da página como o tamanho do conteúdo
+                // a página ganha uma folga de 40px, porque o layout de impressão pode ficar alguns pixels maior que o da tela
+                let alturaPagina = alturaConteudo + 40;
+
+                // cria uma tag style com id (para achar depois) e define o tamanho da página e a altura máxima do conteúdo
                 let estilo = document.createElement('style');
                 estilo.id = 'estiloPaginaPdf';
-                estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
-                document.head.appendChild(estilo);
+                estilo.textContent =
+                    '@page { size: ' + largura + 'px ' + alturaPagina + 'px; margin: 0; }' +
+                    '@media print { html, body { height: ' + (alturaConteudo + 20) + 'px; overflow: hidden; } }';
 
+                // insere a tag no head para ser usada na impressão e chama a impressão
+                document.head.appendChild(estilo);
                 window.print();
             }
 
-            // depois de imprimir, remove o tamanho temporário
+            // depois de imprimir, remove a tag temporaria que foi criada e inserida no head
             window.addEventListener('afterprint', function () {
-                const estilo = document.getElementById('estiloPaginaPdf');
-                if (estilo) estilo.remove();
+                let estilo = document.getElementById('estiloPaginaPdf');
+                if (estilo) {
+                    estilo.remove();
+                }
             });
 
             botaoBaixar.addEventListener('click', baixarPdf);
@@ -324,7 +336,7 @@
                 document.body.classList.toggle('menu-minimizado');
 
                 if (document.body.classList.contains('menu-minimizado')) {
-                    botaoMenu.setAttribute('aria-label', 'Expandir menu');
+                    botaoMenu.setAttribute('aria-label', 'Expandir menu'); //o aria-label é um atributo de acessibilidade para elementos que não tem texto escrito, tipo botões.
                 } else {
                     botaoMenu.setAttribute('aria-label', 'Minimizar menu');
                 }
@@ -333,56 +345,99 @@
             botaoMenu.addEventListener('click', alternarMenu);
 
             // ---------- Padrões do Chart.js ----------
-            Chart.defaults.color = '#b8c9da';
-            Chart.defaults.font.family = 'Arial, sans-serif';
-
+            Chart.defaults.color = '#b8c9da'; // cor padrão para os textos dos graficos
+            Chart.defaults.font.family = 'Arial, sans-serif'; // fonte padrão
             let corGrade = 'rgba(246, 226, 185, 0.15)';
+            let corDestaque = '#ffc400'; //vermelho
 
-            // ---------- Dispersão: Orçamento x Receita ----------
+            const paletaCinza = [ // Array com 10 tons de cinza predefinidos (do mais claro ao mais escuro)
+                'rgb(217, 208, 196)', // 0: mais claro
+                'rgb(206, 197, 186)', // 1
+                'rgb(196, 187, 175)', // 2
+                'rgb(185, 176, 165)', // 3
+                'rgb(175, 166, 154)', // 4: meio do caminho
+                'rgb(164, 155, 144)', // 5
+                'rgb(154, 144, 133)', // 6
+                'rgb(143, 134, 123)', // 7
+                'rgb(133, 123, 112)', // 8
+                'rgb(122, 112, 102)'  // 9: mais escuro
+            ];
 
-            // ---------- Dispersão: 87 filmes (80 base + 7 outliers) ----------
-            // x = receita, y = orçamento
-            let filmesBase = [];
-            for (let i = 0; i < 80; i++) {
-                let receita = 10 + (i * 11) % 36;
-                let variacao = ((i * 29) % 18) - 9;
-                let orcamento = Math.max(3, Math.round(receita * 0.9 + variacao));
-                filmesBase.push({ x: receita, y: orcamento, filme: 'Filme ' + (i + 1) });
+            function tomCinza(posicao) { //função pra retornar um indice do degrade
+                return paletaCinza[posicao];
             }
 
-            let filmesOutlier = [
-                { x: 8, y: 85, filme: 'Filme 81' },
-                { x: 21, y: 63, filme: 'Filme 82' },
-                { x: 33, y: 65, filme: 'Filme 83' },
-                { x: 47, y: 12, filme: 'Filme 84' },
-                { x: 58, y: 76, filme: 'Filme 85' },
-                { x: 72, y: 38, filme: 'Filme 86' },
-                { x: 87, y: 90, filme: 'Filme 87' }
+            // ---------- Dispersão: Orçamento x Receita (dados mockados) ----------
+            // cada filme: [orçamento, receita] em US$ mi. O 3º valor "1"  é meio que um boolean que vai marcar os fora do padrão (IQR do ROI)
+            let paresFilmes = [
+                [21, 37.8], [14, 11.9], [10, 5.2], [23, 48.3], [19, 27.7], [28.5, 62.1], [26, 54.6], [23, 39.6],
+                [19.5, 28.5], [20.5, 29.9], [21, 37.8], [21, 37.8], [17, 18.2], [12.5, 10.6], [24, 50.4], [14.5, 12.3],
+                [15, 12.8], [20, 29.2], [10, 4], [25.5, 53.6], [19.5, 28.5], [22, 39.6], [16, 13.6], [22.5, 39.6],
+                [23, 39.6], [24.5, 51.5], [15.5, 13.2], [26.5, 56.7], [14, 11.9], [21.5, 38.7], [16.5, 14], [19, 27.7],
+                [23.5, 49.4], [15.5, 13.2], [19, 27.7], [27.5, 58.8], [11, 8.5], [23.5, 49.4], [20, 29.2], [25, 52.5],
+                [18.5, 27], [16, 13.6], [18.5, 27], [20.5, 36.1], [11.5, 9.8], [18.5, 27], [30, 67.8], [22.5, 39.6],
+                [12, 10.2], [18, 26.3], [19.5, 28.5], [26, 54.6], [19, 27.7], [21.5, 38.7], [22, 38.7], [20, 30],
+                [26.5, 55.7], [17.5, 18.7], [27, 57.8], [17.5, 18.7], [20.5, 36.9], [13.5, 11.5], [17, 18.2], [21.5, 38.7],
+                [23.5, 49.4], [13.5, 11.5], [22, 39.6], [29, 63.2], [18, 19.3], [21, 37.8], [16.5, 14], [18, 26.3],
+                [30, 66.6], [15, 12.8], [17.5, 18.7], [25.5, 53.6], [30, 67.8], [14.5, 62.3, 1], [10, 46, 1], [28, 61],
+                [13, 11], [22.5, 39.6], [24.5, 51.5], [17, 18.2], [24, 50.4], [16.5, 14], [25, 52.5]
             ];
+
+
+            let correlacao = '0,89';
+            let tendencia = [{ x: 10, y: 2 }, { x: 30, y: 65.2 }]; // aqui são as referencias para a linha de tendencia
+            let seuProjeto = { x: 20, y: 40, filme: 'Seu projeto', roi: 1 };
+
+            // 2 array pra separar os outliers dos padrões
+            let filmesBase = [];
+            let filmesOutlier = [];
+            for (let i = 0; i < paresFilmes.length; i++) {
+                let orcamento = paresFilmes[i][0];
+                let receita = paresFilmes[i][1];
+                let ponto = { x: orcamento, y: receita, filme: 'Filme ' + (i + 1), roi: (receita - orcamento) / orcamento };
+
+                if (paresFilmes[i][2] === 1) {
+                    filmesOutlier.push(ponto);
+                } else {
+                    filmesBase.push(ponto);
+                }
+            }
+
             const dados = {
                 datasets: [
                     {
-                        label: 'Base',
+                        label: 'Filmes semelhantes',
                         data: filmesBase,
-                        backgroundColor: '#FF0000',
-                        borderColor: '#FF0000',
+                        backgroundColor: '#d9d0c4',
+                        borderColor: '#b5aca1',
                         pointRadius: 5
                     },
                     {
-                        label: 'Outlier',
+                        label: 'Outliers (IQR do ROI)',
                         data: filmesOutlier,
                         backgroundColor: '#f5c207',
                         borderColor: '#f5c207',
-                        pointRadius: 5
+                        pointRadius: 6
                     },
                     {
-                        label: 'Seu Projeto',
-                        data: [
-                            { x: 25, y: 20, filme: 'Seu projeto' }
-                        ],
-                        backgroundColor: '#ffffff',
-                        borderColor: '#ffffff',
-                        pointRadius: 5
+                        label: 'Tendência (r = ' + correlacao + ')',
+                        data: tendencia,
+                        showLine: true,
+                        pointStyle: 'line',
+                        pointRadius: 0,
+                        borderColor: '#f6e2b9',
+                        borderWidth: 2,
+                        borderDash: [6, 4],
+                        order: 2
+                    },
+                    {
+                        label: 'Seu projeto',
+                        data: [seuProjeto],
+                        backgroundColor: '#f5c207',
+                        borderColor: '#f5c207',
+                        pointStyle: 'rectRot',
+                        pointRadius: 12,
+                        order: -100
                     }
                 ]
             };
@@ -402,17 +457,28 @@
 
                         tooltip: {
                             enabled: true,
+                            filter: function (item) {
+                                return item.dataset.label.indexOf('Tendência') === -1;
+                            },
                             callbacks: {
-                                title: function (items) {
+                                title: function (items) { // o items é uma lista (Array) criada pelo próprio Chart.js contendo todas as bolinhas (ou dados) que estão embaixo do ponteiro do mouse naquele momento.
                                     return items[0].raw.filme || 'Filme sem nome';
                                 },
-                                label: function (context) {
-                                    const ponto = context.raw;
-                                    // eixo x = receita, eixo y = orçamento
-                                    return [
-                                        'Receita: ' + ponto.x + ' mi',
-                                        'Orçamento: ' + ponto.y + ' mi'
-                                    ];
+                                label: function (context) { // segue a msm logica de cima só que agora para os dados
+                                    let ponto = context.raw;
+                                    let rotuloReceita = 'Receita: US$ ';
+
+                                    // Se for o ponto do usuario, muda o texto da receita
+                                    if (ponto.filme === 'Seu projeto') {
+                                        rotuloReceita = 'Receita desejada: US$ ';
+                                    }
+
+                                    let textoOrcamento = 'Orçamento: US$ ' + ponto.x + ' mi';
+                                    let textoReceita = rotuloReceita + ponto.y + ' mi';
+                                    let textoRoi = 'ROI: ' + Math.round(ponto.roi * 100) + '%';
+
+                                    // Retorna a lista de linhas que vao aparecer dentro da caixinha
+                                    return [textoOrcamento, textoReceita, textoRoi];
                                 }
                             }
                         }
@@ -420,16 +486,15 @@
 
                     scales: {
                         x: {
-                            min: 0,
-                            max: 100,
-                            title: { display: true, text: 'Receita (US$)', color: '#ffffff' },
-                            ticks: { color: '#b8c9da' },
+                            min: 5,
+                            max: 35,
+                            title: { display: true, text: 'Orçamento (US$ mi)', color: '#ffffff' },
+                            ticks: { color: '#b8c9da', stepSize: 5 },
                             grid: { color: corGrade }
                         },
                         y: {
                             min: 0,
-                            max: 100,
-                            title: { display: true, text: 'Orçamento (US$)', color: '#dce6f2' },
+                            title: { display: true, text: 'Receita (US$ mi)', color: '#dce6f2' },
                             ticks: { color: '#b8c9da' },
                             grid: { color: corGrade }
                         }
@@ -438,7 +503,7 @@
             };
 
             new Chart(document.getElementById('graficoDispersao'), configuracao);
-
+            
             // ---------- Rosca: desempenho financeiro ----------
             new Chart(document.getElementById('graficoPizza'), {
                 type: 'doughnut',
@@ -655,10 +720,3 @@
 </body>
 
 </html>
-
-<script>
-    function alternarFiltros() {
-        let botao = document.getElementById('filtrosBotao');
-        botao.classList.toggle('aberto');
-    }
-</script>
