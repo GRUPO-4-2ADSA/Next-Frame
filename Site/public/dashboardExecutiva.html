@@ -73,7 +73,8 @@
             <div class="topo-acoes">
                 <button type="button" class="botao-acao" id="botaoBaixar">BAIXAR</button>
                 <a class="botao-acao" href="avaliacao.html">NOVA AVALIAÇÃO</a>
-                <a class="botao-acao" menu-gerenciamento" style="display: none;" href="dashboardFinanceira.html">Dashboard Financeira</a>
+                <a class="botao-acao" menu-gerenciamento" style="display: none;"
+                    href="dashboardFinanceira.html">Dashboard Financeira</a>
 
                 <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
                     <div class="filtros-texto">
@@ -116,6 +117,13 @@
                     <h5 class="informacao-kpi">▲ US$ 30 mi</h5>
                     <h6 class="descricao-kpi">US$ 5 MI ACIMA DA RECEITA DESEJADA (US$25MI)</h6>
                 </div>
+                <div class="box-kpi8">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Parcela dos 87 filmes semelhantes cuja receita foi igual ou maior que a receita desejada informada nos filtros (US$ 40 mi).&#10;Fórmula: filmes com receita de US$ 40 mi ou mais ÷ total de filmes semelhantes (26 ÷ 87).&#10;É um retrato histórico, não uma previsão.">i</span>
+                    <h6 class="titulo-kpi">FILMES QUE ATINGIRAM A RECEITA DESEJADA</h6>
+                    <h5 class="informacao-kpi">30%</h5>
+                    <h6 class="descricao-kpi">26 DE 87 FILMES SEMELHANTES FATURARAM US$ 40 MI OU MAIS</h6>
+                </div>
             </div>
         </div>
 
@@ -147,11 +155,22 @@
 
                 <div class="box-grafico2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Divisão dos projetos da faixa de orçamento buscada em déficit, neutro e superávit.&#10;Fórmula: projetos da categoria ÷ total de projetos da faixa.">i</span>
-                    <h3 class="titulo-grafico">Desempenho financeiro dos projetos na faixa buscada</h3>
+                        data-dica="Resultado financeiro dos 87 filmes semelhantes, pelo ROI de cada um.&#10;Superávit: ROI acima de +10%. Neutro: ROI entre −10% e +10%. Déficit: ROI abaixo de −10%.&#10;Abaixo, a parcela dos filmes que atingiu a receita desejada nos filtros (US$ 40 mi).">i</span>
+                    <h3 class="titulo-grafico">RESULTADO FINANCEIRO DOS FILMES SEMELHANTES</h3>
 
                     <div class="area-grafico-pizza">
                         <canvas id="graficoPizza"></canvas>
+                    </div>
+
+                    <div class="faixa-meta">
+                        <div class="faixa-meta-topo">
+                            <span>Alcançaram a receita desejada (US$ 40 mi)</span>
+                            <strong>30%</strong>
+                        </div>
+                        <div class="faixa-barra">
+                            <div class="faixa-preenchimento"></div>
+                        </div>
+                        <p>26 de 87 filmes semelhantes</p>
                     </div>
                 </div>
             </div>

@@ -207,6 +207,51 @@ body {
     flex: 1;
 }
 
+/* faixa da receita desejada, abaixo da rosca */
+.faixa-meta {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #4b4b4b;
+}
+
+.faixa-meta-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #f6e2b9;
+
+    strong {
+        font-size: 20px;
+        font-weight: normal;
+        color: #f1f5f9;
+    }
+
+
+}
+
+.faixa-barra {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #4b4b4b;
+    overflow: hidden;
+}
+
+.faixa-preenchimento {
+    height: 100%;
+    width: 30%;
+    border-radius: 4px;
+    background-color: #ffc400;
+}
+
+.faixa-meta p {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #f6e2b9;
+}
+
 /* linhas: interesse por ano / meses + ROI por gênero */
 
 .container-linhas {
@@ -277,5 +322,32 @@ body {
         font-size: 12px;
         color: #f6e2b9;
         line-height: 1.5;
+    }
+}
+
+@supports (grid-template-rows: subgrid) {
+    .box-kpi1,
+    .box-kpi2,
+    .box-kpi3,
+    .box-kpi4,
+    .box-kpi5,
+    .box-kpi6,
+    .box-kpi7,
+    .box-kpi8 {
+        grid-row: span 3;
+        display: grid;
+        grid-template-rows: subgrid;
+        align-content: start;
+    }
+}
+
+/* navegadores sem subgrid: reserva altura fixa */
+@supports not (grid-template-rows: subgrid) {
+    .titulo-kpi {
+        min-height: 3.6em;
+    }
+
+    .descricao-kpi {
+        min-height: 4.5em;
     }
 }
