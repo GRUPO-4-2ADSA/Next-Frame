@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Next Frame | Questionário de Perfil</title>
+
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/questionario-risco.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a class="ativo" href="perfil.html">Perfil de Risco</a></li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+            <a href="editarPerfil.html">
+                <div class="container-horizontal usuario">
+                    <div class="icone-usuario">
+                        <img src=" assets/img/icon_usuario.png">
+                    </div>
+                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">USUÁRIO</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <main class="conteudo-questionario">
+
+        <section class="cabecalho-questionario">
+
+            <span class="etiqueta">PERFIL DA PRODUTORA</span>
+
+            <h1>PERFIL DA <span>PRODUTORA</span></h1>
+
+            <p>
+                Responda ao questionário abaixo para conhecermos
+                o perfil de risco da sua produtora.
+            </p>
+
+        </section>
+
+        <section class="progresso-questionario">
+
+            <div class="informacoes-progresso">
+                <span id="numeroPergunta">Pergunta 1 de 6</span>
+                <span id="porcentagemProgresso">17%</span>
+            </div>
+
+            <div class="barra-progresso">
+                <div class="progresso-atual" id="progressoAtual"></div>
+            </div>
+
+        </section>
+
+        <form class="formulario-questionario" id="formularioPerfil">
+
+            <div class="identificacao-dimensao">
+                <h2 id="nomeDimensao">
+                    CAPACIDADE DE ABSORVER IMPACTOS
+                </h2>
+            </div>
+
+            <div class="pergunta" data-pergunta="1">
+
+                <h3>
+                    1. Caso um filme apresente um retorno financeiro muito
+                    abaixo do esperado, qual seria o impacto para sua produtora?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta1" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            Poderia comprometer a continuidade das operações.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta1" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            Exigiria a suspensão ou redução de outros projetos.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta1" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Seria absorvido sem grandes impactos nas operações.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta1" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Teria impacto reduzido devido à estrutura financeira da produtora.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="pergunta" data-pergunta="2" hidden>
+
+                <h3>
+                    2. Como sua produtora costuma lidar com imprevistos
+                    financeiros durante uma produção?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta2" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            Possui pouca margem para lidar com despesas inesperadas.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta2" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            Consegue lidar com pequenos imprevistos, mas dificuldades maiores afetam o planejamento.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta2" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Mantém uma reserva para lidar com imprevistos relevantes.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta2" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Possui planejamento financeiro e recursos destinados a diferentes cenários.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="pergunta" data-pergunta="3" hidden>
+
+                <h3>
+                    3. Ao decidir investir em um filme, qual situação
+                    melhor representa a realidade da produtora?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta3" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            Precisa comprometer grande parte dos recursos disponíveis.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta3" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            Precisa utilizar uma parcela considerável dos recursos.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta3" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Consegue manter parte dos recursos disponíveis para outros projetos.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta3" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Consegue distribuir os investimentos entre diferentes produções sem comprometer suas
+                            operações.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="pergunta" data-pergunta="4" hidden>
+
+                <h3>
+                    4. Como sua produtora reage diante de um projeto com
+                    grande potencial de retorno, mas também com elevada
+                    incerteza financeira?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta4" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            Prefere não investir nesse tipo de projeto.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta4" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            Considera somente se houver garantias ou redução dos riscos.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta4" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Avalia os possíveis resultados antes de decidir.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta4" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Está disposta a assumir maior incerteza quando o potencial de retorno justifica.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="pergunta" data-pergunta="5" hidden>
+
+                <h3>
+                    5. Se dois filmes apresentassem características semelhantes,
+                    mas um tivesse retorno mais previsível e o outro maior
+                    potencial de retorno com maior incerteza, qual sua produtora escolheria?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta5" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            O filme com retorno mais previsível.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta5" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            O filme com retorno mais previsível, salvo condições muito favoráveis do outro.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta5" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Analisaria os dois cenários antes de decidir.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta5" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Poderia escolher o filme com maior potencial de retorno.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="pergunta" data-pergunta="6" hidden>
+
+                <h3>
+                    6. Qual é a postura da produtora diante de projetos
+                    que apresentam maior possibilidade de resultados financeiros negativos?
+                </h3>
+
+                <div class="alternativas">
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta6" value="0">
+                        <span class="letra-alternativa">A)</span>
+                        <span class="texto-alternativa">
+                            Evita projetos com essa característica.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta6" value="1">
+                        <span class="letra-alternativa">B)</span>
+                        <span class="texto-alternativa">
+                            Aceita apenas quando existem medidas de proteção.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta6" value="2">
+                        <span class="letra-alternativa">C)</span>
+                        <span class="texto-alternativa">
+                            Considera os riscos e compara com o retorno potencial.
+                        </span>
+                    </label>
+
+                    <label class="alternativa">
+                        <input type="radio" name="pergunta6" value="3">
+                        <span class="letra-alternativa">D)</span>
+                        <span class="texto-alternativa">
+                            Aceita essa possibilidade quando acredita no potencial do projeto.
+                        </span>
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="navegacao-questionario">
+
+                <button type="button" id="botaoVoltar" onclick="voltarPergunta()" disabled>
+                    ← VOLTAR
+                </button>
+
+                <button type="button" id="botaoProxima" onclick="proximaPergunta()">
+                    PRÓXIMA →
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+    <div class="footer">
+
+        <div class="container-horizontal footer-infos">
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="assets/img/logo_footer.png">
+
+            <h2>Acompanhe nossas redes <br> <img class="icon-redes" src="assets/img/redes_socias.png"></h2>
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+
+
+    </div>
+    <script>
+
+        var perguntaAtual = 1;
+
+        function atualizarPergunta() {
+
+            for (var i = 1; i <= 6; i++) {
+                document.getElementById("pergunta" + i);
+            }
+
+            var perguntas = document.getElementsByClassName("pergunta");
+
+            for (var i = 0; i < perguntas.length; i++) {
+                perguntas[i].hidden = true;
+            }
+
+            perguntas[perguntaAtual - 1].hidden = false;
+
+            document.getElementById("numeroPergunta").textContent =
+                "Pergunta " + perguntaAtual + " de 6";
+
+            var porcentagem = Math.round((perguntaAtual / 6) * 100);
+
+            document.getElementById("porcentagemProgresso").textContent =
+                porcentagem + "%";
+
+            document.getElementById("progressoAtual").style.width =
+                porcentagem + "%";
+
+            if (perguntaAtual <= 3) {
+                document.getElementById("nomeDimensao").textContent =
+                    "CAPACIDADE DE ABSORVER IMPACTOS";
+            } else {
+                document.getElementById("nomeDimensao").textContent =
+                    "TOLERÂNCIA À INCERTEZA";
+            }
+
+            if (perguntaAtual == 1) {
+                document.getElementById("botaoVoltar").disabled = true;
+            } else {
+                document.getElementById("botaoVoltar").disabled = false;
+            }
+
+            if (perguntaAtual == 6) {
+                document.getElementById("botaoProxima").textContent = "FINALIZAR →";
+            } else {
+                document.getElementById("botaoProxima").textContent = "PRÓXIMA →";
+            }
+        }
+
+        function proximaPergunta() {
+
+            var respostas = document.getElementsByName("pergunta" + perguntaAtual);
+            var respondeu = false;
+
+            for (var i = 0; i < respostas.length; i++) {
+                if (respostas[i].checked == true) {
+                    respondeu = true;
+                }
+            }
+
+            if (respondeu == false) {
+                alert("Selecione uma alternativa para continuar.");
+            } else {
+
+                if (perguntaAtual < 6) {
+                    perguntaAtual++;
+                    atualizarPergunta();
+                } else {
+                    alert("Questionário respondido!");
+                }
+
+            }
+        }
+
+        function voltarPergunta() {
+
+            if (perguntaAtual > 1) {
+                perguntaAtual--;
+                atualizarPergunta();
+            }
+
+        }
+
+        atualizarPergunta();
+
+
+        function calcularPontuacao(inicio, fim) {
+
+            var pontuacao = 0;
+
+            for (var i = inicio; i <= fim; i++) {
+
+                var respostas = document.getElementsByName("pergunta" + i);
+
+                for (var j = 0; j < respostas.length; j++) {
+
+                    if (respostas[j].checked == true) {
+                        pontuacao = pontuacao + Number(respostas[j].value);
+                    }
+
+                }
+
+            }
+
+            return pontuacao;
+        }
+
+        function classificarDimensao(pontuacao) {
+
+            if (pontuacao <= 3) {
+                return "Baixa";
+            } else if (pontuacao <= 6) {
+                return "Moderada";
+            } else {
+                return "Alta";
+            }
+
+        }
+
+
+        function identificarPerfil(capacidade, tolerancia) {
+
+            if (capacidade == "Baixa") {
+                return "Conservador";
+            }
+
+            if (capacidade == "Moderada") {
+
+                if (tolerancia == "Baixa") {
+                    return "Conservador";
+                } else {
+                    return "Moderado";
+                }
+
+            }
+
+            if (capacidade == "Alta") {
+
+                if (tolerancia == "Baixa") {
+                    return "Conservador";
+                } else if (tolerancia == "Moderada") {
+                    return "Moderado";
+                } else {
+                    return "Arrojado";
+                }
+
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>
