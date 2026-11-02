@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Next Frame | Perfil de Risco</title>
+
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/resultado-produtora.css">
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container-horizontal">
+
+            <a href="index.html">
+                <img class="logo" src="assets/img/logo.png">
+            </a>
+
+            <ul class="navbar">
+                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li><a class="ativo" href="perfil.html">Perfil de Risco</a></li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+
+            <a href="editarPerfil.html">
+                <div class="container-horizontal usuario">
+                    <div class="icone-usuario">
+                        <img src="assets/img/icon_usuario.png">
+                    </div>
+                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">USUÁRIO</span></p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <main class="conteudo-questionario">
+
+        <section class="resultado-perfil">
+
+            <div class="cabecalho-resultado">
+                <h1>SEU <span>PERFIL DE RISCO</span></h1>
+                <p>Aqui está o resumo do perfil da sua produtora.</p>
+            </div>
+
+            <div class="cards-resultado">
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_alvo.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CAPACIDADE DE ABSORVER IMPACTOS</h3>
+                        <h2 id="resultadoCapacidade"></h2>
+                        <p id="descricaoCapacidade"></p>
+                        <p class="pontuacao-resultado" id="pontosCapacidade"></p>
+                    </div>
+                </div>
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_duvida.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>TOLERÂNCIA À INCERTEZA</h3>
+                        <h2 id="resultadoTolerancia"></h2>
+                        <p id="descricaoTolerancia"></p>
+                        <p class="pontuacao-resultado" id="pontosTolerancia"></p>
+                    </div>
+                </div>
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_user2.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CLASSIFICAÇÃO DO PERFIL</h3>
+                        <h2 id="resultadoPerfilTexto"></h2>
+                        <p id="descricaoPerfil"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="finalizacao-resultado">
+                <button type="button" onclick="refazerFormulario()">
+                    REFAZER FORMULÁRIO
+                </button>
+
+                <button type="button" onclick="concluir()">
+                    CONCLUIR
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div class="footer">
+        <div class="container-horizontal footer-infos">
+
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="assets/img/logo_footer.png">
+
+            <h2>
+                Acompanhe nossas redes <br>
+                <img class="icon-redes" src="assets/img/redes_socias.png">
+            </h2>
+
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+    </div>
+
+    <script>
+
+        var dadosPerfil = sessionStorage.getItem("perfilProdutora");
+
+        if (dadosPerfil == null) {
+            window.location.href = "questionarioRisco.html";
+        } else {
+
+            var perfil = JSON.parse(dadosPerfil);
+
+            document.getElementById("resultadoCapacidade").textContent = perfil.capacidade;
+            document.getElementById("pontosCapacidade").textContent =
+                "Pontuação: " + perfil.pontosCapacidade + " de 9";
+
+            document.getElementById("resultadoTolerancia").textContent = perfil.tolerancia;
+            document.getElementById("pontosTolerancia").textContent =
+                "Pontuação: " + perfil.pontosTolerancia + " de 9";
+
+            document.getElementById("resultadoPerfilTexto").textContent = perfil.perfil;
+
+            if (perfil.capacidade == "Baixa") {
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora apresenta menor capacidade declarada de absorver impactos financeiros.";
+            } else if (perfil.capacidade == "Moderada") {
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora apresenta capacidade intermediária de lidar com impactos financeiros.";
+            } else {
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora demonstra boa capacidade declarada para lidar com impactos financeiros.";
+            }
+
+            if (perfil.tolerancia == "Baixa") {
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora prefere projetos com menor nível de incerteza.";
+            } else if (perfil.tolerancia == "Moderada") {
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora considera os riscos e busca equilibrar incerteza e segurança.";
+            } else {
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora demonstra maior disposição para assumir incertezas financeiras.";
+            }
+
+            if (perfil.perfil == "Conservador") {
+                document.getElementById("descricaoPerfil").textContent =
+                    "Prioriza segurança e projetos com menor exposição a riscos.";
+            } else if (perfil.perfil == "Moderado") {
+                document.getElementById("descricaoPerfil").textContent =
+                    "Busca equilibrar segurança e potencial de retorno.";
+            } else {
+                document.getElementById("descricaoPerfil").textContent =
+                    "Apresenta maior disposição para assumir riscos em busca de retornos potenciais.";
+            }
+        }
+
+        function refazerFormulario() {
+            sessionStorage.removeItem("perfilProdutora");
+            window.location.href = "questionarioRisco.html";
+        }
+
+        function concluir() {
+            window.location.href = "confirmacaoProdutora.html";
+        }
+
+    </script>
+
+</body>
+</html>

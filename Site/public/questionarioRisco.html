@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/questionario-risco.css">
+    <link rel="stylesheet" href="css/resultado-produtora.css">
 </head>
 
 <body>
@@ -360,6 +361,91 @@
 
         </form>
 
+        <section class="resultado-perfil" id="resultadoPerfil" hidden>
+
+            <div class="cabecalho-resultado">
+                <h1>SEU <span>PERFIL DE RISCO</span></h1>
+
+                <p>
+                    Aqui está o resumo do perfil da sua produtora.
+                </p>
+            </div>
+
+            <div class="cards-resultado">
+                <div class="card-resultado">
+
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_alvo.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CAPACIDADE DE ABSORVER IMPACTOS</h3>
+
+                        <h2 id="resultadoCapacidade">Alta</h2>
+
+                        <p id="descricaoCapacidade">
+                            Classificação da capacidade de lidar com impactos financeiros.
+                        </p>
+
+                        <p class="pontuacao-resultado" id="pontosCapacidade">
+                            Pontuação: 0 de 9
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="card-resultado">
+
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_duvida.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>TOLERÂNCIA À INCERTEZA</h3>
+
+                        <h2 id="resultadoTolerancia">Moderada</h2>
+
+                        <p id="descricaoTolerancia">
+                            Classificação da disposição para assumir incertezas financeiras.
+                        </p>
+
+                        <p class="pontuacao-resultado" id="pontosTolerancia">
+                            Pontuação: 0 de 9
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="card-resultado">
+
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_user2.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CLASSIFICAÇÃO DO PERFIL</h3>
+
+                        <h2 id="resultadoPerfilTexto">Moderado</h2>
+
+                        <p id="descricaoPerfil">
+                            Classificação geral do perfil de risco da produtora.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="finalizacao-resultado">
+                <button type="button" onclick="voltarInicio()">
+                    CONCLUIR
+                </button>
+            </div>
+
+        </section>
+
+
     </main>
 
     <div class="footer">
@@ -452,7 +538,7 @@
                     perguntaAtual++;
                     atualizarPergunta();
                 } else {
-                    alert("Questionário respondido!");
+                    calcularPerfil();
                 }
 
             }
@@ -466,9 +552,6 @@
             }
 
         }
-
-        atualizarPergunta();
-
 
         function calcularPontuacao(inicio, fim) {
 
@@ -490,6 +573,101 @@
 
             return pontuacao;
         }
+
+        function calcularPerfil() {
+
+            var pontosCapacidade = calcularPontuacao(1, 3);
+            var pontosTolerancia = calcularPontuacao(4, 6);
+
+            var capacidade = classificarDimensao(pontosCapacidade);
+            var tolerancia = classificarDimensao(pontosTolerancia);
+
+            var perfil = identificarPerfil(capacidade, tolerancia);
+
+            document.getElementById("resultadoCapacidade").textContent = capacidade;
+
+            document.getElementById("pontosCapacidade").textContent =
+                "Pontuação: " + pontosCapacidade + " de 9";
+
+            document.getElementById("resultadoTolerancia").textContent = tolerancia;
+
+            document.getElementById("pontosTolerancia").textContent =
+                "Pontuação: " + pontosTolerancia + " de 9";
+
+
+            document.getElementById("resultadoPerfilTexto").textContent = perfil;
+
+            if (capacidade == "Baixa") {
+
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora apresenta menor capacidade declarada de absorver impactos financeiros.";
+
+            } else if (capacidade == "Moderada") {
+
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora apresenta capacidade intermediária de lidar com impactos financeiros.";
+
+            } else {
+
+                document.getElementById("descricaoCapacidade").textContent =
+                    "A produtora demonstra boa capacidade declarada para lidar com impactos financeiros.";
+
+            }
+
+
+            if (tolerancia == "Baixa") {
+
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora prefere projetos com menor nível de incerteza.";
+
+            } else if (tolerancia == "Moderada") {
+
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora considera os riscos e busca equilibrar incerteza e segurança.";
+
+            } else {
+
+                document.getElementById("descricaoTolerancia").textContent =
+                    "A produtora demonstra maior disposição para assumir incertezas financeiras.";
+
+            }
+
+
+            if (perfil == "Conservador") {
+
+                document.getElementById("descricaoPerfil").textContent =
+                    "Prioriza segurança e projetos com menor exposição a riscos.";
+
+            } else if (perfil == "Moderado") {
+
+                document.getElementById("descricaoPerfil").textContent =
+                    "Busca equilibrar segurança e potencial de retorno.";
+
+            } else {
+
+                document.getElementById("descricaoPerfil").textContent =
+                    "Apresenta maior disposição para assumir riscos em busca de retornos potenciais.";
+
+            }
+
+
+            
+            sessionStorage.setItem("perfilProdutora", JSON.stringify({
+                pontosCapacidade: pontosCapacidade,
+                pontosTolerancia: pontosTolerancia,
+                capacidade: capacidade,
+                tolerancia: tolerancia,
+                perfil: perfil
+            }));
+
+            window.location.href = "resultadoRisco.html";
+
+        }
+
+        function voltarInicio() {
+            window.location.href = "perfilProdutora.html";
+        }
+
 
         function classificarDimensao(pontuacao) {
 
