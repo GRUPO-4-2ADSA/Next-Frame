@@ -423,3 +423,7 @@ input[list]::-webkit-calendar-picker-indicator {
 .btn-pesquisar:hover {
     background-color: rgb(194, 0, 17);
 }
+
+.footer {
+    width: 100% !important;
+}
