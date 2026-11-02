@@ -33,21 +33,21 @@
         <nav class="menu-itens">
             <a class="menu-item" href="index.html">
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
-                <span class="menu-rotulo">Início</span>
+                <span class="menu-rotulo">INÍCIO</span>
             </a>
             <a class="menu-item ativo" href="dashboardFinanceira.html">
                 <img class="menu-icone" src="assets/img/chart.png" alt="">
-                <span class="menu-rotulo">Dashboard</span>
+                <span class="menu-rotulo">DASHBOARD</span>
             </a>
-            <a class="menu-item" href="gerenciadorUsuario.html">
+            <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
                 <img class="menu-icone" src="assets/img/icon_user.png" alt="">
-                <span class="menu-rotulo">Usuários</span>
+                <span class="menu-rotulo">USUÁRIOS</span>
             </a>
         </nav>
 
         <div class="menu-usuario">
             <div class="usuario-linha">
-                <img class="usuario-avatar" src="assets/img/icon_usuario.png" alt="">
+                <img class="usuario-avatar" src="assets/img/persona_fin.png" alt="">
                 <div class="usuario-texto">
                     <p class="usuario-nome">Rafael</p>
                     <p class="usuario-cargo">Analista Financeiro</p>
@@ -69,15 +69,16 @@
             </div>
 
             <div class="topo-acoes">
-                <button type="button" class="botao-acao" id="botaoBaixar">Baixar</button>
-                <a class="botao-acao" href="avaliacao.html">Nova Avaliação</a>
-                <a class="botao-acao" href="dashboardExecutiva.html">Dashboard Executiva</a>
+                <button type="button" class="botao-acao" id="botaoBaixar">BAIXAR</button>
+                <a class="botao-acao" href="avaliacao.html">NOVA AVALIAÇÃO</a>
+                <a class="botao-acao menu-gerenciamento" style="display: none;" href="dashboardExecutiva.html">DASHBOARD
+                    EXECUTIVA</a>
 
                 <button type="button" class="filtros-aplicados" id="filtrosBotao">
                     <div class="filtros-texto">
-                        <span class="filtros-titulo">Filtros aplicados</span>
+                        <span class="filtros-titulo">FILTROS APLICADOS</span>
                         <span class="filtros-ver">ver filtros</span>
-                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 25 mi</span>
+                        <span class="filtros-detalhe">Gênero: Terror · Orçamento: US$ 20 mi · Receita: US$ 40 mi</span>
                     </div>
                     <span class="filtros-seta">▾</span>
                 </button>
@@ -86,54 +87,54 @@
 
         <div class="indicadores">
             <div class="indicadores-topo">
-                <h2>Principais Indicadores</h2>
+                <h2>DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h2>
                 <p class="indicadores-total">87 filmes semelhantes analisados</p>
             </div>
 
             <div class="indicadores-lista">
 
                 <div class="kpi">
-                    <span class="info-dica" tabindex="0" data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
                     <p class="kpi-titulo">Risco histórico</p>
                     <p class="kpi-valor">Baixo</p>
                     <p class="kpi-detalhe">68% dos filmes similares tiveram retorno positivo</p>
                 </div>
 
                 <div class="kpi">
-                    <span class="info-dica" tabindex="0" data-dica="Quanto os filmes semelhantes devolveram para cada US$ 1 investido (valor do meio da lista).&#10;Fórmula: mediana de (receita ÷ orçamento).&#10;Comparação: mediana geral do gênero.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Quanto os filmes semelhantes devolveram para cada US$ 1 investido (valor do meio da lista).&#10;Fórmula: mediana de (receita ÷ orçamento).&#10;Comparação: mediana geral do gênero.">i</span>
                     <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
                     <p class="kpi-valor">1,5x</p>
                     <p class="kpi-detalhe">+0,3x comparado com a mediana geral do gênero</p>
                 </div>
 
                 <div class="kpi">
-                    <span class="info-dica" tabindex="0" data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
                     <p class="kpi-titulo">Receita mediana no recorte analisado</p>
-                    <p class="kpi-valor"><span class="kpi-seta">▲</span> US$ 30 mi</p>
-                    <p class="kpi-detalhe">+US$5mi acima da receita desejada (US$25 mi)</p>
+                    <p class="kpi-valor"><span class="kpi-seta">▼</span> US$ 30 mi</p>
+                    <p class="kpi-detalhe">US$ 10 mi abaixo da receita desejada (US$ 40 mi)</p>
                 </div>
 
                 <div class="kpi">
-                    <span class="info-dica" tabindex="0" data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
                     <p class="kpi-titulo">Seu Orçamento</p>
                     <p class="kpi-valor">US$ 20 mi</p>
                     <p class="kpi-detalhe">Aumento no orçamento não impacta significativamente o sucesso(3%)</p>
                 </div>
 
-                <div class="kpi kpi-cenario pior" id="kpiCenario">
-                    <span class="info-dica" id="kpiCenarioInfo" tabindex="0" data-dica="Resultado que só 10% dos filmes semelhantes não alcançaram.&#10;Fórmula: percentil 10 (P10) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
-                    <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no pior cenário (P10)</p>
-                    <p class="kpi-valor" id="kpiCenarioValor"></p>
-                    <p class="kpi-detalhe" id="kpiCenarioDetalhe">↓ 60% abaixo do ROI mediano nesse gênero</p>
-
-                    <div class="kpi-mini">
-                        <canvas id="kpiCenarioGrafico"></canvas>
-                    </div>
+                <div class="kpi kpi-cenario melhor" id="kpiCenario">
+                    <span class="info-dica" id="kpiCenarioInfo" tabindex="0"
+                        data-dica="Resultado que só 10% dos filmes semelhantes superaram.&#10;Fórmula: percentil 90 (P90) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
+                    <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no melhor cenário (P90)</p>
+                    <p class="kpi-valor" id="kpiCenarioValor">4x</p>
+                    <p class="kpi-detalhe" id="kpiCenarioDetalhe">↑ 120% acima do ROI mediano nesse gênero</p>
 
                     <div class="kpi-cenario-botoes" role="group" aria-label="Alternar cenário">
-                        <button type="button" class="kpi-cenario-btn pior ativo" data-cenario="pior">Pior
-                            cenário</button>
-                        <button type="button" class="kpi-cenario-btn melhor" data-cenario="melhor">Melhor
+                        <button type="button" class="kpi-cenario-btn pior" data-cenario="pior">Pior cenário</button>
+                        <button type="button" class="kpi-cenario-btn melhor ativo" data-cenario="melhor">Melhor
                             cenário</button>
                     </div>
                 </div>
@@ -144,34 +145,42 @@
         <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
 
         <div class="graficos">
-            <div class="grafico-caixa grafico-caixa-larga grafico-com-cards">
-                <span class="info-dica" tabindex="0" data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
-                <h3 class="grafico-titulo">Orçamento x Receita</h3>
+            <div class="box-grafico1">
+                <span class="info-dica" tabindex="0"
+                    data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e receita no vertical.&#10;Linha tracejada: tendência (regressão linear). Fora do padrão: filmes com ROI além dos limites da regra do IQR. Seu projeto: ponto amarelo (orçamento US$ 20 mi e receita desejada US$ 40 mi).&#10;Correlação (Pearson, 87 filmes): vai de -1 a 1; 0,89 indica relação forte. Mostra associação, não causa.">i</span>
+                <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
 
-                <div class="grafico-area">
-                    <canvas id="graficoDispersao"></canvas>
+                <div class="area-grafico">
+                    <canvas class="dispersao" id="graficoDispersao"></canvas>
                 </div>
 
-                <div class="grafico-cards">
-                    <div class="grafico-card">
-                        <p class="grafico-card-titulo">Correlação</p>
-                        <p class="grafico-card-valor">0,70</p>
-                        <p class="grafico-card-texto">Orçamento x receita</p>
+                <div class="informacoes-grafico">
+                    <div class="card-informacao">
+                        <h6>Correlação</h6>
+                        <h3>0,89</h3>
+                        <p>Forte · orçamento x receita</p>
                     </div>
 
-                    <div class="grafico-card">
-                        <p class="grafico-card-titulo">Filmes analisados</p>
-                        <p class="grafico-card-valor" id="valorTotalFilmes">87</p>
+                    <div class="card-informacao">
+                        <h6>Filmes analisados</h6>
+                        <h3>87</h3>
                     </div>
                 </div>
             </div>
 
             <div class="grafico-caixa">
-                <span class="info-dica" tabindex="0" data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
-                <h3 class="grafico-titulo">Resultado dos filmes semelhantes</h3>
-
-                <div class="grafico-area">
-                    <canvas id="graficoRosca"></canvas>
+                <span class="info-dica" tabindex="0"
+                    data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
+                <h3 class="grafico-titulo">RETORNO FINANCEIRO POR FAIXA DE ROI</h3>
+                <div class="rosca-container">
+                    <div class="rosca-area">
+                        <canvas id="graficoRosca"></canvas>
+                        <div class="rosca-centro">
+                            <strong>68%</strong>
+                            <span>com retorno<br>positivo</span>
+                        </div>
+                    </div>
+                    <ul class="rosca-legenda" id="roscaLegenda"></ul>
                 </div>
             </div>
         </div>
@@ -180,8 +189,9 @@
 
         <div class="graficos">
             <div class="grafico-caixa">
-               <span class="info-dica" tabindex="0" data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
-                <h3 class="grafico-titulo">% de sucesso por faixa de orçamento</h3>
+                <span class="info-dica" tabindex="0"
+                    data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
+                <h3 class="grafico-titulo">% DE SUCESSO POR FAIXA DE ORÇAMENTO</h3>
 
                 <div class="legenda">
                     <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
@@ -201,12 +211,12 @@
 
         <div class="graficos">
             <div class="grafico-caixa">
-                <span class="info-dica" tabindex="0" data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
-                <h3 class="grafico-titulo">ROI mediano do "gênero" por período</h3>
+                <span class="info-dica" tabindex="0"
+                    data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
+                <h3 class="grafico-titulo">ROI MEDIANO DE TERROR POR PERÍODO</h3>
 
                 <div class="legenda">
                     <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero selecionado</span>
-
                     <label class="legenda-item roi-periodo-filtro">
                         Período nos últimos
                         <select id="filtroPeriodo">
@@ -289,11 +299,9 @@
     function baixarPdf() {
         let area = document.querySelector('.conteudo-principal');
 
-        // mede o conteúdo que vai para o PDF
         let largura = Math.ceil(area.offsetWidth);
-        let altura = Math.ceil(area.offsetHeight) + 2; // +2 evita uma página em branco no fim
+        let altura = Math.ceil(area.offsetHeight) + 2;
 
-        // define o tamanho da página como o tamanho do conteúdo
         let estilo = document.createElement('style');
         estilo.id = 'estiloPaginaPdf';
         estilo.textContent = '@page { size: ' + largura + 'px ' + altura + 'px; margin: 0; }';
@@ -304,7 +312,6 @@
 
     botaoBaixar.addEventListener('click', baixarPdf);
 
-    // depois de imprimir, remove o tamanho temporário
     window.addEventListener('afterprint', function () {
         let estilo = document.getElementById('estiloPaginaPdf');
         if (estilo) estilo.remove();
@@ -322,7 +329,7 @@
     // ---------- Gráficos ----------
     Chart.defaults.color = '#d8d2ce';
 
-    // % de sucesso por faixa de orçamento
+    // ---------- % de sucesso por faixa de orçamento ----------
     let faixasOrcamento = [
         ['US$ 12 mi', '(-40%)'],
         ['US$ 16 mi', '(-20%)'],
@@ -333,20 +340,43 @@
     let deficit = [10, 15, 14, 16, 15];
     let neutro = [60, 50, 39, 34, 36];
     let superavit = [30, 35, 47, 50, 49];
-    let taxaSegura = [40, 40, 40, 40, 40];
+
+    // Plugin para desenhar a linha tracejada de ponta a ponta (da borda esquerda à direita do gráfico)
+    let pluginLinhaPontaAPonta = {
+        id: 'linhaPontaAPonta',
+        afterDatasetsDraw: function (chart) {
+            let ctx = chart.ctx;
+            let chartArea = chart.chartArea;
+            let yScale = chart.scales.y;
+
+            // Calcula a posição Y exata da taxa segura (40%)
+            let yPos = yScale.getPixelForValue(40);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash([4, 6]); // Estilo tracejado
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#ffffff';
+
+            // Desenha da extremidade esquerda até a extremidade direita da área do gráfico
+            ctx.moveTo(chartArea.left, yPos);
+            ctx.lineTo(chartArea.right, yPos);
+            ctx.stroke();
+            ctx.restore();
+        }
+    };
 
     const ctxEmpilhado = document.getElementById('graficoEmpilhado');
 
     new Chart(ctxEmpilhado, {
         type: 'bar',
-        plugins: [ChartDataLabels],
+        plugins: [ChartDataLabels, pluginLinhaPontaAPonta],
         data: {
             labels: faixasOrcamento,
             datasets: [
-                { type: 'line', label: 'Taxa segura', data: taxaSegura, borderColor: '#ffffff', borderWidth: 2, borderDash: [3, 6], pointRadius: 0, datalabels: { display: false } },
-{ label: 'Superávit', data: superavit, backgroundColor: '#ffc400', datalabels: { color: '#2a2624' } },
-{ label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-{ label: 'Déficit', data: deficit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
+                { label: 'Superávit', data: superavit, backgroundColor: '#ffc400', datalabels: { color: '#2a2624' } },
+                { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
+                { label: 'Déficit', data: deficit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
             ]
         },
         options: {
@@ -370,7 +400,7 @@
             plugins: {
                 legend: { display: false },
                 datalabels: {
-                    color: 'white',
+                    color: '#232222',
                     font: { weight: 'bold', size: 14 },
                     formatter: function (valor) {
                         return valor + '%';
@@ -384,37 +414,45 @@
     let generoSelecionado = 'Terror';
 
     let roiPorAno = [
-        { ano: 2000, roi: 10 },
-        { ano: 2001, roi: 15 },
-        { ano: 2002, roi: 12 },
-        { ano: 2003, roi: 20 },
-        { ano: 2004, roi: 18 },
-        { ano: 2005, roi: 25 },
-        { ano: 2006, roi: 30 },
-        { ano: 2007, roi: 28 },
-        { ano: 2008, roi: 22 },
-        { ano: 2009, roi: 35 },
-        { ano: 2010, roi: 32 },
-        { ano: 2011, roi: 40 },
-        { ano: 2012, roi: 38 },
-        { ano: 2013, roi: 45 },
-        { ano: 2014, roi: 50 },
+        { ano: 2000, roi: 80 },
+        { ano: 2001, roi: 75 },
+        { ano: 2002, roi: 68 },
+        { ano: 2003, roi: 50 },
+        { ano: 2004, roi: 90 },
+        { ano: 2005, roi: 110 },
+        { ano: 2006, roi: 130 },
+        { ano: 2007, roi: 94 },
+        { ano: 2008, roi: 98 },
+        { ano: 2009, roi: 150 },
+        { ano: 2010, roi: 110 },
+        { ano: 2011, roi: 70 },
+        { ano: 2012, roi: 68 },
+        { ano: 2013, roi: 90 },
+        { ano: 2014, roi: 135 },
         { ano: 2015, roi: 100 },
         { ano: 2016, roi: 150 },
         { ano: 2017, roi: 220 },
         { ano: 2018, roi: 250 },
         { ano: 2019, roi: 300 },
-        { ano: 2020, roi: 350 },
-        { ano: 2021, roi: 400 },
+        { ano: 2020, roi: 300 },
+        { ano: 2021, roi: 220 },
         { ano: 2022, roi: 350 },
         { ano: 2023, roi: 300 },
         { ano: 2024, roi: 250 }
     ];
 
-    // devolve só os últimos N anos, contando a partir do ano mais recente
+    // função pra ver qual o periodo de anos selecionados e retornar os anos dentro daquela faixa
     function filtrarPorPeriodo(anos) {
         let ultimoAno = roiPorAno[roiPorAno.length - 1].ano;
-        return roiPorAno.filter(d => d.ano > ultimoAno - anos);
+        let resultado = [];
+
+        for (let i = 0; i < roiPorAno.length; i++) {
+            if (roiPorAno[i].ano > ultimoAno - anos) {
+                resultado.push(roiPorAno[i]);
+            }
+        }
+
+        return resultado;
     }
 
     let seletorPeriodo = document.getElementById('filtroPeriodo');
@@ -422,13 +460,22 @@
 
     const ctxRoiPeriodo = document.getElementById('graficoRoiPeriodo');
 
+    //  duas listas vazias para guardar os dados
+    let anosLabels = [];
+    let roisData = [];
+
+    for (let i = 0; i < dadosInicio.length; i++) {
+        anosLabels.push(dadosInicio[i].ano);
+        roisData.push(dadosInicio[i].roi);
+    }
+
     let graficoRoiPeriodo = new Chart(ctxRoiPeriodo, {
         type: 'line',
         data: {
-            labels: dadosInicio.map(d => d.ano),
+            labels: anosLabels,
             datasets: [{
                 label: generoSelecionado,
-                data: dadosInicio.map(d => d.roi),
+                data: roisData,
                 borderColor: '#ff3030',
                 backgroundColor: '#ff3030',
                 borderWidth: 3,
@@ -471,264 +518,222 @@
 
     seletorPeriodo.addEventListener('change', function () {
         let dados = filtrarPorPeriodo(Number(this.value));
-        graficoRoiPeriodo.data.labels = dados.map(d => d.ano);
-        graficoRoiPeriodo.data.datasets[0].data = dados.map(d => d.roi);
+
+        let novosAnos = [];
+        let novosRois = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            novosAnos.push(dados[i].ano);
+            novosRois.push(dados[i].roi);
+        }
+
+        graficoRoiPeriodo.data.labels = novosAnos;
+        graficoRoiPeriodo.data.datasets[0].data = novosRois;
         graficoRoiPeriodo.update();
     });
 
     // ---------- Faixas de retorno financeiro (rosca) ----------
-let faixasRetorno = ['ROI < 1', 'ROI < 1,5', 'ROI < 2', 'ROI > 2'];
-let resultados = [32, 18, 17, 33]; // % dos filmes em cada faixa (valores de exemplo)
+    let faixasRetorno = ['ROI < 1', 'ROI > 1 & ROI < 1,5', 'ROI > 1,5 & ROI < 2', 'ROI > 2'];
+    let resultados = [32, 18, 17, 33];
+    let cores = ['#ff3030', '#fff0a8', '#ffdd55', '#ffc400'];
 
-// só a primeira faixa (ROI < 1) é prejuízo; as outras três somam o retorno positivo
-let retornoPositivo = resultados[1] + resultados[2] + resultados[3];
-
-// escreve o texto no centro da rosca
-let textoCentralRosca = {
-    id: 'textoCentralRosca',
-    afterDraw: function (grafico) {
-        let ctx = grafico.ctx;
-        let area = grafico.chartArea;
-        let centroX = (area.left + area.right) / 2;
-        let centroY = (area.top + area.bottom) / 2;
-
-        ctx.save();
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 34px Arial';
-        ctx.fillText(retornoPositivo + '%', centroX, centroY - 14);
-
-        ctx.fillStyle = '#d8d2ce';
-        ctx.font = '13px Arial';
-        ctx.fillText('com retorno', centroX, centroY + 12);
-        ctx.fillText('positivo', centroX, centroY + 28);
-
-        ctx.restore();
-    }
-};
-
-const ctxRosca = document.getElementById('graficoRosca');
-
-new Chart(ctxRosca, {
-    type: 'doughnut',
-    plugins: [ChartDataLabels, textoCentralRosca],
-    data: {
-        labels: faixasRetorno,
-        datasets: [{
-            data: resultados,
-            backgroundColor: ['#ff3030', '#fff0a8', '#ffdd55', '#ffc400'],
-            borderWidth: 0
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '65%',
-        plugins: {
-            legend: {
-                position: 'right',
-                labels: { color: '#dce6f2', usePointStyle: true }
-            },
-            datalabels: {
-                font: { weight: 'bold', size: 12 },
-                color: function (contexto) {
-                    if (contexto.dataIndex === 0) {
-                        return '#ffffff';
-                    }
-                    return '#2a2624';
-                },
-                formatter: function (valor) {
-                    return valor + '%';
-                }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (contexto) {
-                        return contexto.label + ': ' + contexto.raw + '% dos filmes';
-                    }
-                }
-            }
-        }
-    }
-});
-
-    // ---------- Orçamento x ROI (dispersão) ----------
-    let filmesBase = [];
-for (let i = 0; i < 80; i++) {
-    let receita = 10 + (i * 11) % 36;
-    let variacao = ((i * 29) % 18) - 9;
-    let orcamento = Math.max(3, Math.round(receita * 0.9 + variacao));
-    filmesBase.push({ x: receita, y: orcamento, filme: 'Filme ' + (i + 1) });
-}
-
-let filmesOutlier = [
-    { x: 8, y: 85, filme: 'Filme 81' },
-    { x: 21, y: 63, filme: 'Filme 82' },
-    { x: 33, y: 65, filme: 'Filme 83' },
-    { x: 47, y: 12, filme: 'Filme 84' },
-    { x: 58, y: 76, filme: 'Filme 85' },
-    { x: 72, y: 38, filme: 'Filme 86' },
-    { x: 87, y: 90, filme: 'Filme 87' }
-];
-
-let seuProjeto = [{ x: 25, y: 20, filme: 'Seu projeto' }];
-
-let corGrade = 'rgba(246, 226, 185, 0.15)';
-
-const ctxDispersao = document.getElementById('graficoDispersao');
-
-new Chart(ctxDispersao, {
-    type: 'scatter',
-    data: {
-        datasets: [
-            { label: 'Base', data: filmesBase, backgroundColor: '#FF0000', borderColor: '#FF0000', pointRadius: 5 },
-            { label: 'Outlier', data: filmesOutlier, backgroundColor: '#f5c207', borderColor: '#f5c207', pointRadius: 5 },
-            { label: 'Seu Projeto', data: seuProjeto, backgroundColor: '#ffffff', borderColor: '#ffffff', pointRadius: 5 }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-                labels: { usePointStyle: true, color: '#fff' }
-            },
-            tooltip: {
-                callbacks: {
-                    title: function (itens) {
-                        return itens[0].raw.filme || 'Filme sem nome';
-                    },
-                    label: function (contexto) {
-                        let ponto = contexto.raw;
-                        return [
-                            'Receita: US$ ' + ponto.x + ' mi',
-                            'Orçamento: US$ ' + ponto.y + ' mi'
-                        ];
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                min: 0,
-                max: 100,
-                title: { display: true, text: 'RECEITA (US$ mi)', color: '#ffffff' },
-                ticks: { color: '#b8c9da' },
-                grid: { color: corGrade }
-            },
-            y: {
-                min: 0,
-                max: 100,
-                title: { display: true, text: 'ORÇAMENTO (US$ mi)', color: '#dce6f2' },
-                ticks: { color: '#b8c9da' },
-                grid: { color: corGrade }
-            }
-        }
-    }
-});
-
-    // ---------- KPI de cenário: alternar pior / melhor ----------
-    let cenarios = {
-       pior: {
-    titulo: 'ROI no pior cenário (P10)',
-    valor: '0,5x',
-    detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
-    dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.',
-    cor: '#ff3030',
-    corFundo: 'rgba(255, 48, 48, 0.18)'
-},
-melhor: {
-    titulo: 'ROI no melhor cenário (P90)',
-    valor: '4x',
-    detalhe: '↑ 120% acima do ROI mediano nesse gênero',
-    dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.',
-    cor: '#2ecc71',
-    corFundo: 'rgba(46, 204, 113, 0.18)'
-}
-    };
-
-    let cenarioAtual = 'pior';
-    let kpiCenario = document.getElementById('kpiCenario');
-    let botoesCenario = document.querySelectorAll('.kpi-cenario-btn');
-
-    // gera 16 pontos: tendência geral + zigue-zague forte (sobe/desce a cada ponto)
-    let totalPontos = 16;
-
-    function gerarSerie(subindo) {
-        let pontos = [];
-
-        for (let i = 0; i < totalPontos; i++) {
-            let progresso = i / (totalPontos - 1);
-
-            // tendência: de 15 até 65 (melhor) ou de 85 até 15 (pior)
-            let base = subindo ? 15 + progresso * 50 : 85 - progresso * 70;
-
-            // zigue-zague: pontos pares sobem, ímpares descem, com força aleatória
-            let direcao = i % 2 === 0 ? 1 : -1;
-            let oscilacao = direcao * (1 + Math.random() * 14);
-
-            let valor = Math.round(base + oscilacao);
-            pontos.push(Math.min(100, Math.max(0, valor)));
-        }
-
-        return pontos;
+    // legenda em HTML, com as mesmas cores da rosca
+    let legenda = document.getElementById('roscaLegenda');
+    for (let i = 0; i < faixasRetorno.length; i++) {
+        legenda.innerHTML += '<li><span style="background-color: ' + cores[i] + '"></span>' + faixasRetorno[i] + '</li>';
     }
 
-    const ctxMini = document.getElementById('kpiCenarioGrafico');
+    const ctxRosca = document.getElementById('graficoRosca');
 
-    let graficoMini = new Chart(ctxMini, {
-        type: 'line',
+    new Chart(ctxRosca, {
+        type: 'doughnut',
+        plugins: [ChartDataLabels],
         data: {
-            labels: new Array(totalPontos).fill(''),
+            labels: faixasRetorno,
             datasets: [{
-                data: gerarSerie(false),
-                borderColor: cenarios.pior.cor,
-                backgroundColor: cenarios.pior.corFundo,
-                borderWidth: 2,
-                pointRadius: 0,
-                fill: true,
-                tension: 0.1
+                data: resultados,
+                backgroundColor: cores,
+                borderWidth: 0
             }]
         },
         options: {
-            animation: false,
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '65%',
             plugins: {
                 legend: { display: false },
-                tooltip: { enabled: false },
-                datalabels: { display: false }
-            },
-            scales: {
-                x: { display: false },
-                y: { display: false, min: 0, max: 100 }   // fixa a escala para os picos não "achatarem"
+                datalabels: {
+                    font: { weight: 'bold', size: 12 },
+                    color: function (contexto) {
+                        if (contexto.dataIndex === 0) {
+                            return '#ffffff';
+                        }
+                        return '#2a2624';
+                    },
+                    formatter: function (valor) {
+                        return valor + '%';
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (contexto) {
+                            return contexto.label + ': ' + contexto.raw + '% dos filmes';
+                        }
+                    }
+                }
             }
         }
     });
+    // ---------- Orçamento x Receita (dispersão) ----------
+    // ---------- Dispersão: Orçamento x Receita (Copiado da Executiva) ----------
+    let paresFilmes = [
+        [21, 37.8], [14, 11.9], [10, 5.2], [23, 48.3], [19, 27.7], [28.5, 62.1], [26, 54.6], [23, 39.6],
+        [19.5, 28.5], [20.5, 29.9], [21, 37.8], [21, 37.8], [17, 18.2], [12.5, 10.6], [24, 50.4], [14.5, 12.3],
+        [15, 12.8], [20, 29.2], [10, 4], [25.5, 53.6], [19.5, 28.5], [22, 39.6], [16, 13.6], [22.5, 39.6],
+        [23, 39.6], [24.5, 51.5], [15.5, 13.2], [26.5, 56.7], [14, 11.9], [21.5, 38.7], [16.5, 14], [19, 27.7],
+        [23.5, 49.4], [15.5, 13.2], [19, 27.7], [27.5, 58.8], [11, 8.5], [23.5, 49.4], [20, 29.2], [25, 52.5],
+        [18.5, 27], [16, 13.6], [18.5, 27], [20.5, 36.1], [11.5, 9.8], [18.5, 27], [30, 67.8], [22.5, 39.6],
+        [12, 10.2], [18, 26.3], [19.5, 28.5], [26, 54.6], [19, 27.7], [21.5, 38.7], [22, 38.7], [20, 30],
+        [26.5, 55.7], [17.5, 18.7], [27, 57.8], [17.5, 18.7], [20.5, 36.9], [13.5, 11.5], [17, 18.2], [21.5, 38.7],
+        [23.5, 49.4], [13.5, 11.5], [22, 39.6], [29, 63.2], [18, 19.3], [21, 37.8], [16.5, 14], [18, 26.3],
+        [30, 66.6], [15, 12.8], [17.5, 18.7], [25.5, 53.6], [30, 67.8], [14.5, 62.3, 1], [10, 46, 1], [28, 61],
+        [13, 11], [22.5, 39.6], [24.5, 51.5], [17, 18.2], [24, 50.4], [16.5, 14], [25, 52.5]
+    ];
 
-    let areaMini = document.querySelector('.kpi-mini');
+    let correlacao = '0,89';
+    let tendencia = [{ x: 10, y: 2 }, { x: 30, y: 65.2 }];
+    let seuProjeto = { x: 20, y: 40, filme: 'Seu projeto', roi: 1 };
 
-    // reinicia a animação de revelar o gráfico
-    function animarMini() {
-        areaMini.classList.remove('revelando');
-        void areaMini.offsetWidth;          // força o navegador a reiniciar a animação
-        areaMini.classList.add('revelando');
+    let filmesBase = [];
+    let filmesOutlier = [];
+    for (let i = 0; i < paresFilmes.length; i++) {
+        let orcamento = paresFilmes[i][0];
+        let receita = paresFilmes[i][1];
+        let ponto = { x: orcamento, y: receita, filme: 'Filme ' + (i + 1), roi: (receita - orcamento) / orcamento };
+
+        if (paresFilmes[i][2] === 1) {
+            filmesOutlier.push(ponto);
+        } else {
+            filmesBase.push(ponto);
+        }
     }
 
-    function atualizarMini(chave) {
-        let dados = cenarios[chave];
-        let dataset = graficoMini.data.datasets[0];
+    const dadosDispersao = {
+        datasets: [
+            {
+                label: 'Filmes semelhantes',
+                data: filmesBase,
+                backgroundColor: '#d9d0c4',
+                borderColor: '#b5aca1',
+                pointRadius: 5
+            },
+            {
+                label: 'Outliers (IQR do ROI)',
+                data: filmesOutlier,
+                backgroundColor: '#f5c207',
+                borderColor: '#f5c207',
+                pointRadius: 6
+            },
+            {
+                label: 'Tendência (r = ' + correlacao + ')',
+                data: tendencia,
+                showLine: true,
+                pointStyle: 'line',
+                pointRadius: 0,
+                borderColor: '#f6e2b9',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                order: 2
+            },
+            {
+                label: 'Seu projeto',
+                data: [seuProjeto],
+                backgroundColor: '#f5c207',
+                borderColor: '#f5c207',
+                pointStyle: 'rectRot',
+                pointRadius: 12,
+                order: -100
+            }
+        ]
+    };
 
-        dataset.data = gerarSerie(chave === 'melhor');
-        dataset.borderColor = dados.cor;
-        dataset.backgroundColor = dados.corFundo;
-        graficoMini.update();
+    const configuracaoDispersao = {
+        type: 'scatter',
+        data: dadosDispersao,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { usePointStyle: true, color: '#fff' }
+                },
+                tooltip: {
+                    enabled: true,
+                    filter: function (item) {
+                        return item.dataset.label.indexOf('Tendência') === -1;
+                    },
+                    callbacks: {
+                        title: function (items) {
+                            return items[0].raw.filme || 'Filme sem nome';
+                        },
+                        label: function (context) {
+                            let ponto = context.raw;
+                            let rotuloReceita = 'Receita: US$ ';
 
-        animarMini();
-    }
+                            if (ponto.filme === 'Seu projeto') {
+                                rotuloReceita = 'Receita desejada: US$ ';
+                            }
+
+                            let textoOrcamento = 'Orçamento: US$ ' + ponto.x + ' mi';
+                            let textoReceita = rotuloReceita + ponto.y + ' mi';
+                            let textoRoi = 'ROI: ' + Math.round(ponto.roi * 100) + '%';
+
+                            return [textoOrcamento, textoReceita, textoRoi];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    min: 5,
+                    max: 35,
+                    title: { display: true, text: 'Orçamento (US$ mi)', color: '#ffffff' },
+                    ticks: { color: '#b8c9da', stepSize: 5 },
+                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
+                },
+                y: {
+                    min: 0,
+                    title: { display: true, text: 'Receita (US$ mi)', color: '#dce6f2' },
+                    ticks: { color: '#b8c9da' },
+                    grid: { color: 'rgba(246, 226, 185, 0.15)' }
+                }
+            }
+        }
+    };
+
+    new Chart(document.getElementById('graficoDispersao'), configuracaoDispersao);
+
+    // ---------- KPI de cenário: alternar pior / melhor ----------
+    let cenarios = {
+        pior: {
+            titulo: 'ROI no pior cenário (P10)',
+            valor: '0,5x',
+            detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
+            dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.'
+        },
+        melhor: {
+            titulo: 'ROI no melhor cenário (P90)',
+            valor: '4x',
+            detalhe: '↑ 120% acima do ROI mediano nesse gênero',
+            dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.'
+        }
+    };
+
+    // Inicia com 'melhor' por padrão
+    let cenarioAtual = 'melhor';
+    let kpiCenario = document.getElementById('kpiCenario');
+    let botoesCenario = document.querySelectorAll('.kpi-cenario-btn');
 
     function mostrarCenario(chave) {
         let dados = cenarios[chave];
@@ -741,16 +746,22 @@ melhor: {
         kpiCenario.classList.remove('pior', 'melhor');
         kpiCenario.classList.add(chave);
 
-        botoesCenario.forEach(function (botao) {
-            botao.classList.toggle('ativo', botao.dataset.cenario === chave);
-        });
-
-        atualizarMini(chave);
+        for (let i = 0; i < botoesCenario.length; i++) {
+            let botao = botoesCenario[i];
+            if (botao.dataset.cenario === chave) {
+                botao.classList.add('ativo');
+            } else {
+                botao.classList.remove('ativo');
+            }
+        }
     }
 
-    botoesCenario.forEach(function (botao) {
-        botao.addEventListener('click', function () {
-            let escolhido = botao.dataset.cenario;
+    // Executa na abertura da página para renderizar os dados do melhor cenário
+    mostrarCenario(cenarioAtual);
+
+    for (let i = 0; i < botoesCenario.length; i++) {
+        botoesCenario[i].addEventListener('click', function () {
+            let escolhido = this.dataset.cenario;
 
             if (escolhido === cenarioAtual) return;
 
@@ -762,5 +773,5 @@ melhor: {
                 kpiCenario.classList.remove('trocando');
             }, 150);
         });
-    });
+    }
 </script>

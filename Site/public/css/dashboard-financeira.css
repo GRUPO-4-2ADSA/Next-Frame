@@ -786,33 +786,139 @@ body.menu-minimizado .conteudo-principal {
     from { clip-path: inset(0 100% 0 0); }
     to   { clip-path: inset(0 0 0 0); }
 }
-/* ---------- IMPRESSÃO / PDF ---------- */
+.rosca-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: 280px; /* Mesma altura utilizada na Dashboard Executiva */
+    position: relative;
+}
 
-@page {
+.rosca-area {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    max-width: 260px; /* Limita a largura máxima para não esticar demais em telas ultralargas */
+    min-width: 0;
+}
+
+.rosca-centro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+}
+
+.rosca-centro strong {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.rosca-centro span {
+    font-size: 11px;
+    line-height: 1.2;
+    color: #d8d2ce;
+}
+
+.rosca-legenda {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-@media print {
-    /* mantém o fundo escuro e as cores no PDF */
-    * {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
+.rosca-legenda li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #dce6f2;
+}
 
-    html,
-    body {
-        background-color: #181010;
-    }
+.rosca-legenda li span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
 
-    /* esconde o que não deve aparecer no PDF */
-    .menu-lateral,
-    .botao-acao {
-        display: none;
-    }
+/* Classes exatas da Executiva para o Gráfico de Dispersão */
+.box-grafico1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 140px;
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    min-height: 350px;
+    align-items: stretch;
+    flex: 2; /* Garante que ocupa a largura proporcional correta na linha */
+}
 
-    /* sem o menu, o conteúdo começa na borda da página */
-    .conteudo-principal,
-    body.menu-minimizado .conteudo-principal {
-        margin-left: 0;
-    }
+.box-grafico1 .titulo-grafico {
+    grid-column: 1 / -1;
+}
+
+.area-grafico {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+}
+
+.dispersao {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.informacoes-grafico {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 0;
+    margin-top: 30px;
+}
+
+.card-informacao {
+    background-color: #181010;
+    border: 1px solid #2a2624;
+    border-radius: 9px;
+    padding: 12px;
+    min-width: 0;
+}
+
+.card-informacao h6 {
+    color: #fff;
+    font-size: 12px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.card-informacao h3 {
+    color: #f1f5f9;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.card-informacao p {
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.5;
 }
