@@ -21,14 +21,15 @@
 
 <body>
 
+    
     <!-- Menu lateral -->
     <aside class="menu-lateral">
         <div class="menu-topo">
             <a class="menu-logotipo-link" href="index.html">
                 <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
             </a>
-            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu">
-                <img src="assets/img/icon_menuLat.svg" alt="">
+            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu"><img
+                    src="assets/img/icon_menuLat.svg" alt="">
             </button>
         </div>
 
@@ -73,8 +74,8 @@
             <div class="topo-acoes">
                 <button type="button" class="botao-acao" id="botaoBaixar">BAIXAR</button>
                 <a class="botao-acao" href="avaliacao.html">NOVA AVALIAÇÃO</a>
-                <a class="botao-acao" menu-gerenciamento" style="display: none;"
-                    href="dashboardFinanceira.html">Dashboard Financeira</a>
+                <a class="botao-acao menu-gerenciamento" style="display: none;"
+                    href="dashboardFinanceira.html">DASHBOARD FINANCEIRA</a>
 
                 <button type="button" class="filtros-aplicados" id="filtrosBotao" onclick="alternarFiltros()">
                     <div class="filtros-texto">
@@ -89,34 +90,36 @@
         <!-- KPIs -->
         <div class="kpi">
             <div class="titulo-linha">
-                <h6 class="titulo">Análise da busca e do desempenho financeiro</h6>
-                <span class="subtitulo-kpi">87 filmes semelhantes analisados</span>
+                <h6 class="titulo">DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h6>
+                <span class="subtitulo-kpi">87 FILMES DE TERROR COM ORÇAMENTO DE US$ 10 A 30 MI, LANÇADOS ENTRE 2010 E
+                    2024</span>
             </div>
 
-            <div class="container-kpi tres">
+            <div class="container-kpi">
                 <div class="box-kpi1">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
-                    <h6 class="titulo-kpi">RISCO HISTÓRICO</h6>
-                    <h5 class="informacao-kpi">▲ BAIXO</h5>
-                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO</h6>
+                        data-dica="Classifica o risco de prejuízo como baixo, médio ou alto, conforme o perfil de risco da empresa (conservador, moderado ou arrojado), definido no questionário de avaliação de risco.&#10; &#10;Base: % de filmes semelhantes com retorno positivo (ROI acima de +10%), comparado com o mínimo exigido pelo perfil.&#10; &#10;Recorte analisado: 87 filmes de Terror com orçamento de US$ 10 a 30 mi (2010–2024).">i</span>
+                    <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
+                    <h5 class="informacao-kpi">BAIXO</h5>
+                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (59 DE 87)</h6>
                 </div>
 
                 <div class="box-kpi2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Valor do meio do retorno dos filmes semelhantes.&#10;Fórmula: mediana de (receita − orçamento) ÷ orçamento.&#10;Comparação: mediana do ROI do gênero.">i</span>
-                    <h6 class="titulo-kpi">ROI MEDIANO</h6>
-                    <h5 class="informacao-kpi">▲ 208%</h5>
-                    <h6 class="descricao-kpi">10% A MAIS COMPARADO COM A MEDIANA DO GÊNERO</h6>
+                        data-dica="Valor do meio do retorno (ROI) dos 87 filmes semelhantes.&#10;ROI = (receita − orçamento) ÷ orçamento. Um ROI de 50% significa que, para cada US$ 1 de orçamento, a receita foi de US$ 1,50.&#10;Comparação: mediana do ROI de todos os filmes de Terror (45%). Considera apenas orçamento e receita da base; marketing e divisão de bilheteria ficam fora.">i</span>
+                    <h6 class="titulo-kpi">ROI MEDIANO DO RECORTE</h6>
+                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">50%</h5>
+                    <h6 class="descricao-kpi">5% ACIMA DA MEDIANA GERAL DO GÊNERO ESCOLHIDO(45%)</h6>
                 </div>
 
                 <div class="box-kpi3">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 25 mi).">i</span>
+                        data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA</h6>
-                    <h5 class="informacao-kpi">▲ US$ 30 mi</h5>
-                    <h6 class="descricao-kpi">US$ 5 MI ACIMA DA RECEITA DESEJADA (US$25MI)</h6>
+                    <h5 class="informacao-kpi">US$ 30 mi</h5>
+                    <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
                 </div>
+
                 <div class="box-kpi8">
                     <span class="info-dica" tabindex="0"
                         data-dica="Parcela dos 87 filmes semelhantes cuja receita foi igual ou maior que a receita desejada informada nos filtros (US$ 40 mi).&#10;Fórmula: filmes com receita de US$ 40 mi ou mais ÷ total de filmes semelhantes (26 ÷ 87).&#10;É um retrato histórico, não uma previsão.">i</span>
@@ -126,14 +129,13 @@
                 </div>
             </div>
         </div>
-
         <!-- Orçamento x Receita + Desempenho financeiro -->
         <div class="grafico">
             <div class="container-grafico">
                 <div class="box-grafico1">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Cada ponto é um filme: receita no eixo horizontal e orçamento no vertical.&#10;Base: filmes comuns. Outlier: filmes que fogem do padrão. Seu Projeto: ponto branco.&#10;Correlação: vai de -1 a 1. Quanto mais perto de 1, mais a receita cresce junto com o orçamento.">i</span>
-                    <h3 class="titulo-grafico">Orçamento x Receita</h3>
+                        data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e receita no vertical.&#10;Linha tracejada: tendência (regressão linear). Fora do padrão: filmes com ROI além dos limites da regra do IQR. Seu projeto: ponto branco (orçamento US$ 20 mi e receita desejada US$ 40 mi).&#10;Correlação (Pearson, 87 filmes): vai de -1 a 1; 0,72 indica relação forte. Mostra associação, não causa.">i</span>
+                    <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
 
                     <div class="area-grafico">
                         <canvas class="dispersao" id="graficoDispersao"></canvas>
@@ -142,8 +144,8 @@
                     <div class="informacoes-grafico">
                         <div class="card-informacao">
                             <h6>Correlação</h6>
-                            <h3>0,72</h3>
-                            <p>Orçamento x receita</p>
+                            <h3>0,89</h3>
+                            <p>Forte · orçamento x receita</p>
                         </div>
 
                         <div class="card-informacao">
