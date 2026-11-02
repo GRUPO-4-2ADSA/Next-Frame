@@ -1,5 +1,4 @@
 /* ---------- IMPRESSÃO / PDF ---------- */
-
 @page {
     margin: 0;
 }
@@ -27,5 +26,21 @@
     .conteudo-principal,
     body.menu-minimizado .conteudo-principal {
         margin-left: 0;
+    }
+
+    .filtros-aplicados {
+        width: 380px;
+    }
+
+    .filtros-ver {
+        opacity: 0;
+    }
+
+    .filtros-detalhe {
+        opacity: 1;
+    }
+
+    .filtros-seta {
+        display: none;
     }
 }

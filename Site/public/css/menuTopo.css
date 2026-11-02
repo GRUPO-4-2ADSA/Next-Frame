@@ -15,14 +15,21 @@
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
-        color: #f6e2b9;
+        color: #ffc400;
     }
 
     p {
-        color: #f6e2b9;
+        color: #d9d0c4;
         font-size: 14px;
         margin-top: 4px;
     }
+}
+
+.topo-titulo {
+    border-left: 8px solid #ff3b30;
+    padding-left: 8px;
+    display: flex;
+    flex-direction: column;
 }
 
 .topo-acoes {
@@ -64,8 +71,6 @@
     font-family: inherit;
     text-align: left;
     cursor: pointer;
-
-    /* novo */
     width: 190px;
     overflow: hidden;
     transition: width 0.3s ease;
@@ -74,12 +79,6 @@
 /* novo: largura quando expandido */
 .filtros-aplicados.aberto {
     width: 380px;
-}
-
-.filtros-icone {
-    width: 16px;
-    height: 16px;
-    object-fit: contain;
 }
 
 .filtros-texto {
@@ -92,6 +91,7 @@
 .filtros-titulo {
     font-size: 12px;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .filtros-detalhe {
