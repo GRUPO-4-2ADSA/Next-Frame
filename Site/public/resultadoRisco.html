@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,6 +10,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/resultado-produtora.css">
+    <link rel="stylesheet" href="css/confirmacao-risco.css">
 </head>
 
 <body>
@@ -100,9 +100,56 @@
                     REFAZER FORMULÁRIO
                 </button>
 
-                <button type="button" onclick="concluir()">
+                <button type="button" id="botaoConcluir" onclick="concluir()">
                     CONCLUIR
                 </button>
+            </div>
+
+        </section>
+
+        <section class="confirmacao-perfil" id="confirmacaoPerfil" hidden>
+
+            <div class="cabecalho-resultado">
+                <h1>PERFIL <span>REGISTRADO</span></h1>
+                <p>Seu perfil de risco foi salvo com sucesso!</p>
+            </div>
+
+            <div class="conteudo-confirmacao">
+
+                <div class="icone-confirmacao">
+                    ✓
+                </div>
+
+                <h2>
+                    Agora você já pode contar com seu perfil de produtora
+                    nas próximas avaliações de filmes.
+                </h2>
+
+                <hr>
+
+                <h3>RESUMO DO SEU PERFIL</h3>
+
+                <div class="resumo-perfil">
+                    <p>
+                        Capacidade de absorver impactos:
+                        <strong id="resumoCapacidade"></strong>
+                    </p>
+
+                    <p>
+                        Tolerância à incerteza:
+                        <strong id="resumoTolerancia"></strong>
+                    </p>
+
+                    <p>
+                        Perfil de risco:
+                        <strong id="resumoClassificacao"></strong>
+                    </p>
+                </div>
+
+                <button type="button" onclick="visualizarPerfil()">
+                    VISUALIZAR PERFIL
+                </button>
+
             </div>
 
         </section>
@@ -193,10 +240,27 @@
         }
 
         function concluir() {
-            window.location.href = "confirmacaoProdutora.html";
+
+            document.querySelector(".resultado-perfil").hidden = true;
+
+            document.getElementById("resumoCapacidade").textContent = perfil.capacidade;
+            document.getElementById("resumoTolerancia").textContent = perfil.tolerancia;
+            document.getElementById("resumoClassificacao").textContent = perfil.perfil;
+
+            document.getElementById("confirmacaoPerfil").hidden = false;
+        }
+
+        function visualizarPerfil() {
+
+            document.getElementById("confirmacaoPerfil").hidden = true;
+
+            document.querySelector(".resultado-perfil").hidden = false;
+
+            document.getElementById("botaoConcluir").style.display = "none";
         }
 
     </script>
 
 </body>
+
 </html>
