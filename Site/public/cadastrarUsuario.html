@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/cadastro-usuario.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href=" css/cadastro-usuario.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
+    <link rel="stylesheet" href=" css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Cadastro de Usuário</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -22,20 +23,28 @@
                 <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portfólio</a></li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
             </ul>
 
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png" alt="Usuário">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br>
-                        <span class="amarelo">DONO DA PRODUTORA</span>
-                    </p>
                 </div>
             </a>
         </div>
@@ -168,6 +177,8 @@
             <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
         </div>
     </div>
+
+    <script src="js/infoSessao.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

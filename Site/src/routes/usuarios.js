@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var upload = require("../config/multerConfig");
 
 var usuarioController = require("../controllers/usuarioController");
 
@@ -26,5 +27,14 @@ router.put("/:id", usuarioController.editar);
 
 // Excluir usuário definitivamente
 router.delete("/:id", usuarioController.excluir);
+
+router.get("/perfil/:id", usuarioController.buscarPerfil);
+
+// Editar perfil do usuário
+router.put("/perfil/:id", usuarioController.editarPerfil);
+
+router.post("/perfil/:id/foto", upload.single("foto"), usuarioController.atualizarFoto);
+
+
 
 module.exports = router;

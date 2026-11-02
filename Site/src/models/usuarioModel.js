@@ -146,6 +146,54 @@ function listarEmpresas() {
         ORDER BY nome;
     `;
     return database.executar(instrucaoSql);
+
+    }
+
+    function buscarPerfil(id) {
+    var instrucaoSql = `
+        SELECT
+            id_usuario AS id,
+            nome,
+            email,
+            cpf,
+            dt_nascimento,
+             foto_perfil
+        FROM Usuario
+        WHERE id_usuario = ?;
+    `;
+
+    return database.executar(instrucaoSql, [id]);
+}
+
+function editarPerfil(id, dados) {
+    var instrucaoSql = `
+        UPDATE Usuario
+        SET
+            nome = '${dados.nomeServer}',
+            email = '${dados.emailServer}',
+            cpf = '${dados.cpfServer}',
+            dt_nascimento = '${dados.dtNascimentoServer}'
+    `;
+
+    if (dados.senhaServer) {
+        instrucaoSql += `,
+            senha = '${dados.senhaServer}'
+        `;
+    }
+
+    instrucaoSql += ` WHERE id_usuario = ${id};`;
+
+    return database.executar(instrucaoSql);
+}
+
+function atualizarFoto(id, caminhoFoto) {
+    var instrucaoSql = `
+        UPDATE Usuario
+        SET foto_perfil = '${caminhoFoto}'
+        WHERE id_usuario = ${id};
+    `;
+
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
@@ -157,5 +205,8 @@ module.exports = {
     editar,
     excluir,
     buscarHistorico,
-    listarEmpresas
+    listarEmpresas,
+    buscarPerfil,
+    editarPerfil,
+    atualizarFoto
 };

@@ -21,7 +21,7 @@
     gap: 8px;
     padding: 16px 14px;
     border-bottom: 1px solid #292724;
-    min-height: 64px;
+    min-height: 83px;
 }
 
 .menu-logotipo-link {
@@ -51,6 +51,7 @@
         width: 20px;
         height: 20px;
         transition: transform 0.2s ease;
+        padding: auto;
     }
 
 }
@@ -184,6 +185,9 @@ body.menu-minimizado .botao-sair {
     padding: 6px 0;
     width: 100%;
     text-align: center;
+}
+body.menu-minimizado .usuario-linha {
+    justify-content: center;
 }
 
 /* ---------- CONTEÚDO ---------- */

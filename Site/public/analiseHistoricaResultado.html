@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/analise-historica-resultado.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
 
     <title>Next Frame | Resultado da Análise Histórica</title>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -30,15 +31,22 @@
             </ul>
 
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png">
-                    </div>
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
 
-                    <p>
-                        BEM VINDO,<br>
-                        <span class="amarelo">USUÁRIO</span>
-                    </p>
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
+                    </div>
                 </div>
             </a>
         </div>
@@ -188,6 +196,8 @@
         </div>
 
     </div>
+
+    <script src="js/infoSessao.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", listarFilmes);

@@ -153,40 +153,43 @@ li {
 }
 
 .avatar-perfil {
-    display: flex;
     position: relative;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
+    width: 110px;
+    height: 110px;
+    min-width: 110px;
     border-radius: 50%;
     border: 1.5px solid #121110;
-    background-color: #f2ecdf;
     overflow: hidden;
 }
 
-.avatar-perfil img {
-    margin-top: 10%;
-    width: 90%;
-    height: 90%;
+#fotoPerfil {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
-    pointer-events: none;
+    margin: 0;
 }
 
 .editar-avatar {
     position: absolute;
-    bottom: 0;
-    right: 10px;
+    bottom: 4px;
+    right: 4px;
     width: 30px;
     height: 30px;
     border-radius: 50%;
-
+    background-color: #fe3231;
+    border: 2px solid #f2ecdf;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+.editar-avatar img {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    object-fit: contain;
 }
 
 .editar-avatar svg {
