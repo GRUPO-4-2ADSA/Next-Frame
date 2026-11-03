@@ -56,8 +56,7 @@ function listar(idEmpresa) {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
             ON u.id_empresa = e.id_empresa
@@ -80,8 +79,7 @@ function buscarPorId(id) {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
             ON u.id_empresa = e.id_empresa
