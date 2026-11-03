@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/lobby.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
+    <link rel="stylesheet" href="css/header.css">
+    <title>Next Frame | Lobby</title>
+</head>
+
+<body onload="plotarInfoUsuario()">
+
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="assets\img\logo.png">
+            </a>
+            <ul class="navbar">
+                <li><a class="ativo" href="lobby.html">Início</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+            <a href="editarPerfil.html">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <main class="area-principal">
+
+        <div class="camera-fundo" aria-hidden="true"></div>
+
+        <div class="moldura-camera" aria-hidden="true">
+            <span class="canto canto-sup-esq"></span>
+            <span class="canto canto-sup-dir"></span>
+            <span class="canto canto-inf-esq"></span>
+            <span class="canto canto-inf-dir"></span>
+        </div>
+        <p class="rec-camera" aria-hidden="true">REC <span class="vermelho">●</span> 24 FPS / 35MM</p>
+
+        <div class="hero-lobby">
+            <p class="identificador-lobby">
+                <span class="quadrado-vermelho"></span>
+                <span class="quadrado-amarelo"></span>
+                NEXT FRAME / CREATIVE INTELLIGENCE / 2026
+            </p>
+
+            <p class="saudacao-lobby">BEM-VINDO DE VOLTA, <span id="saudacaoNome">USUÁRIO</span></p>
+
+            <h1 class="titulo-lobby">
+                <span class="linha-titulo">SEU <span class="contorno">PRÓXIMO</span></span>
+                <span class="linha-titulo vermelho">GRANDE PROJETO</span>
+                <span class="linha-titulo">COMEÇA <span class="amarelo">AQUI.</span></span>
+            </h1>
+
+            <p class="texto-lobby">
+                Explore dados históricos, avalie projetos cinematográficos e transforme
+                informações em decisões mais estratégicas.
+            </p>
+
+            <a class="btn-iniciar-avaliacao" href="avaliacao.html">
+                INICIAR NOVA AVALIAÇÃO
+                <img src="../assets/img/icon_seta_diagonal.svg" alt="">
+            </a>
+        </div>
+
+        <div class="navegacao-lobby">
+            <div class="cabecalho-navegacao">
+                <h2 class="titulo-navegacao">EXPLORE A PLATAFORMA</h2>
+                <span class="linha-tracejada"></span>
+                <span class="faixa-navegacao">NF-001 → NF-002</span>
+            </div>
+
+            <div class="grade-cards-lobby">
+                <a class="card-lobby" href="analiseHistorica.html">
+                    <div class="topo-card-lobby">
+                        <img class="icon-card-lobby" src="../assets/img/icon_lupa_amarela.svg" alt="">
+                        <span class="codigo-card-lobby">NF-001</span>
+                    </div>
+                    <div class="corpo-card-lobby">
+                        <div class="titulo-linha-card">
+                            <span class="numero-card-lobby">01</span>
+                            <h3 class="titulo-card-lobby">ANÁLISE HISTÓRICA</h3>
+                        </div>
+                        <p class="descricao-card-lobby">Consulte e compare dados históricos de produções
+                            cinematográficas.</p>
+                    </div>
+                    <img class="seta-card-lobby" src="../assets/img/icon_seta_diagonal.svg" alt="">
+                </a>
+
+                <a class="card-lobby" href="avaliacao.html">
+                    <div class="topo-card-lobby">
+                        <img class="icon-card-lobby" src="../assets/img/icon_tendencia.svg" alt="">
+                        <span class="codigo-card-lobby">NF-002</span>
+                    </div>
+                    <div class="corpo-card-lobby">
+                        <div class="titulo-linha-card">
+                            <span class="numero-card-lobby">02</span>
+                            <h3 class="titulo-card-lobby">AVALIAÇÃO DE PROJETOS</h3>
+                        </div>
+                        <p class="descricao-card-lobby">Analise a viabilidade financeira de novos projetos
+                            cinematográficos.</p>
+                    </div>
+                    <img class="seta-card-lobby" src="../assets/img/icon_seta_diagonal.svg" alt="">
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/infoSessao.js"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
