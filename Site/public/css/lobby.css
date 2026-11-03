@@ -83,57 +83,6 @@ a {
     pointer-events: none;
 }
 
-.canto {
-    position: absolute;
-    width: 1.375rem;
-    height: 1.375rem;
-    border: 0 solid #ffc400;
-}
-
-.canto-sup-esq {
-    top: 0;
-    left: 0;
-    border-top-width: 1.5px;
-    border-left-width: 1.5px;
-}
-
-.canto-inf-esq {
-    bottom: 0;
-    left: 0;
-    border-bottom-width: 1.5px;
-    border-left-width: 1.5px;
-}
-
-.canto-sup-dir {
-    top: 0;
-    right: 0;
-    border-color: #f5f5f5;
-    border-top-width: 1.5px;
-    border-right-width: 1.5px;
-}
-
-.canto-inf-dir {
-    bottom: 0;
-    right: 0;
-    border-color: #f5f5f5;
-    border-bottom-width: 1.5px;
-    border-right-width: 1.5px;
-}
-
-.rec-camera {
-    position: absolute;
-    top: 19.9rem;
-    right: 5.1875rem;
-    margin: 0;
-    z-index: 1;
-    font-family: var(--fonte-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.125rem;
-    color: #bab4ad;
-    text-shadow: 0 0 6px #000000;
-    pointer-events: none;
-}
-
 .hero-lobby {
     align-self: center;
     position: relative;
@@ -191,15 +140,10 @@ a {
     white-space: nowrap;
 }
 
-.contorno {
-    color: transparent;
-    -webkit-text-stroke: 1.5px #f5f5f5;
-}
-
 .texto-lobby {
     max-width: 26.5rem;
     margin: 0.875rem 0 0 0;
-    font-size: 0.875rem;
+    font-size: 17px;
     line-height: 1.5;
     color: #bab4ad;
 }
@@ -215,7 +159,6 @@ a {
     background-color: #ff3b30;
     font-family: var(--fonte-titulo);
     font-size: 0.9375rem;
-    letter-spacing: 0.1rem;
     color: #f5f5f5;
     transition: 0.4s;
 }
