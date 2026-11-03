@@ -105,13 +105,6 @@
                 </div>
 
                 <div class="campo">
-                    <label for="empresa">EMPRESA</label>
-                    <select id="empresa" name="empresa" required>
-                        <option value="" disabled selected>Selecione uma empresa</option>
-                    </select>
-                </div>
-
-                <div class="campo">
                     <label for="cargo">CARGO</label>
                     <select id="cargo" name="cargo" required>
                         <option value="" disabled selected>Selecione um cargo</option>
@@ -181,34 +174,12 @@
     <script src="js/infoSessao.js"></script>
 
     <script>
+        var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
         document.addEventListener("DOMContentLoaded", function () {
             carregarEmpresas();
         });
 
-        function carregarEmpresas() {
-            fetch("/usuarios/empresas")
-                .then(function (resposta) {
-                    if (!resposta.ok) {
-                        throw new Error("Não foi possível carregar as empresas.");
-                    }
-
-                    return resposta.json();
-                })
-                .then(function (empresas) {
-                    var selectEmpresa = document.getElementById("empresa");
-
-                    empresas.forEach(function (empresa) {
-                        var opcao = document.createElement("option");
-                        opcao.value = empresa.id_empresa;
-                        opcao.textContent = empresa.nome;
-                        selectEmpresa.appendChild(opcao);
-                    });
-                })
-                .catch(function (erro) {
-                    console.error("Erro ao carregar empresas:", erro);
-                    alert("Não foi possível carregar as empresas. Verifique a API.");
-                });
-        }
 
         document.getElementById("cpf").addEventListener("input", function () {
             var numeros = this.value.replace(/\D/g, "").substring(0, 11);
@@ -230,7 +201,6 @@
                 var confirmarSenha = document.getElementById("confirmarSenha").value;
                 var cpf = document.getElementById("cpf").value.replace(/\D/g, "");
                 var nascimento = document.getElementById("nascimento").value;
-                var empresa = document.getElementById("empresa").value;
                 var cargo = document.getElementById("cargo").value;
 
                 if (senha !== confirmarSenha) {
@@ -249,11 +219,11 @@
                     senhaServer: senha,
                     cpfServer: cpf,
                     dtNascimentoServer: nascimento,
-                    empresaServer: empresa,
-                    cargoServer: cargo
+                    cargoServer: cargo,
+                    idEmpresaServer: idEmpresa
                 };
 
-                fetch("/usuarios/cadastrar", {
+                fetch("/usuarios/cadastrar-usuario", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
