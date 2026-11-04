@@ -31,6 +31,34 @@ function atualizarRisco(req, res) {
     }
 }
 
+function consultarRisco(req, res) {
+    var idEmpresa = Number(req.params.idEmpresa);
+
+    if (!Number.isSafeInteger(idEmpresa) || idEmpresa <= 0) {
+        return res.status(400).json({
+            mensagem: "Empresa inválida."
+        });
+    }
+
+    riscoModel.consultarRisco(idEmpresa)
+        .then(function (resultado) {
+            if (resultado.length == 0) {
+                return res.status(404).json({
+                    mensagem: "Empresa não encontrada."
+                });
+            }
+
+            res.status(200).json(resultado[0]);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({
+                mensagem: "Erro ao consultar o perfil de risco."
+            });
+        });
+}
+
 module.exports = {
-    atualizarRisco
+    atualizarRisco,
+    consultarRisco
 };

@@ -4,7 +4,15 @@
     box-sizing: border-box;
 }
 
+html,
 body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: #202020;
     color: #f5f0e8;
     font-family: Arial, Helvetica, sans-serif;
@@ -139,6 +147,11 @@ body {
 
 @media (max-width: 600px) {
 
+
+    .informacao-resultado h2 {
+        font-size: 22px;
+    }
+
     .resultado-perfil {
         padding: 30px 20px;
     }
@@ -154,5 +167,48 @@ body {
     .informacao-resultado h2 {
         font-size: 22px;
     }
+}
 
+#perfilNaoDefinido {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.card-perfil-nao-definido {
+    width: 100%;
+    max-width: 750px;
+    padding: 60px 40px;
+    text-align: center;
+    background-color: #f1ebdf;
+    border-bottom: 4px solid #ff3131;
+}
+
+.card-perfil-nao-definido h1 {
+    color: #1c1c1c;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.card-perfil-nao-definido p {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.status-perfil {
+    margin-top: 30px;
+    padding: 12px 20px;
+    background-color: #e5dccb;
+    color: #555;
+    font-weight: bold;
+}
+
+.conteudo-questionario {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

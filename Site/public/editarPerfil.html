@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Edição de Perfil</title>
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
 <body onload="plotarInfoUsuario()">
 
@@ -22,6 +23,11 @@
                 <li><a href="lobby.html">Início</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -199,7 +205,7 @@
 
             editarPerfil();
             enviarFoto();
- 
+
         });
 
         function editarPerfil() {
@@ -234,7 +240,7 @@
                     if (resposta.ok) {
                         alert("Perfil atualizado com sucesso!");
                         document.getElementById("nomeExibido").innerHTML = nome;
-                                   window.location.href = "login.html";
+                        window.location.href = "login.html";
                     } else {
                         alert("Erro ao atualizar perfil.");
                     }
