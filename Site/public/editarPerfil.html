@@ -37,7 +37,7 @@
                     <a href="editarPerfil.html">
                         <div class="container-horizontal usuario">
                             <div class="icone-usuario">
-                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
                             </div>
                             <p>BEM VINDO,<br>
                                 <span class="amarelo" id="infoNome">Usuário</span>
@@ -87,6 +87,14 @@
                         <h2 class="nome-usuario" id="nomeExibido"></h2>
                         </h2>
                     </div>
+                </div>
+
+                <div class="container-horizontal controle-notificacao">
+                    <label class="switch">
+                        <input type="checkbox" id="notification-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <p class="rotulo-notificacao">NOTIFICAÇÕES: <span id="status-text">Desativado</span></p>
                 </div>
 
                 <hr class="linha-divisoria-perfil">
@@ -240,7 +248,9 @@
                     if (resposta.ok) {
                         alert("Perfil atualizado com sucesso!");
                         document.getElementById("nomeExibido").innerHTML = nome;
-                        window.location.href = "login.html";
+                        sessionStorage.setItem("NOME_USUARIO", nome);
+                        window.location.href = "editarPerfil.html";
+                        plotarInfoUsuario();
                     } else {
                         alert("Erro ao atualizar perfil.");
                     }
@@ -287,7 +297,24 @@
                 });
         }
 
+        const toggle = document.getElementById('notification-toggle');
+        const statusText = document.getElementById('status-text');
 
+        toggle.addEventListener('change', (event) => {
+            const isNotificationEnabled = event.target.checked;
+
+            if (isNotificationEnabled) {
+                statusText.innerText = "Ativado";
+                statusText.style.color = "green";
+                // lógica para ativar as notificações
+                console.log("Enviar para o banco de dados: true");
+            } else {
+                statusText.innerText = "Desativado";
+                statusText.style.color = "red";
+                // lógica para desativar as notificações
+                console.log("Enviar para o banco de dados: false");
+            }
+        });
 
     </script>
 
