@@ -9,6 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
 }
 
 p {
@@ -371,29 +372,29 @@ li {
     margin-top: 40px;
 }
 
-.campo select{
+.campo select {
     height: 46px;
     background-color: #f2ecdf;
     border: 1px solid #121110;
     padding: 0 15px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
-    color: #121110;   
+    color: #121110;
 }
 
-.campo datalist{
+.campo datalist {
     height: 46px;
     background-color: #f2ecdf;
     border: 1px solid #121110;
     padding: 0 15px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
-    color: #121110;   
+    color: #121110;
 }
 
 input[list]::-webkit-calendar-picker-indicator {
-  opacity: 1;
-  cursor: pointer;
+    opacity: 1;
+    cursor: pointer;
 }
 
 .btn-pesquisar {
@@ -426,4 +427,5 @@ input[list]::-webkit-calendar-picker-indicator {
 
 .footer {
     width: 100% !important;
+    margin-top: auto !important;
 }

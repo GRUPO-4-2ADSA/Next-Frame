@@ -7,6 +7,7 @@
 
     <title>Next Frame | Questionário de Perfil</title>
 
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/questionario-risco.css">
@@ -14,7 +15,7 @@
 </head>
 <script src="js/perfilRiscoHeader.js"></script>
 
-<body>
+<body onload="plotarInfoUsuario()">
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
@@ -34,11 +35,22 @@
                 </li>
             </ul>
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -474,6 +486,9 @@
 
 
     </div>
+
+    <script src="js/infoSessao.js"></script>
+
     <script>
         var cargo = sessionStorage.getItem("CARGO_USUARIO");
 
@@ -720,6 +735,18 @@
             }
 
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
     </script>
 
 </body>
