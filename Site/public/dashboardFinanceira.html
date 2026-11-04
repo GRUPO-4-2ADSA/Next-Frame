@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financeira</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="stylesheet" href="css/dashboard-financeira.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/menuLateral.css">
     <link rel="stylesheet" href="css/menuTopo.css">
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/ImprimirPdf.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
-    <title>Dashboard Financeira</title>
 </head>
 
 <body>
@@ -35,14 +36,17 @@
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">INÍCIO</span>
             </a>
-            <a class="menu-item ativo" href="dashboardFinanceira.html">
+
+            <a class="menu-item ativo" href="dashboardExecutiva.html">
                 <img class="menu-icone" src="assets/img/chart.png" alt="">
                 <span class="menu-rotulo">DASHBOARD</span>
             </a>
+
             <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
                 <img class="menu-icone" src="assets/img/icon_user.png" alt="">
                 <span class="menu-rotulo">USUÁRIOS</span>
             </a>
+
         </nav>
 
         <div class="menu-usuario">
@@ -62,6 +66,7 @@
 
     <main class="conteudo-principal">
 
+        <!-- Menu topo -->
         <div class="topo-dashboard">
             <div class="topo-titulo">
                 <h1>Dashboard Financeira</h1>
@@ -85,154 +90,162 @@
             </div>
         </div>
 
-        <div class="indicadores">
-            <div class="indicadores-topo">
-                <h2>DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h2>
-                <p class="indicadores-total">87 filmes semelhantes analisados</p>
+        <!-- KPI -->
+
+        <div class="kpi">
+            <div class="titulo-linha">
+                <h6 class="titulo">DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h6>
+                <span class="subtitulo-kpi">87 FILMES DE TERROR COM CARACTERISTICAS SEMELHANTES</span>
             </div>
 
-            <div class="indicadores-lista">
-
-                <div class="kpi">
+            <div class="container-kpi">
+                <div class="box-kpi1">
                     <span class="info-dica" tabindex="0"
                         data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
-                    <p class="kpi-titulo">Risco histórico</p>
-                    <p class="kpi-valor">Baixo</p>
-                    <p class="kpi-detalhe">68% dos filmes similares tiveram retorno positivo</p>
+                    <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
+                    <h5 class="informacao-kpi">BAIXO</h5>
+                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (59 DE 87)</h6>
                 </div>
-
-                <div class="kpi">
+                <div class="box-kpi2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Quanto os filmes semelhantes devolveram para cada US$ 1 investido (valor do meio da lista).&#10;Fórmula: mediana de (receita ÷ orçamento).&#10;Comparação: mediana geral do gênero.">i</span>
-                    <p class="kpi-titulo">Retorno mediano até US$20mi por US$ investido</p>
-                    <p class="kpi-valor">1,5x</p>
-                    <p class="kpi-detalhe">+0,3x comparado com a mediana geral do gênero</p>
+                        data-dica="Valor do meio do retorno (ROI) dos 87 filmes semelhantes.&#10;ROI = (receita − orçamento) ÷ orçamento. Um ROI de 50% significa que, para cada US$ 1 de orçamento, a receita foi de US$ 1,50.&#10;Comparação: mediana do ROI de todos os filmes de Terror (45%). Considera apenas orçamento e receita da base; marketing e divisão de bilheteria ficam fora.">i</span>
+                    <h6 class="titulo-kpi">ROI MEDIANO ATÉ US$20mi POR US$ INVESTIDO</h6>
+                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1.5X</h5>
+                    <h6 class="descricao-kpi">+0.3X COMPARADO COM A MEDIANA GERAL DO GÊNERO</h6>
                 </div>
-
-                <div class="kpi">
+                <div class="box-kpi3">
                     <span class="info-dica" tabindex="0"
                         data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
-                    <p class="kpi-titulo">Receita mediana no recorte analisado</p>
-                    <p class="kpi-valor"><span class="kpi-seta">▼</span> US$ 30 mi</p>
-                    <p class="kpi-detalhe">US$ 10 mi abaixo da receita desejada (US$ 40 mi)</p>
+                    <h6 class="titulo-kpi">RECEITA MEDIANA NO RECORTE ANALISADO</h6>
+                    <h5 class="informacao-kpi">US$ 30 mi</h5>
+                    <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
                 </div>
-
-                <div class="kpi">
+                <div class="box-kpi4">
                     <span class="info-dica" tabindex="0"
                         data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
-                    <p class="kpi-titulo">Seu Orçamento</p>
-                    <p class="kpi-valor">US$ 20 mi</p>
-                    <p class="kpi-detalhe">Aumento no orçamento não impacta significativamente o sucesso(3%)</p>
+                    <h6 class="titulo-kpi">SEU ORÇAMENTO</h6>
+                    <h5 class="informacao-kpi">US$20mi</h5>
+                    <h6 class="descricao-kpi">AUMENTO NO ORÇAMENTO NÃO IMPACTA SIGNIFICATIVAMENTE O SUCESSO(+3%)</h6>
                 </div>
 
-                <div class="kpi kpi-cenario melhor" id="kpiCenario">
+                <div class="box-kpi5 kpi-cenario melhor" id="kpiCenario">
                     <span class="info-dica" id="kpiCenarioInfo" tabindex="0"
                         data-dica="Resultado que só 10% dos filmes semelhantes superaram.&#10;Fórmula: percentil 90 (P90) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
-                    <p class="kpi-titulo" id="kpiCenarioTitulo">ROI no melhor cenário (P90)</p>
-                    <p class="kpi-valor" id="kpiCenarioValor">4x</p>
-                    <p class="kpi-detalhe" id="kpiCenarioDetalhe">↑ 120% acima do ROI mediano nesse gênero</p>
-
+                    <h6 class="titulo-kpi" id="kpiCenarioTitulo">ROI NO MELHOR CENÁRIO (P90)</h6>
+                    <h5 class="informacao-kpi" id="kpiCenarioValor">4X</h5>
+<h6 class="descricao-kpi" id="kpiCenarioDetalhe">
+    <img src="assets/img/seta_cima.svg" alt="" class="seta-icon">
+    <span id="kpiCenarioTexto">120% ACIMA DO ROI MEDIANO NESSE GÊNERO</span>
+</h6>
                     <div class="kpi-cenario-botoes" role="group" aria-label="Alternar cenário">
                         <button type="button" class="kpi-cenario-btn pior" data-cenario="pior">Pior cenário</button>
                         <button type="button" class="kpi-cenario-btn melhor ativo" data-cenario="melhor">Melhor
                             cenário</button>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <!-- Resultado dos filmes semelhantes e orçamento x ROI -->
+        <!-- Gráficos -->
+        <div class="grafico">
+            <div class="container-grafico">
 
-        <div class="graficos">
-            <div class="box-grafico1">
-                <span class="info-dica" tabindex="0"
-                    data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e receita no vertical.&#10;Linha tracejada: tendência (regressão linear). Fora do padrão: filmes com ROI além dos limites da regra do IQR. Seu projeto: ponto amarelo (orçamento US$ 20 mi e receita desejada US$ 40 mi).&#10;Correlação (Pearson, 87 filmes): vai de -1 a 1; 0,89 indica relação forte. Mostra associação, não causa.">i</span>
-                <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
+                <!-- % de sucesso por faixa de orçamento -->
+                <div class="box-linha">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
+                    <h3 class="titulo-grafico">% DE SUCESSO POR FAIXA DE ORÇAMENTO</h3>
 
-                <div class="area-grafico">
-                    <canvas class="dispersao" id="graficoDispersao"></canvas>
-                </div>
-
-                <div class="informacoes-grafico">
-                    <div class="card-informacao">
-                        <h6>Correlação</h6>
-                        <h3>0,89</h3>
-                        <p>Forte · orçamento x receita</p>
+                    <div class="legenda">
+                        <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
+                        <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
+                        <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
+                        <span class="legenda-item"><span class="legenda-linha"></span>Taxa segura para o perfil da
+                            empresa</span>
                     </div>
 
-                    <div class="card-informacao">
-                        <h6>Filmes analisados</h6>
-                        <h3>87</h3>
+                    <div class="area-linha">
+                        <canvas id="graficoEmpilhado"></canvas>
                     </div>
                 </div>
-            </div>
 
-            <div class="grafico-caixa">
-                <span class="info-dica" tabindex="0"
-                    data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
-                <h3 class="grafico-titulo">RETORNO FINANCEIRO POR FAIXA DE ROI</h3>
-                <div class="rosca-container">
-                    <div class="rosca-area">
+                <!-- Retorno financeiro por faixa de ROI -->
+                <div class="box-grafico2">
+                    <span class="info-dica" tabindex="0"
+                        data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
+                    <h3 class="titulo-grafico">RETORNO FINANCEIRO POR FAIXA DE ROI</h3>
+
+                    <div class="area-grafico-pizza">
                         <canvas id="graficoRosca"></canvas>
-                        <div class="rosca-centro">
-                            <strong>68%</strong>
-                            <span>com retorno<br>positivo</span>
-                        </div>
                     </div>
-                    <ul class="rosca-legenda" id="roscaLegenda"></ul>
+
+                    <div class="faixa-meta">
+                        <div class="faixa-meta-topo">
+                            <span>Tiveram retorno positivo</span>
+                            <strong>68%</strong>
+                        </div>
+                        <div class="faixa-barra">
+                            <div class="faixa-preenchimento"></div>
+                        </div>
+                        <p>59 de 87 filmes semelhantes</p>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-- Orçamento x Receita e ROI mediano (um embaixo do outro) -->
+<div class="grafico">
+    <div class="container-grafico empilhado">
 
-        <!-- % de sucesso por faixa de orçamento -->
+        <!-- Orçamento x Receita -->
+        <div class="box-grafico1">
+            <span class="info-dica" tabindex="0"
+                data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e receita no vertical.&#10;Linha tracejada: tendência (regressão linear). Fora do padrão: filmes com ROI além dos limites da regra do IQR. Seu projeto: ponto branco (orçamento US$ 20 mi e receita desejada US$ 40 mi).&#10;Correlação (Pearson, 87 filmes): vai de -1 a 1; 0,72 indica relação forte. Mostra associação, não causa.">i</span>
+            <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
 
-        <div class="graficos">
-            <div class="grafico-caixa">
-                <span class="info-dica" tabindex="0"
-                    data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
-                <h3 class="grafico-titulo">% DE SUCESSO POR FAIXA DE ORÇAMENTO</h3>
+            <div class="area-grafico">
+                <canvas class="dispersao" id="graficoDispersao"></canvas>
+            </div>
 
-                <div class="legenda">
-                    <span class="legenda-item"><span class="legenda-cor cor-deficit"></span>Déficit</span>
-                    <span class="legenda-item"><span class="legenda-cor cor-neutro"></span>Neutro</span>
-                    <span class="legenda-item"><span class="legenda-cor cor-superavit"></span>Superávit</span>
-                    <span class="legenda-item"><span class="legenda-linha"></span>Taxa segura para o perfil da
-                        empresa</span>
+            <div class="informacoes-grafico">
+                <div class="card-informacao">
+                    <h6>Correlação</h6>
+                    <h3>0,89</h3>
+                    <p>Forte · orçamento x receita</p>
                 </div>
 
-                <div class="grafico-area">
-                    <canvas id="graficoEmpilhado"></canvas>
+                <div class="card-informacao">
+                    <h6>Filmes analisados</h6>
+                    <h3>87</h3>
                 </div>
             </div>
         </div>
 
         <!-- ROI mediano do gênero por período -->
+        <div class="box-grafico2">
+            <span class="info-dica" tabindex="0"
+                data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
+            <h3 class="titulo-grafico">ROI MEDIANO DE TERROR POR PERÍODO</h3>
 
-        <div class="graficos">
-            <div class="grafico-caixa">
-                <span class="info-dica" tabindex="0"
-                    data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
-                <h3 class="grafico-titulo">ROI MEDIANO DE TERROR POR PERÍODO</h3>
-
-                <div class="legenda">
-                    <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero selecionado</span>
-                    <label class="legenda-item roi-periodo-filtro">
-                        Período nos últimos
-                        <select id="filtroPeriodo">
-                            <option value="5">5 anos</option>
-                            <option value="10" selected>10 anos</option>
-                            <option value="15">15 anos</option>
-                            <option value="20">20 anos</option>
-                            <option value="25">25 anos</option>
-                        </select>
-                    </label>
-                </div>
-
-                <div class="grafico-area">
-                    <canvas id="graficoRoiPeriodo"></canvas>
-                </div>
+            <div class="legenda">
+                <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero selecionado</span>
+                <label class="legenda-item roi-periodo-filtro">
+                    Período nos últimos
+                    <select id="filtroPeriodo">
+                        <option value="5">5 anos</option>
+                        <option value="10" selected>10 anos</option>
+                        <option value="15">15 anos</option>
+                        <option value="20">20 anos</option>
+                        <option value="25">25 anos</option>
+                    </select>
+                </label>
             </div>
+
+            <div class="area-linha">
+                <canvas id="graficoRoiPeriodo"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
         </div>
 
         <!-- Rodapé -->
@@ -537,17 +550,31 @@
     let resultados = [32, 18, 17, 33];
     let cores = ['#ff3030', '#fff0a8', '#ffdd55', '#ffc400'];
 
-    // legenda em HTML, com as mesmas cores da rosca
-    let legenda = document.getElementById('roscaLegenda');
-    for (let i = 0; i < faixasRetorno.length; i++) {
-        legenda.innerHTML += '<li><span style="background-color: ' + cores[i] + '"></span>' + faixasRetorno[i] + '</li>';
-    }
+    // texto no centro da rosca (soma das faixas com retorno positivo), desenhado no próprio canvas
+    let pluginTextoCentro = {
+        id: 'textoCentro',
+        afterDatasetsDraw: function (chart) {
+            let arco = chart.getDatasetMeta(0).data[0];
+            let ctx = chart.ctx;
+
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 28px Arial, sans-serif';
+            ctx.fillText('68%', arco.x, arco.y - 8);
+            ctx.fillStyle = '#d8d2ce';
+            ctx.font = '11px Arial, sans-serif';
+            ctx.fillText('retorno positivo', arco.x, arco.y + 16);
+            ctx.restore();
+        }
+    };
 
     const ctxRosca = document.getElementById('graficoRosca');
 
     new Chart(ctxRosca, {
         type: 'doughnut',
-        plugins: [ChartDataLabels],
+        plugins: [ChartDataLabels, pluginTextoCentro],
         data: {
             labels: faixasRetorno,
             datasets: [{
@@ -561,13 +588,13 @@
             maintainAspectRatio: false,
             cutout: '65%',
             plugins: {
-                legend: { display: false },
+                legend: {
+                    position: 'right',
+                    labels: { color: '#dce6f2', usePointStyle: true }
+                },
                 datalabels: {
                     font: { weight: 'bold', size: 12 },
                     color: function (contexto) {
-                        if (contexto.dataIndex === 0) {
-                            return '#ffffff';
-                        }
                         return '#2a2624';
                     },
                     formatter: function (valor) {
@@ -719,13 +746,13 @@
         pior: {
             titulo: 'ROI no pior cenário (P10)',
             valor: '0,5x',
-            detalhe: '↓ 60% abaixo do ROI mediano nesse gênero',
+            detalhe: '60% abaixo do ROI mediano nesse gênero',
             dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.'
         },
         melhor: {
             titulo: 'ROI no melhor cenário (P90)',
             valor: '4x',
-            detalhe: '↑ 120% acima do ROI mediano nesse gênero',
+            detalhe: '120% acima do ROI mediano nesse gênero',
             dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.'
         }
     };
@@ -740,7 +767,7 @@
 
         document.getElementById('kpiCenarioTitulo').textContent = dados.titulo;
         document.getElementById('kpiCenarioValor').textContent = dados.valor;
-        document.getElementById('kpiCenarioDetalhe').textContent = dados.detalhe;
+document.getElementById('kpiCenarioTexto').textContent = dados.detalhe;
         document.getElementById('kpiCenarioInfo').setAttribute('data-dica', dados.dica);
 
         kpiCenario.classList.remove('pior', 'melhor');
