@@ -110,8 +110,8 @@
                             RECEITA
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="receita" inputmode="numeric" pattern="[0-9]*"
-                                placeholder="Ex: 50000000">
+                            <input type="text" name="receita" inputmode="numeric"
+                                placeholder="Ex: 50.000.000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -133,8 +133,8 @@
                             ORÇAMENTO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="orcamento" inputmode="numeric" pattern="[0-9]*"
-                                placeholder="Ex: 20000000">
+                            <input type="text" name="orcamento" inputmode="numeric"
+                                placeholder="Ex: 20.000.000">
                         </div>
                         <div class="grupo-operadores">
                             <button type="button" class="btn-operador" data-operador="maior">
@@ -216,14 +216,42 @@
     <script src="js/infoSessao.js"></script>
 
     <script>
+        function formatarNumero(valor) {
+            var digitos = String(valor).replace(/\D/g, "").replace(/^0+(?=\d)/, "");
+
+            return digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function removerPontos(valor) {
+            return String(valor).replace(/\D/g, "");
+        }
+
+        function mascaraNumerica(input) {
+            var digitosAntesDoCursor = input.value.slice(0, input.selectionStart).replace(/\D/g, "").length;
+
+            input.value = formatarNumero(input.value);
+
+            var posicao = 0;
+            var digitosContados = 0;
+
+            while (posicao < input.value.length && digitosContados < digitosAntesDoCursor) {
+                if (/\d/.test(input.value[posicao])) {
+                    digitosContados++;
+                }
+                posicao++;
+            }
+
+            input.setSelectionRange(posicao, posicao);
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             var formulario = document.getElementById("formAnaliseHistorica");
             var chaveFiltros = "filtrosAnaliseHistorica";
+            var seletorNumerico = 'input[name="receita"], input[name="orcamento"]';
 
-            // Permite apenas algarismos em receita e orçamento, inclusive ao colar valores.
-            formulario.querySelectorAll('input[name="receita"], input[name="orcamento"]').forEach(function (campo) {
+            formulario.querySelectorAll(seletorNumerico).forEach(function (campo) {
                 campo.addEventListener("input", function () {
-                    campo.value = campo.value.replace(/[^0-9]/g, "");
+                    mascaraNumerica(campo);
                 });
             });
 
@@ -239,7 +267,6 @@
                 });
             });
 
-            // Recoloca os valores quando o usuário clica em AJUSTAR FILTROS.
             var filtrosSalvos = sessionStorage.getItem(chaveFiltros);
             if (filtrosSalvos) {
                 try {
@@ -250,7 +277,7 @@
                         var filtro = filtros[campo.name];
 
                         if (filtro) {
-                            campo.value = filtro.valor;
+                            campo.value = campo.matches(seletorNumerico) ? formatarNumero(filtro.valor) : filtro.valor;
                             checkbox.checked = true;
                             var botao = linha.querySelector('.btn-operador[data-operador="' + filtro.operador + '"]');
                             if (botao) {
@@ -276,11 +303,16 @@
                 formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
                     var checkbox = linha.querySelector('input[type="checkbox"]');
                     var campo = linha.querySelector("input[name], select[name]");
-                    if (!checkbox.checked || !campo.value.trim()) return;
+                    var valor = campo.value.trim();
+                    if (!checkbox.checked || !valor) return;
+
+                    if (campo.matches(seletorNumerico)) {
+                        valor = removerPontos(valor);
+                    }
 
                     var botaoAtivo = linha.querySelector(".btn-operador.ativo");
                     filtros[campo.name] = {
-                        valor: campo.value.trim(),
+                        valor: valor,
                         operador: botaoAtivo ? botaoAtivo.dataset.operador : "igual"
                     };
                 });
