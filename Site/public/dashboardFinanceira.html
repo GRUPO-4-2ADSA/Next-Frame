@@ -101,21 +101,21 @@
             <div class="container-kpi">
                 <div class="box-kpi1">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Classifica o risco de prejuízo como baixo, médio ou alto.&#10;Base: % de filmes semelhantes com retorno positivo, comparado com a taxa segura definida no teste de perfil da empresa.&#10;Histórico: 87 filmes do mesmo gênero e faixa de orçamento.">i</span>
+                        data-dica="O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.&#10;COMO CALCULA: % dos 87 filmes semelhantes com retorno positivo, comparada à taxa segura do seu perfil (linha tracejada do gráfico de faixas).&#10;COMO LER: quanto mais a % passa da taxa segura, menor o risco. É histórico, não garante resultado.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
                     <h5 class="informacao-kpi">BAIXO</h5>
                     <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (59 DE 87)</h6>
                 </div>
                 <div class="box-kpi2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Valor do meio do retorno (ROI) dos 87 filmes semelhantes.&#10;ROI = (receita − orçamento) ÷ orçamento. Um ROI de 50% significa que, para cada US$ 1 de orçamento, a receita foi de US$ 1,50.&#10;Comparação: mediana do ROI de todos os filmes de Terror (45%). Considera apenas orçamento e receita da base; marketing e divisão de bilheteria ficam fora.">i</span>
+                        data-dica="O QUE É: quanto cada US$ 1 investido costuma render nos filmes parecidos com o seu.&#10;COMO CALCULA: ROI = receita ÷ orçamento, e vale o valor do meio dos 87 filmes. Marketing e divisão de bilheteria ficam de fora.&#10;COMO LER: 1x é empate e 1,5x é US$ 1 virando US$ 1,50 (o mesmo que 50%). Compare com a mediana geral do gênero (1,45x).">i</span>
                     <h6 class="titulo-kpi">ROI MEDIANO ATÉ US$20mi POR US$ INVESTIDO</h6>
                     <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1.5X</h5>
                     <h6 class="descricao-kpi">+0.3X COMPARADO COM A MEDIANA GERAL DO GÊNERO</h6>
                 </div>
                 <div class="box-kpi3">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Receita do filme que fica no meio dos 87 semelhantes, do menor para o maior.&#10;Comparação: receita desejada informada nos filtros (US$ 40 mi).">i</span>
+                        data-dica="O QUE É: a receita do filme que fica no meio dos 87 semelhantes.&#10;COMO CALCULA: ordena as receitas do menor para o maior e pega a central.&#10;COMO LER: metade dos filmes faturou mais e metade menos. Compare com a receita desejada (US$ 40 mi): se a mediana está abaixo, a sua meta é mais ambiciosa que o típico.">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA NO RECORTE ANALISADO</h6>
                     <h5 class="informacao-kpi">US$ 30 mi</h5>
                     <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
@@ -130,13 +130,13 @@
 
                 <div class="box-kpi5 kpi-cenario melhor" id="kpiCenario">
                     <span class="info-dica" id="kpiCenarioInfo" tabindex="0"
-                        data-dica="Resultado que só 10% dos filmes semelhantes superaram.&#10;Fórmula: percentil 90 (P90) do ROI.&#10;Comparação: ROI mediano do gênero.">i</span>
+                        data-dica="O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).&#10;COMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.&#10;COMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. É um limite realista, não o garantido.">i</span>
                     <h6 class="titulo-kpi" id="kpiCenarioTitulo">ROI NO MELHOR CENÁRIO (P90)</h6>
                     <h5 class="informacao-kpi" id="kpiCenarioValor">4X</h5>
-<h6 class="descricao-kpi" id="kpiCenarioDetalhe">
-    <img src="assets/img/seta_cima.svg" alt="" class="seta-icon">
-    <span id="kpiCenarioTexto">120% ACIMA DO ROI MEDIANO NESSE GÊNERO</span>
-</h6>
+                    <h6 class="descricao-kpi" id="kpiCenarioDetalhe">
+                        <img src="assets/img/seta_cima.svg" alt="" class="seta-icon">
+                        <span id="kpiCenarioTexto">2,55X ACIMA DA MEDIANA GERAL DO GÊNERO (1,45X)</span>
+                    </h6>
                     <div class="kpi-cenario-botoes" role="group" aria-label="Alternar cenário">
                         <button type="button" class="kpi-cenario-btn pior" data-cenario="pior">Pior cenário</button>
                         <button type="button" class="kpi-cenario-btn melhor ativo" data-cenario="melhor">Melhor
@@ -153,7 +153,7 @@
                 <!-- % de sucesso por faixa de orçamento -->
                 <div class="box-linha">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Para cada faixa de orçamento, mostra quantos filmes semelhantes ficaram em déficit, neutro ou superávit.&#10;As faixas variam −40%, −20%, +20% e +40% em torno do seu orçamento.&#10;A linha tracejada é a taxa segura do perfil da empresa, definida no teste de perfil.">i</span>
+                        data-dica="O QUE É: para orçamentos perto do seu, quantos filmes deram superávit, neutro ou déficit.&#10;COMO CALCULA: faixas de −40%, −20%, a sua, +20% e +40% em torno de US$ 20 mi. Superávit é ROI acima de +10% e déficit, abaixo de −10%. Cada barra soma 100%.&#10;COMO LER: se o amarelo passa da linha tracejada (taxa segura do seu perfil, 60%), a faixa atende o perfil.">i</span>
                     <h3 class="titulo-grafico">% DE SUCESSO POR FAIXA DE ORÇAMENTO</h3>
 
                     <div class="legenda">
@@ -172,7 +172,7 @@
                 <!-- Retorno financeiro por faixa de ROI -->
                 <div class="box-grafico2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="Distribuição dos filmes semelhantes por faixa de ROI.&#10;ROI abaixo de 1: a receita não cobriu o orçamento (prejuízo).&#10;O número no centro soma as faixas com retorno positivo.&#10;Fórmula do ROI: receita ÷ orçamento.">i</span>
+                        data-dica="O QUE É: como os 87 filmes se dividem por faixa de retorno.&#10;COMO CALCULA: ROI = receita ÷ orçamento. Abaixo de 1 é prejuízo. O número central soma as faixas com retorno positivo.&#10;COMO LER: quanto menor a parte vermelha, melhor. Clique na legenda para ocultar uma faixa.">i</span>
                     <h3 class="titulo-grafico">RETORNO FINANCEIRO POR FAIXA DE ROI</h3>
 
                     <div class="area-grafico-pizza">
@@ -192,60 +192,61 @@
                 </div>
             </div>
             <!-- Orçamento x Receita e ROI mediano (um embaixo do outro) -->
-<div class="grafico">
-    <div class="container-grafico empilhado">
+            <div class="grafico">
+                <div class="container-grafico empilhado">
 
-        <!-- Orçamento x Receita -->
-        <div class="box-grafico1">
-            <span class="info-dica" tabindex="0"
-                data-dica="Cada ponto é um filme semelhante: orçamento no eixo horizontal e receita no vertical.&#10;Linha tracejada: tendência (regressão linear). Fora do padrão: filmes com ROI além dos limites da regra do IQR. Seu projeto: ponto branco (orçamento US$ 20 mi e receita desejada US$ 40 mi).&#10;Correlação (Pearson, 87 filmes): vai de -1 a 1; 0,72 indica relação forte. Mostra associação, não causa.">i</span>
-            <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
+                    <!-- Orçamento x Receita -->
+                    <div class="box-grafico1">
+                        <span class="info-dica" tabindex="0"
+                            data-dica="O QUE É: cada ponto é um filme semelhante (orçamento × receita). O losango amarelo é o seu projeto.&#10;COMO CALCULA: a linha tracejada é a tendência. A correlação de 0,89 (Pearson, 87 filmes) vai de −1 a 1. Pontos amarelos soltos fogem do padrão de ROI (regra do IQR).&#10;COMO LER: quanto mais os pontos seguem a linha, mais o orçamento explica a receita. Correlação não é causa.">i</span>
+                        <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
 
-            <div class="area-grafico">
-                <canvas class="dispersao" id="graficoDispersao"></canvas>
-            </div>
+                        <div class="area-grafico">
+                            <canvas class="dispersao" id="graficoDispersao"></canvas>
+                        </div>
 
-            <div class="informacoes-grafico">
-                <div class="card-informacao">
-                    <h6>Correlação</h6>
-                    <h3>0,89</h3>
-                    <p>Forte · orçamento x receita</p>
+                        <div class="informacoes-grafico">
+                            <div class="card-informacao">
+                                <h6>Correlação</h6>
+                                <h3>0,89</h3>
+                                <p>Forte · orçamento x receita</p>
+                            </div>
+
+                            <div class="card-informacao">
+                                <h6>Filmes analisados</h6>
+                                <h3>87</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROI mediano do gênero por período -->
+                    <div class="box-grafico2">
+                        <span class="info-dica" tabindex="0"
+                            data-dica="O QUE É: como o retorno típico do gênero mudou ano a ano.&#10;COMO CALCULA: mediana do ROI (receita ÷ orçamento) dos filmes lançados em cada ano. O filtro vai de 5 a 25 anos.&#10;COMO LER: linha subindo é o gênero rendendo mais. Quedas e picos isolados podem vir de poucos filmes.">i</span>
+                        <h3 class="titulo-grafico">ROI MEDIANO DE TERROR POR PERÍODO</h3>
+
+                        <div class="legenda">
+                            <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero
+                                selecionado</span>
+                            <label class="legenda-item roi-periodo-filtro">
+                                Período nos últimos
+                                <select id="filtroPeriodo">
+                                    <option value="5">5 anos</option>
+                                    <option value="10" selected>10 anos</option>
+                                    <option value="15">15 anos</option>
+                                    <option value="20">20 anos</option>
+                                    <option value="25">25 anos</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="area-linha">
+                            <canvas id="graficoRoiPeriodo"></canvas>
+                        </div>
+                    </div>
+
                 </div>
-
-                <div class="card-informacao">
-                    <h6>Filmes analisados</h6>
-                    <h3>87</h3>
-                </div>
             </div>
-        </div>
-
-        <!-- ROI mediano do gênero por período -->
-        <div class="box-grafico2">
-            <span class="info-dica" tabindex="0"
-                data-dica="ROI mediano dos filmes do gênero selecionado, por ano de lançamento.&#10;Fórmula: mediana do ROI dos filmes lançados em cada ano.&#10;Use o filtro de período para ver os últimos 5 a 25 anos.">i</span>
-            <h3 class="titulo-grafico">ROI MEDIANO DE TERROR POR PERÍODO</h3>
-
-            <div class="legenda">
-                <span class="legenda-item"><span class="legenda-cor cor-genero"></span>Gênero selecionado</span>
-                <label class="legenda-item roi-periodo-filtro">
-                    Período nos últimos
-                    <select id="filtroPeriodo">
-                        <option value="5">5 anos</option>
-                        <option value="10" selected>10 anos</option>
-                        <option value="15">15 anos</option>
-                        <option value="20">20 anos</option>
-                        <option value="25">25 anos</option>
-                    </select>
-                </label>
-            </div>
-
-            <div class="area-linha">
-                <canvas id="graficoRoiPeriodo"></canvas>
-            </div>
-        </div>
-
-    </div>
-</div>
         </div>
 
         <!-- Rodapé -->
@@ -427,31 +428,15 @@
     let generoSelecionado = 'Terror';
 
     let roiPorAno = [
-        { ano: 2000, roi: 80 },
-        { ano: 2001, roi: 75 },
-        { ano: 2002, roi: 68 },
-        { ano: 2003, roi: 50 },
-        { ano: 2004, roi: 90 },
-        { ano: 2005, roi: 110 },
-        { ano: 2006, roi: 130 },
-        { ano: 2007, roi: 94 },
-        { ano: 2008, roi: 98 },
-        { ano: 2009, roi: 150 },
-        { ano: 2010, roi: 110 },
-        { ano: 2011, roi: 70 },
-        { ano: 2012, roi: 68 },
-        { ano: 2013, roi: 90 },
-        { ano: 2014, roi: 135 },
-        { ano: 2015, roi: 100 },
-        { ano: 2016, roi: 150 },
-        { ano: 2017, roi: 220 },
-        { ano: 2018, roi: 250 },
-        { ano: 2019, roi: 300 },
-        { ano: 2020, roi: 300 },
-        { ano: 2021, roi: 220 },
-        { ano: 2022, roi: 350 },
-        { ano: 2023, roi: 300 },
-        { ano: 2024, roi: 250 }
+        { ano: 2000, roi: 1.7 }, { ano: 2001, roi: 1.6 }, { ano: 2002, roi: 1.5 },
+        { ano: 2003, roi: 1.2 }, { ano: 2004, roi: 1.8 }, { ano: 2005, roi: 2.0 },
+        { ano: 2006, roi: 2.2 }, { ano: 2007, roi: 1.7 }, { ano: 2008, roi: 1.8 },
+        { ano: 2009, roi: 2.3 }, { ano: 2010, roi: 1.6 }, { ano: 2011, roi: 1.2 },
+        { ano: 2012, roi: 1.3 }, { ano: 2013, roi: 1.4 }, { ano: 2014, roi: 1.9 },
+        { ano: 2015, roi: 1.4 }, { ano: 2016, roi: 1.5 }, { ano: 2017, roi: 1.8 },
+        { ano: 2018, roi: 1.6 }, { ano: 2019, roi: 1.7 }, { ano: 2020, roi: 1.3 },
+        { ano: 2021, roi: 1.1 }, { ano: 2022, roi: 1.4 }, { ano: 2023, roi: 1.45 },
+        { ano: 2024, roi: 1.5 }
     ];
 
     // função pra ver qual o periodo de anos selecionados e retornar os anos dentro daquela faixa
@@ -505,7 +490,7 @@
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return generoSelecionado + ' - ROI mediano: ' + context.raw + '%';
+                            return generoSelecionado + ' - ROI mediano: ' + context.raw + 'X';
                         }
                     }
                 }
@@ -521,7 +506,7 @@
                     title: { display: true, text: 'ROI', color: '#d8d2ce' },
                     ticks: {
                         color: '#d8d2ce',
-                        callback: function (valor) { return valor + '%'; }
+                        callback: function (valor) { return valor + 'X'; }
                     },
                     grid: { color: 'rgba(255, 255, 255, 0.1)' }
                 }
@@ -742,20 +727,20 @@
     new Chart(document.getElementById('graficoDispersao'), configuracaoDispersao);
 
     // ---------- KPI de cenário: alternar pior / melhor ----------
-    let cenarios = {
-        pior: {
-            titulo: 'ROI no pior cenário (P10)',
-            valor: '0,5x',
-            detalhe: '60% abaixo do ROI mediano nesse gênero',
-            dica: 'Resultado que só 10% dos filmes semelhantes não alcançaram.\nFórmula: percentil 10 (P10) do ROI.\nComparação: ROI mediano do gênero.'
-        },
-        melhor: {
-            titulo: 'ROI no melhor cenário (P90)',
-            valor: '4x',
-            detalhe: '120% acima do ROI mediano nesse gênero',
-            dica: 'Resultado que só 10% dos filmes semelhantes superaram.\nFórmula: percentil 90 (P90) do ROI.\nComparação: ROI mediano do gênero.'
-        }
-    };
+let cenarios = {
+    pior: {
+        titulo: 'ROI no pior cenário (P10)',
+        valor: '0,5x',
+        detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
+        dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
+    },
+    melhor: {
+        titulo: 'ROI no melhor cenário (P90)',
+        valor: '4x',
+        detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
+        dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
+    }
+};
 
     // Inicia com 'melhor' por padrão
     let cenarioAtual = 'melhor';
@@ -767,7 +752,7 @@
 
         document.getElementById('kpiCenarioTitulo').textContent = dados.titulo;
         document.getElementById('kpiCenarioValor').textContent = dados.valor;
-document.getElementById('kpiCenarioTexto').textContent = dados.detalhe;
+        document.getElementById('kpiCenarioTexto').textContent = dados.detalhe;
         document.getElementById('kpiCenarioInfo').setAttribute('data-dica', dados.dica);
 
         kpiCenario.classList.remove('pior', 'melhor');
