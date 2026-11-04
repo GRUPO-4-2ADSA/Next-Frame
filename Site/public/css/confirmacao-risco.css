@@ -136,4 +136,9 @@ body {
     .conteudo-confirmacao h2 {
         font-size: 18px;
     }
+
+    .confirmacao-perfil[hidden],
+    .resultado-perfil[hidden] {
+        display: none !important;
+    }
 }

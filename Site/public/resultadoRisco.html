@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/resultado-produtora.css">
     <link rel="stylesheet" href="css/confirmacao-risco.css">
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
 <body>
 
@@ -26,7 +27,11 @@
                 <li><a href="lobby.html">Início</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a class="ativo" href="perfil.html">Perfil de Risco</a></li>
+                <li>
+                    <a class="ativo" href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -45,6 +50,25 @@
     </div>
 
     <main class="conteudo-questionario">
+
+        <section id="perfilNaoDefinido" style="display: none;">
+            <div class="card-perfil-nao-definido">
+                <h1>PERFIL DE RISCO NÃO DEFINIDO</h1>
+
+                <p>
+                    O Gestor da empresa ainda não realizou o questionário
+                    de perfil de risco.
+                </p>
+
+                <div class="status-perfil">
+                    Aguardando avaliação do Gestor
+                </div>
+
+                <a id="iniciarPerfil" href="perfilRisco.html" style="display: none;" class="botao-iniciar-perfil">
+                    RESPONDER QUESTIONÁRIO
+                </a>
+            </div>
+        </section>
 
         <section class="resultado-perfil">
 
@@ -184,53 +208,124 @@
 
         var dadosPerfil = sessionStorage.getItem("perfilProdutora");
 
-        if (dadosPerfil == null) {
-            window.location.href = "questionarioRisco.html";
+        var perfil = null;
+        var cargo = sessionStorage.getItem("CARGO_USUARIO");
+        var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+        var dadosPerfil = sessionStorage.getItem("perfilProdutora");
+
+        if (cargo == "Gestor" && dadosPerfil != null) {
+            perfil = JSON.parse(dadosPerfil);
+            mostrarResultado(perfil, true);
         } else {
+            consultarResultado();
+        }
 
-            var perfil = JSON.parse(dadosPerfil);
-
-            document.getElementById("resultadoCapacidade").textContent = perfil.capacidade;
-            document.getElementById("pontosCapacidade").textContent =
-                "Pontuação: " + perfil.pontosCapacidade + " de 9";
-
-            document.getElementById("resultadoTolerancia").textContent = perfil.tolerancia;
-            document.getElementById("pontosTolerancia").textContent =
-                "Pontuação: " + perfil.pontosTolerancia + " de 9";
-
-            document.getElementById("resultadoPerfilTexto").textContent = perfil.perfil;
-
-            if (perfil.capacidade == "Baixa") {
-                document.getElementById("descricaoCapacidade").textContent =
-                    "A produtora apresenta menor capacidade declarada de absorver impactos financeiros.";
-            } else if (perfil.capacidade == "Moderada") {
-                document.getElementById("descricaoCapacidade").textContent =
-                    "A produtora apresenta capacidade intermediária de lidar com impactos financeiros.";
-            } else {
-                document.getElementById("descricaoCapacidade").textContent =
-                    "A produtora demonstra boa capacidade declarada para lidar com impactos financeiros.";
+        function consultarResultado() {
+            if (!idEmpresa) {
+                window.location.href = "login.html";
+                return;
             }
 
-            if (perfil.tolerancia == "Baixa") {
-                document.getElementById("descricaoTolerancia").textContent =
-                    "A produtora prefere projetos com menor nível de incerteza.";
-            } else if (perfil.tolerancia == "Moderada") {
-                document.getElementById("descricaoTolerancia").textContent =
-                    "A produtora considera os riscos e busca equilibrar incerteza e segurança.";
-            } else {
-                document.getElementById("descricaoTolerancia").textContent =
-                    "A produtora demonstra maior disposição para assumir incertezas financeiras.";
+            fetch("/risco/consultar/" + idEmpresa)
+                .then(function (resposta) {
+                    if (!resposta.ok) {
+                        throw new Error("Erro ao buscar perfil.");
+                    }
+
+                    return resposta.json();
+                })
+                .then(function (dados) {
+                    if (dados.perfil_risco) {
+                        mostrarResultado({
+                            perfil: dados.perfil_risco
+                        }, false);
+                    } else {
+                        mostrarSemResultado();
+                    }
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                    alert("Não foi possível carregar o perfil de risco.");
+                });
+        }
+
+        function mostrarResultado(dados, novoResultado) {
+            document.getElementById("perfilNaoDefinido").style.display = "none";
+            document.querySelector(".resultado-perfil").style.display = "";
+            document.querySelector(".resultado-perfil").hidden = false;
+
+            document.getElementById("confirmacaoPerfil").hidden = true;
+
+            document.getElementById("resultadoPerfilTexto").textContent = dados.perfil;
+
+            var descricao = "";
+
+            if (dados.perfil == "Conservador") {
+                descricao = "Prioriza segurança e projetos com menor exposição a riscos.";
+            } else if (dados.perfil == "Moderado") {
+                descricao = "Busca equilibrar segurança e potencial de retorno.";
+            } else if (dados.perfil == "Arrojado") {
+                descricao = "Apresenta maior disposição para assumir riscos em busca de retornos potenciais.";
             }
 
-            if (perfil.perfil == "Conservador") {
-                document.getElementById("descricaoPerfil").textContent =
-                    "Prioriza segurança e projetos com menor exposição a riscos.";
-            } else if (perfil.perfil == "Moderado") {
-                document.getElementById("descricaoPerfil").textContent =
-                    "Busca equilibrar segurança e potencial de retorno.";
+            document.getElementById("descricaoPerfil").textContent = descricao;
+
+            var cards = document.querySelectorAll(".card-resultado");
+
+            if (novoResultado) {
+                cards[0].style.display = "";
+                cards[1].style.display = "";
+
+                document.getElementById("resultadoCapacidade").textContent =
+                    dados.capacidade;
+
+                document.getElementById("pontosCapacidade").textContent =
+                    "Pontuação: " + dados.pontosCapacidade + " de 9";
+
+                document.getElementById("resultadoTolerancia").textContent =
+                    dados.tolerancia;
+
+                document.getElementById("pontosTolerancia").textContent =
+                    "Pontuação: " + dados.pontosTolerancia + " de 9";
+
+                document.getElementById("descricaoCapacidade").textContent =
+                    dados.capacidade == "Baixa"
+                        ? "A produtora apresenta menor capacidade declarada de absorver impactos financeiros."
+                        : dados.capacidade == "Moderada"
+                            ? "A produtora apresenta capacidade intermediária de lidar com impactos financeiros."
+                            : "A produtora demonstra boa capacidade declarada para lidar com impactos financeiros.";
+
+                document.getElementById("descricaoTolerancia").textContent =
+                    dados.tolerancia == "Baixa"
+                        ? "A produtora prefere projetos com menor nível de incerteza."
+                        : dados.tolerancia == "Moderada"
+                            ? "A produtora considera os riscos e busca equilibrar incerteza e segurança."
+                            : "A produtora demonstra maior disposição para assumir incertezas financeiras.";
+
             } else {
-                document.getElementById("descricaoPerfil").textContent =
-                    "Apresenta maior disposição para assumir riscos em busca de retornos potenciais.";
+                cards[0].style.display = "none";
+                cards[1].style.display = "none";
+            }
+
+            // Somente o Gestor pode refazer
+            document.querySelector(".finalizacao-resultado").style.display =
+                cargo == "Gestor" ? "" : "none";
+
+            // Concluir aparece apenas para um resultado ainda não salvo
+            document.getElementById("botaoConcluir").style.display =
+                cargo == "Gestor" && novoResultado ? "" : "none";
+        }
+
+        function mostrarSemResultado() {
+            document.querySelector(".resultado-perfil").style.display = "none";
+            document.getElementById("confirmacaoPerfil").style.display = "none";
+            document.getElementById("perfilNaoDefinido").style.display = "flex";
+
+            if (cargo == "Gestor") {
+                document.getElementById("iniciarPerfil").style.display = "inline-block";
+            } else {
+                document.getElementById("iniciarPerfil").style.display = "none";
             }
         }
 
@@ -259,7 +354,7 @@
 
             try {
 
-                var resposta = await fetch("http://localhost:3333/risco/atualizar", {
+                var resposta = await fetch("/risco/atualizar", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -274,7 +369,10 @@
                     throw new Error("Erro ao salvar o perfil de risco.");
                 }
 
+                sessionStorage.removeItem("perfilProdutora");
+
                 document.querySelector(".resultado-perfil").hidden = true;
+                document.querySelector(".resultado-perfil").style.display = "";
 
                 document.getElementById("resumoCapacidade").textContent = perfil.capacidade;
                 document.getElementById("resumoTolerancia").textContent = perfil.tolerancia;
