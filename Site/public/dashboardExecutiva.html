@@ -19,8 +19,7 @@
 
 </head>
 
-<body>
-
+<body onload="plotarInfoUsuario()">
 
     <!-- Menu lateral -->
     <aside class="menu-lateral">
@@ -53,14 +52,14 @@
 
         <div class="menu-usuario">
             <div class="usuario-linha">
-                <img class="usuario-avatar" src="assets/img/persona_exec.png" alt="">
+                <img class="usuario-avatar" id="fotoPerfilHeader" src="assets/img/persona_exec.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Mariana</p>
-                    <p class="usuario-cargo">Produtora Executiva</p>
+                    <p class="usuario-nome" id="infoNome">Mariana</p>
+                    <p class="usuario-cargo">Produtor Executiva</p>
                 </div>
                 <span class="usuario-seta">▾</span>
             </div>
-            <button type="button" class="botao-sair">Sair</button>
+            <button type="button" class="botao-sair" onclick="sair()">Sair</button>
         </div>
     </aside>
     <!-- Inicio dashboard -->
@@ -289,6 +288,9 @@
             </div>
 
         </div>
+
+        <script src="js/infoSessao.js"></script>
+
         <script>
             // ---------- Verificação do perfil do usuário ----------
             document.addEventListener("DOMContentLoaded", function () {

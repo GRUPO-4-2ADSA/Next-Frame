@@ -12,6 +12,7 @@
 
     <title>Next Frame | Resultado da Análise Histórica</title>
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
 <body onload="plotarInfoUsuario()">
 
@@ -22,9 +23,14 @@
             </a>
 
             <ul class="navbar">
-                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="lobby.html">Início</a></li>
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -35,7 +41,7 @@
                     <a href="editarPerfil.html">
                         <div class="container-horizontal usuario">
                             <div class="icone-usuario">
-                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
                             </div>
                             <p>BEM VINDO,<br>
                                 <span class="amarelo" id="infoNome">Usuário</span>

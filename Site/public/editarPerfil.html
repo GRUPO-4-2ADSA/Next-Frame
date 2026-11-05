@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Edição de Perfil</title>
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
 <body onload="plotarInfoUsuario()">
 
@@ -19,9 +20,14 @@
                 <img class="logo" src="assets\img\logo.png">
             </a>
             <ul class="navbar">
-                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="lobby.html">Início</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
@@ -31,7 +37,7 @@
                     <a href="editarPerfil.html">
                         <div class="container-horizontal usuario">
                             <div class="icone-usuario">
-                                <img src="assets/img/icon_usuario.png" alt="Usuário">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
                             </div>
                             <p>BEM VINDO,<br>
                                 <span class="amarelo" id="infoNome">Usuário</span>
@@ -81,6 +87,14 @@
                         <h2 class="nome-usuario" id="nomeExibido"></h2>
                         </h2>
                     </div>
+                </div>
+
+                <div class="container-horizontal controle-notificacao">
+                    <label class="switch">
+                        <input type="checkbox" id="notification-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <p class="rotulo-notificacao">NOTIFICAÇÕES: <span id="status-text">Desativado</span></p>
                 </div>
 
                 <hr class="linha-divisoria-perfil">
@@ -199,7 +213,7 @@
 
             editarPerfil();
             enviarFoto();
- 
+
         });
 
         function editarPerfil() {
@@ -234,7 +248,9 @@
                     if (resposta.ok) {
                         alert("Perfil atualizado com sucesso!");
                         document.getElementById("nomeExibido").innerHTML = nome;
-                                   window.location.href = "login.html";
+                        sessionStorage.setItem("NOME_USUARIO", nome);
+                        window.location.href = "editarPerfil.html";
+                        plotarInfoUsuario();
                     } else {
                         alert("Erro ao atualizar perfil.");
                     }
@@ -281,7 +297,24 @@
                 });
         }
 
+        const toggle = document.getElementById('notification-toggle');
+        const statusText = document.getElementById('status-text');
 
+        toggle.addEventListener('change', (event) => {
+            const isNotificationEnabled = event.target.checked;
+
+            if (isNotificationEnabled) {
+                statusText.innerText = "Ativado";
+                statusText.style.color = "green";
+                // lógica para ativar as notificações
+                console.log("Enviar para o banco de dados: true");
+            } else {
+                statusText.innerText = "Desativado";
+                statusText.style.color = "red";
+                // lógica para desativar as notificações
+                console.log("Enviar para o banco de dados: false");
+            }
+        });
 
     </script>
 
