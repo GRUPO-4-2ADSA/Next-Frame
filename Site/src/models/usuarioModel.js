@@ -12,6 +12,17 @@ function cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa) {
     return database.executar(instrucaoSql);
 }
 
+function cadastrarUsuario(nome, cargo, cpf, dtNascimento, email, senha, idEmpresa) {
+    var instrucaoSql = `
+        INSERT INTO Usuario
+            (nome, cargo, cpf, dt_nascimento, email, senha, id_empresa)
+        VALUES
+            ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', ${idEmpresa});
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function autenticar(email, senha) {
     var instrucaoSql = `
         SELECT
@@ -56,8 +67,7 @@ function listar(idEmpresa) {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
             ON u.id_empresa = e.id_empresa
@@ -80,8 +90,7 @@ function buscarPorId(id) {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
             ON u.id_empresa = e.id_empresa
@@ -147,9 +156,9 @@ function listarEmpresas() {
     `;
     return database.executar(instrucaoSql);
 
-    }
+}
 
-    function buscarPerfil(id) {
+function buscarPerfil(id) {
     var instrucaoSql = `
         SELECT
             id_usuario AS id,
@@ -208,5 +217,6 @@ module.exports = {
     listarEmpresas,
     buscarPerfil,
     editarPerfil,
-    atualizarFoto
+    atualizarFoto,
+    cadastrarUsuario
 };

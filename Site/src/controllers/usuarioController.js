@@ -325,6 +325,38 @@ function atualizarFoto(req, res) {
         });
 }
 
+function cadastrarUsuario(req, res) {
+    var nome = req.body.nomeServer;
+    var cargo = req.body.cargoServer;
+    var cpf = req.body.cpfServer;
+    var dtNascimento = req.body.dtNascimentoServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+    var idEmpresa = req.body.idEmpresaServer;
+
+    if (!nome || !cargo || !cpf || !dtNascimento || !email || !senha || !idEmpresa) {
+        return res.status(400).json({
+            mensagem: "Preencha todos os campos."
+        });
+    }
+
+    usuarioModel.cadastrarUsuario(
+        nome, cargo, cpf, dtNascimento, email, senha, idEmpresa
+    )
+        .then(function (resultado) {
+            res.status(201).json({
+                mensagem: "Usuário cadastrado com sucesso!"
+            });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+
+            res.status(500).json({
+                mensagem: "Erro ao cadastrar usuário."
+            });
+        });
+}
+
 module.exports = {
     cadastrar,
     autenticar,
@@ -337,4 +369,5 @@ module.exports = {
     buscarPerfil,
     editarPerfil,
     atualizarFoto,
+    cadastrarUsuario
 };

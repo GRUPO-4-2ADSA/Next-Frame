@@ -35,6 +35,7 @@ router.put("/perfil/:id", usuarioController.editarPerfil);
 
 router.post("/perfil/:id/foto", upload.single("foto"), usuarioController.atualizarFoto);
 
+router.post("/cadastrar-usuario", usuarioController.cadastrarUsuario);
 
 
 module.exports = router;

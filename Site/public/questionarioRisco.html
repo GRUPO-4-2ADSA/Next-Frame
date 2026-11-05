@@ -7,33 +7,50 @@
 
     <title>Next Frame | Questionário de Perfil</title>
 
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/questionario-risco.css">
-    <link rel="stylesheet" href="css/resultado-produtora.css">
-</head>
 
-<body>
+</head>
+<script src="js/perfilRiscoHeader.js"></script>
+
+<body onload="plotarInfoUsuario()">
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
                 <img class="logo" src="assets\img\logo.png">
             </a>
             <ul class="navbar">
-                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="lobby.html">Início</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a class="ativo" href="perfil.html">Perfil de Risco</a></li>
+                <li>
+                    <a class="ativo" href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
                 <li class="menu-gerenciamento" style="display: none;">
                     <a href="usuarios.html">Usuários</a>
                 </li>
             </ul>
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src=" assets/img/icon_usuario.png">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo" id="infoNome">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -469,8 +486,15 @@
 
 
     </div>
-    <script>
 
+    <script src="js/infoSessao.js"></script>
+
+    <script>
+        var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+        if (cargo != "Gestor") {
+            window.location.replace("resultadoRisco.html");
+        }
         var perguntaAtual = 1;
 
         function atualizarPergunta() {
@@ -651,7 +675,7 @@
             }
 
 
-            
+
             sessionStorage.setItem("perfilProdutora", JSON.stringify({
                 pontosCapacidade: pontosCapacidade,
                 pontosTolerancia: pontosTolerancia,
@@ -665,7 +689,7 @@
         }
 
         function voltarInicio() {
-            window.location.href = "perfilProdutora.html";
+            window.location.href = "perfilRisco.html";
         }
 
 
@@ -711,6 +735,18 @@
             }
 
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
     </script>
 
 </body>
