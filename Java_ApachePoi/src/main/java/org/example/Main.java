@@ -7,29 +7,29 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-                LeituraExcel leitura = new LeituraExcel();
+        LeituraExcel leitura = new LeituraExcel();
 
-                String caminhoArquivo = "Filmes.xlsx";
+        String caminhoArquivo = "Filmes.xlsx";
 
-                List<Filme> filmes = leitura.extracaoFilmes(caminhoArquivo);
+        List<Filme> filmes = leitura.extracaoFilmes(caminhoArquivo);
 
-                FilmeDao filmeDAO = new FilmeDao(); // objeto para aplicar o método
+        FilmeDao filmeDAO = new FilmeDao(); // objeto para aplicar o método
 
-                LogCargaDao logDAO = new LogCargaDao();
+        LogCargaDao logDAO = new LogCargaDao();
 
-                LogCarga logInicial = new LogCarga(
+        LogCarga logInicial = new LogCarga(
                 "Início Carga de Filmes",
                 "CARGA_INICIADA",
                 0,
                 "Processo de Inserção iniciado",
                 java.time.LocalDateTime.now()
-                );
+        );
 
-                logDAO.inserirLog(logInicial);
+        logDAO.inserirLog(logInicial);
 
-                filmeDAO.inserirFilmes(filmes); // inserindo no banco
+        filmeDAO.inserirFilmes(filmes); // inserindo no banco
 
-                LogCarga logFinal = new LogCarga(
+        LogCarga logFinal = new LogCarga(
                 "Carga de filmes finalizada",
                 "CARGA_FINALIZADA",
                 filmes.size(),
@@ -37,25 +37,25 @@ public class Main {
                 java.time.LocalDateTime.now()
         );
 
-                logDAO.inserirLog(logFinal);
+        logDAO.inserirLog(logFinal);
 
-            System.out.println("Processo finalizado");
+        System.out.println("Processo finalizado");
 
-            Email email = new Email();
+        Email email = new Email();
 
         String mensagem = """
-        Olá!
+                Olá!
+                
+                Informamos que novos filmes foram adicionados ao banco de dados do Next Frame.
+                
+                Os dados estão disponíveis para consulta e análise no sistema.
+                
+                Atenciosamente,
+                Equipe Next Frame
+                """;
 
-        Informamos que novos filmes foram adicionados ao banco de dados do Next Frame.
+        email.enviarEmail("lucas.oalves@sptech.school", "Next Frame - Novos filmes adicionados", mensagem);
 
-        Os dados estão disponíveis para consulta e análise no sistema.
-
-        Atenciosamente,
-        Equipe Next Frame
-        """;
-
-            email.enviarEmail("diego.souza@sptech.school", "Next Frame - Novos filmes adicionados", mensagem);
-
-            }
-        }
+    }
+}
 

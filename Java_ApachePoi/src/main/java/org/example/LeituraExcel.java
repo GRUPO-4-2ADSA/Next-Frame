@@ -12,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFComment;
 import org.apache.poi.util.XMLHelper;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+import org.apache.poi.util.IOUtils;
 
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class LeituraExcel {
     private Integer filmesDescartados = 0;
 
     public List<Filme> extracaoFilmes(String caminhoArquivo) {
-
+        IOUtils.setByteArrayMaxOverride(200_000_000);
         falhasTratamento = 0;
         filmesDescartados = 0;
 
@@ -65,20 +66,20 @@ public class LeituraExcel {
                                         dadosLinha = new String[16]; // Cria um vetor para as 16 colunas necessárias
                                     }
 
-                                        public void cell(String referenciaCelula, String valorCelula,
-                                                         XSSFComment comentario) {
+                                    public void cell(String referenciaCelula, String valorCelula,
+                                                     XSSFComment comentario) {
 
-                                            if (referenciaCelula == null) {
-                                                return; // Ignora células sem referência
-                                            }
-
-                                            int indiceColuna =
-                                                    new CellReference(referenciaCelula).getCol(); // Obtém o índice da coluna a partir do b2 (a vira 0, b vira1_
-
-                                            if (indiceColuna < dadosLinha.length) {
-                                                dadosLinha[indiceColuna] = valorCelula; // Guarda o valor no vetor
-                                            }
+                                        if (referenciaCelula == null) {
+                                            return; // Ignora células sem referência
                                         }
+
+                                        int indiceColuna =
+                                                new CellReference(referenciaCelula).getCol(); // Obtém o índice da coluna a partir do b2 (a vira 0, b vira1_
+
+                                        if (indiceColuna < dadosLinha.length) {
+                                            dadosLinha[indiceColuna] = valorCelula; // Guarda o valor no vetor
+                                        }
+                                    }
 
                                     public void endRow(int numeroLinha) {
 
