@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/cadastro-usuario.css">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href=" css/cadastro-usuario.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
+    <link rel="stylesheet" href=" css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Cadastro de Usuário</title>
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -19,21 +21,36 @@
             </a>
 
             <ul class="navbar">
-                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="lobby.html">Início</a></li>
                 <li><a href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portfólio</a></li>
-                <li><a class="ativo" href="usuarios.html">Usuários</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
 
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png" alt="Usuário">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br>
-                        <span class="amarelo">DONO DA PRODUTORA</span>
-                    </p>
                 </div>
             </a>
         </div>
@@ -94,18 +111,10 @@
                 </div>
 
                 <div class="campo">
-                    <label for="empresa">EMPRESA</label>
-                    <select id="empresa" name="empresa" required>
-                        <option value="" disabled selected>Selecione uma empresa</option>
-                    </select>
-                </div>
-
-                <div class="campo">
                     <label for="cargo">CARGO</label>
                     <select id="cargo" name="cargo" required>
                         <option value="" disabled selected>Selecione um cargo</option>
                         <option value="Gestor">Gestor</option>
-                        <option value="Analista">Analista</option>
                         <option value="Produtor Executivo">Produtor Executivo</option>
                         <option value="Analista Financeiro">Analista Financeiro</option>
                     </select>
@@ -167,35 +176,15 @@
         </div>
     </div>
 
+    <script src="js/infoSessao.js"></script>
+
     <script>
+        var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
         document.addEventListener("DOMContentLoaded", function () {
             carregarEmpresas();
         });
 
-        function carregarEmpresas() {
-            fetch("/usuarios/empresas")
-                .then(function (resposta) {
-                    if (!resposta.ok) {
-                        throw new Error("Não foi possível carregar as empresas.");
-                    }
-
-                    return resposta.json();
-                })
-                .then(function (empresas) {
-                    var selectEmpresa = document.getElementById("empresa");
-
-                    empresas.forEach(function (empresa) {
-                        var opcao = document.createElement("option");
-                        opcao.value = empresa.id_empresa;
-                        opcao.textContent = empresa.nome;
-                        selectEmpresa.appendChild(opcao);
-                    });
-                })
-                .catch(function (erro) {
-                    console.error("Erro ao carregar empresas:", erro);
-                    alert("Não foi possível carregar as empresas. Verifique a API.");
-                });
-        }
 
         document.getElementById("cpf").addEventListener("input", function () {
             var numeros = this.value.replace(/\D/g, "").substring(0, 11);
@@ -217,7 +206,6 @@
                 var confirmarSenha = document.getElementById("confirmarSenha").value;
                 var cpf = document.getElementById("cpf").value.replace(/\D/g, "");
                 var nascimento = document.getElementById("nascimento").value;
-                var empresa = document.getElementById("empresa").value;
                 var cargo = document.getElementById("cargo").value;
 
                 if (senha !== confirmarSenha) {
@@ -236,11 +224,11 @@
                     senhaServer: senha,
                     cpfServer: cpf,
                     dtNascimentoServer: nascimento,
-                    empresaServer: empresa,
-                    cargoServer: cargo
+                    cargoServer: cargo,
+                    idEmpresaServer: idEmpresa
                 };
 
-                fetch("/usuarios/cadastrar", {
+                fetch("/usuarios/cadastrar-usuario", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

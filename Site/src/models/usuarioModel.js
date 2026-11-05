@@ -12,6 +12,17 @@ function cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa) {
     return database.executar(instrucaoSql);
 }
 
+function cadastrarUsuario(nome, cargo, cpf, dtNascimento, email, senha, idEmpresa) {
+    var instrucaoSql = `
+        INSERT INTO Usuario
+            (nome, cargo, cpf, dt_nascimento, email, senha, id_empresa)
+        VALUES
+            ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', ${idEmpresa});
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function autenticar(email, senha) {
     var instrucaoSql = `
         SELECT
@@ -29,7 +40,24 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function listar() {
+function verificarCodEmpresa(codEmpresa) {
+    var instrucaoSql = `
+        SELECT EXISTS (
+            SELECT 1
+            FROM Empresa
+            WHERE cod_empresa = '${codEmpresa}'
+        ) AS existe,
+        (
+        SELECT id_empresa
+        FROM Empresa
+        WHERE cod_empresa = '${codEmpresa}'
+        ) AS id_empresa;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function listar(idEmpresa) {
     var instrucaoSql = `
         SELECT
             u.id_usuario AS id,
@@ -39,14 +67,17 @@ function listar() {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
-            ON u.id_empresa = e.id_empresa;
+            ON u.id_empresa = e.id_empresa
+        WHERE u.id_empresa = ?
+        ORDER BY u.nome;
     `;
 
-    return database.executar(instrucaoSql);
+    console.log("Executando SQL:", instrucaoSql);
+
+    return database.executar(instrucaoSql, [idEmpresa]);
 }
 
 function buscarPorId(id) {
@@ -59,8 +90,7 @@ function buscarPorId(id) {
             u.dt_nascimento,
             u.id_empresa,
             e.nome AS empresa,
-            u.cargo,
-            u.ultimo_acesso
+            u.cargo
         FROM Usuario u
         INNER JOIN Empresa e
             ON u.id_empresa = e.id_empresa
@@ -125,15 +155,68 @@ function listarEmpresas() {
         ORDER BY nome;
     `;
     return database.executar(instrucaoSql);
+
+}
+
+function buscarPerfil(id) {
+    var instrucaoSql = `
+        SELECT
+            id_usuario AS id,
+            nome,
+            email,
+            cpf,
+            dt_nascimento,
+             foto_perfil
+        FROM Usuario
+        WHERE id_usuario = ?;
+    `;
+
+    return database.executar(instrucaoSql, [id]);
+}
+
+function editarPerfil(id, dados) {
+    var instrucaoSql = `
+        UPDATE Usuario
+        SET
+            nome = '${dados.nomeServer}',
+            email = '${dados.emailServer}',
+            cpf = '${dados.cpfServer}',
+            dt_nascimento = '${dados.dtNascimentoServer}'
+    `;
+
+    if (dados.senhaServer) {
+        instrucaoSql += `,
+            senha = '${dados.senhaServer}'
+        `;
+    }
+
+    instrucaoSql += ` WHERE id_usuario = ${id};`;
+
+    return database.executar(instrucaoSql);
+}
+
+function atualizarFoto(id, caminhoFoto) {
+    var instrucaoSql = `
+        UPDATE Usuario
+        SET foto_perfil = '${caminhoFoto}'
+        WHERE id_usuario = ${id};
+    `;
+
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
     cadastrar,
+    verificarCodEmpresa,
     autenticar,
     listar,
     buscarPorId,
     editar,
     excluir,
     buscarHistorico,
-    listarEmpresas
+    listarEmpresas,
+    buscarPerfil,
+    editarPerfil,
+    atualizarFoto,
+    cadastrarUsuario
 };

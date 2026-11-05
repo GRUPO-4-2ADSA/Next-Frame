@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/analise-historica.css">
+    <link rel="stylesheet" href=" css/modal-perfil.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <title>Next Frame | Análise Histórica</title>
 </head>
+<script src="js/perfilRiscoHeader.js"></script>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
     <div class="header">
         <div class="container-horizontal">
@@ -18,18 +20,35 @@
                 <img class="logo" src="assets\img\logo.png">
             </a>
             <ul class="navbar">
-                <li><a href="sucessosAno.html">Sucessos do Ano</a></li>
+                <li><a href="lobby.html">Início</a></li>
                 <li><a class="ativo" href="analiseHistorica.html">Análise Histórica</a></li>
                 <li><a href="avaliacao.html">Avaliação</a></li>
-                <li><a href="portfolio.html">Portifólio</a></li>
-                <li><a href="usuarios.html">Usuários</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
             </ul>
             <a href="editarPerfil.html">
-                <div class="container-horizontal usuario">
-                    <div class="icone-usuario">
-                        <img src="assets/img/icon_usuario.png">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                     </div>
-                    <p>BEM VINDO,<br><span class="amarelo">USUÁRIO</span></p>
                 </div>
             </a>
         </div>
@@ -54,7 +73,7 @@
 
     <div class="secao-filtros">
         <div class="card-filtros-wrapper">
-            <form class="card-filtros">
+            <form class="card-filtros" id="formAnaliseHistorica">
 
                 <div class="container-horizontal cabecalho-filtros">
                     <div class="container alinhamento-esquerda info-filtros">
@@ -78,13 +97,13 @@
                             <input type="date" name="dataLancamento">
                         </div>
                         <div class="grupo-operadores">
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="maior">
                                 <img src="assets/img/icon_maior.png">
                             </button>
-                            <button type="button" class="btn-operador ativo">
+                            <button type="button" class="btn-operador ativo" data-operador="igual">
                                 <img src="assets/img/icon_igual.png">
                             </button>
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="menor">
                                 <img src="assets/img/icon_menor.png">
                             </button>
                         </div>
@@ -97,16 +116,16 @@
                             RECEITA
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="receita" placeholder="Ex: 50 milhões">
+                            <input type="text" name="receita" inputmode="numeric" placeholder="Ex: 50.000.000">
                         </div>
                         <div class="grupo-operadores">
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="maior">
                                 <img src="assets/img/icon_maior.png">
                             </button>
-                            <button type="button" class="btn-operador ativo">
+                            <button type="button" class="btn-operador ativo" data-operador="igual">
                                 <img src="assets/img/icon_igual.png">
                             </button>
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="menor">
                                 <img src="assets/img/icon_menor.png">
                             </button>
                         </div>
@@ -119,60 +138,16 @@
                             ORÇAMENTO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="orcamentoMin" placeholder="Ex: 20 milhões">
+                            <input type="text" name="orcamento" inputmode="numeric" placeholder="Ex: 20.000.000">
                         </div>
                         <div class="grupo-operadores">
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="maior">
                                 <img src="assets/img/icon_maior.png">
                             </button>
-                            <button type="button" class="btn-operador ativo">
+                            <button type="button" class="btn-operador ativo" data-operador="igual">
                                 <img src="assets/img/icon_igual.png">
                             </button>
-                            <button type="button" class="btn-operador">
-                                <img src="assets/img/icon_menor.png">
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="linha-filtro">
-                        <label class="checkbox-filtro">
-                            <input type="checkbox" checked>
-                            <span class="marcador-checkbox"></span>
-                            ORÇAMENTO
-                        </label>
-                        <div class="campo-filtro">
-                            <input type="text" name="orcamentoMax" placeholder="Ex: 50 milhões">
-                        </div>
-                        <div class="grupo-operadores">
-                            <button type="button" class="btn-operador">
-                                <img src="assets/img/icon_maior.png">
-                            </button>
-                            <button type="button" class="btn-operador ativo">
-                                <img src="assets/img/icon_igual.png">
-                            </button>
-                            <button type="button" class="btn-operador">
-                                <img src="assets/img/icon_menor.png">
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="linha-filtro">
-                        <label class="checkbox-filtro">
-                            <input type="checkbox" checked>
-                            <span class="marcador-checkbox"></span>
-                            POPULARIDADE (%)
-                        </label>
-                        <div class="campo-filtro">
-                            <input type="text" name="popularidade" placeholder="Ex: 80">
-                        </div>
-                        <div class="grupo-operadores">
-                            <button type="button" class="btn-operador">
-                                <img src="assets/img/icon_maior.png">
-                            </button>
-                            <button type="button" class="btn-operador ativo">
-                                <img src="assets/img/icon_igual.png">
-                            </button>
-                            <button type="button" class="btn-operador">
+                            <button type="button" class="btn-operador" data-operador="menor">
                                 <img src="assets/img/icon_menor.png">
                             </button>
                         </div>
@@ -182,10 +157,28 @@
                         <label class="checkbox-filtro">
                             <input type="checkbox" checked>
                             <span class="marcador-checkbox"></span>
-                            GENÊRO
+                            GÊNERO
                         </label>
                         <div class="campo-filtro">
-                            <input type="text" name="genero" placeholder="Ex: Drama">
+                            <select name="genero">
+                                <option value="">Selecione um gênero</option>
+                                <option value="Action">Ação</option>
+                                <option value="Animation">Animação</option>
+                                <option value="Adventure">Aventura</option>
+                                <option value="Comedy">Comédia</option>
+                                <option value="Crime">Crime</option>
+                                <option value="Documentary">Documentário</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Family">Família</option>
+                                <option value="Fantasy">Fantasia</option>
+                                <option value="Science Fiction">Ficção Científica</option>
+                                <option value="War">Guerra</option>
+                                <option value="Music">Musical</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Superhero">Super-herói</option>
+                                <option value="Thriller">Suspense</option>
+                                <option value="Horror">Terror</option>
+                            </select>
                         </div>
                         <div class="grupo-operadores sem-operador"></div>
                     </div>
@@ -196,10 +189,6 @@
                     <button type="submit" class="btn-pesquisar">
                         <img src="assets/img/icon_lupa_branca.png">
                         PESQUISAR
-                    </button>
-                    <button type="button" class="btn-adicionar-filtro">
-                        <img src="assets/img/icon_mais.png">
-                        ADICIONAR FILTRO
                     </button>
                 </div>
 
@@ -228,6 +217,127 @@
 
     </div>
 
+    <script src="js/infoSessao.js"></script>
+
+    <script>
+        function formatarNumero(valor) {
+            var digitos = String(valor).replace(/\D/g, "").replace(/^0+(?=\d)/, "");
+
+            return digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function removerPontos(valor) {
+            return String(valor).replace(/\D/g, "");
+        }
+
+        function mascaraNumerica(input) {
+            var digitosAntesDoCursor = input.value.slice(0, input.selectionStart).replace(/\D/g, "").length;
+
+            input.value = formatarNumero(input.value);
+
+            var posicao = 0;
+            var digitosContados = 0;
+
+            while (posicao < input.value.length && digitosContados < digitosAntesDoCursor) {
+                if (/\d/.test(input.value[posicao])) {
+                    digitosContados++;
+                }
+                posicao++;
+            }
+
+            input.setSelectionRange(posicao, posicao);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var formulario = document.getElementById("formAnaliseHistorica");
+            var chaveFiltros = "filtrosAnaliseHistorica";
+            var seletorNumerico = 'input[name="receita"], input[name="orcamento"]';
+
+            formulario.querySelectorAll(seletorNumerico).forEach(function (campo) {
+                campo.addEventListener("input", function () {
+                    mascaraNumerica(campo);
+                });
+            });
+
+            // Marca o operador escolhido em cada filtro.
+            document.querySelectorAll(".grupo-operadores:not(.sem-operador)").forEach(function (grupo) {
+                grupo.querySelectorAll(".btn-operador").forEach(function (botao) {
+                    botao.addEventListener("click", function () {
+                        grupo.querySelectorAll(".btn-operador").forEach(function (item) {
+                            item.classList.remove("ativo");
+                        });
+                        botao.classList.add("ativo");
+                    });
+                });
+            });
+
+            var filtrosSalvos = sessionStorage.getItem(chaveFiltros);
+            if (filtrosSalvos) {
+                try {
+                    var filtros = JSON.parse(filtrosSalvos);
+                    formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
+                        var campo = linha.querySelector("input[name], select[name]");
+                        var checkbox = linha.querySelector('input[type="checkbox"]');
+                        var filtro = filtros[campo.name];
+
+                        if (filtro) {
+                            campo.value = campo.matches(seletorNumerico) ? formatarNumero(filtro.valor) : filtro.valor;
+                            checkbox.checked = true;
+                            var botao = linha.querySelector('.btn-operador[data-operador="' + filtro.operador + '"]');
+                            if (botao) {
+                                linha.querySelectorAll(".btn-operador").forEach(function (item) {
+                                    item.classList.remove("ativo");
+                                });
+                                botao.classList.add("ativo");
+                            }
+                        } else {
+                            campo.value = "";
+                            checkbox.checked = false;
+                        }
+                    });
+                } catch (erro) {
+                    sessionStorage.removeItem(chaveFiltros);
+                }
+            }
+
+            formulario.addEventListener("submit", function (evento) {
+                evento.preventDefault();
+                var filtros = {};
+
+                formulario.querySelectorAll(".linha-filtro").forEach(function (linha) {
+                    var checkbox = linha.querySelector('input[type="checkbox"]');
+                    var campo = linha.querySelector("input[name], select[name]");
+                    var valor = campo.value.trim();
+                    if (!checkbox.checked || !valor) return;
+
+                    if (campo.matches(seletorNumerico)) {
+                        valor = removerPontos(valor);
+                    }
+
+                    var botaoAtivo = linha.querySelector(".btn-operador.ativo");
+                    filtros[campo.name] = {
+                        valor: valor,
+                        operador: botaoAtivo ? botaoAtivo.dataset.operador : "igual"
+                    };
+                });
+
+                sessionStorage.setItem(chaveFiltros, JSON.stringify(filtros));
+                window.location.href = "analiseHistoricaResultado.html";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
+    </script>
 </body>
 
 </html>
