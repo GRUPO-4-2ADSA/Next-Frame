@@ -16,11 +16,14 @@
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/ImprimirPdf.css">
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
+
+    <script src="js/perfilRiscoHeader.js"></script>
+    <script src="js/infoSessao.js"></script>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
+    
     <!-- Menu lateral -->
-
     <aside class="menu-lateral">
         <div class="menu-topo">
             <a class="menu-logotipo-link" href="index.html">
@@ -31,15 +34,24 @@
             </button>
         </div>
 
+
         <nav class="menu-itens">
             <a class="menu-item" href="index.html">
                 <img class="menu-icone" src="assets/img/icon_home.png" alt="">
                 <span class="menu-rotulo">INÍCIO</span>
             </a>
-
             <a class="menu-item ativo" href="dashboardExecutiva.html">
                 <img class="menu-icone" src="assets/img/chart.png" alt="">
                 <span class="menu-rotulo">DASHBOARD</span>
+            </a>
+            <a class="menu-item" href="analiseHistorica.html">
+                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_analise_historica.png" alt="">
+                <span class="menu-rotulo">ANÁLISE HISTÓRICA</span>
+            </a>
+
+            <a class="menu-item" href="#" onclick="abrirPerfilRisco(); return false;">
+                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_risco.png" alt="">
+                <span class="menu-rotulo">PERFIL DE RISCO</span>
             </a>
 
             <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
@@ -47,18 +59,19 @@
                 <span class="menu-rotulo">USUÁRIOS</span>
             </a>
 
+
         </nav>
 
         <div class="menu-usuario">
             <div class="usuario-linha">
-                <img class="usuario-avatar" src="assets/img/persona_fin.png" alt="">
+                <img class="usuario-avatar" id="fotoPerfilHeader" src="assets/img/persona_exec.png" alt="">
                 <div class="usuario-texto">
-                    <p class="usuario-nome">Rafael</p>
-                    <p class="usuario-cargo">Analista Financeiro</p>
+                    <p class="usuario-nome" id="infoNome">Mariana</p>
+                    <p class="usuario-cargo">Produtor Executiva</p>
                 </div>
                 <span class="usuario-seta">▾</span>
             </div>
-            <button type="button" class="botao-sair">Sair</button>
+            <button type="button" class="botao-sair" onclick="sair()">Sair</button>
         </div>
     </aside>
 
@@ -292,6 +305,17 @@
 </html>
 
 <script>
+    // ---------- Verificação do perfil do usuário ----------
+    document.addEventListener("DOMContentLoaded", function () {
+        let cargo = sessionStorage.getItem("CARGO_USUARIO");
+        if (cargo === "Gestor") {
+            let itens = document.querySelectorAll(".menu-gerenciamento");
+            for (let i = 0; i < itens.length; i++) {
+                itens[i].style.display = "";
+            }
+        }
+    });
+
     // ---------- Menu lateral: expandir / minimizar ----------
     let botaoMenu = document.getElementById('botaoAlternarMenu');
 
@@ -727,20 +751,20 @@
     new Chart(document.getElementById('graficoDispersao'), configuracaoDispersao);
 
     // ---------- KPI de cenário: alternar pior / melhor ----------
-let cenarios = {
-    pior: {
-        titulo: 'ROI no pior cenário (P10)',
-        valor: '0,5x',
-        detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
-        dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
-    },
-    melhor: {
-        titulo: 'ROI no melhor cenário (P90)',
-        valor: '4x',
-        detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
-        dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
-    }
-};
+    let cenarios = {
+        pior: {
+            titulo: 'ROI no pior cenário (P10)',
+            valor: '0,5x',
+            detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
+            dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
+        },
+        melhor: {
+            titulo: 'ROI no melhor cenário (P90)',
+            valor: '4x',
+            detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
+            dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
+        }
+    };
 
     // Inicia com 'melhor' por padrão
     let cenarioAtual = 'melhor';

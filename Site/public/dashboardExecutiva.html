@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/ImprimirPdf.css">
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
 
+    <script src="js/infoSessao.js"></script>
 </head>
 
 <body onload="plotarInfoUsuario()">
@@ -41,11 +42,21 @@
                 <img class="menu-icone" src="assets/img/chart.png" alt="">
                 <span class="menu-rotulo">DASHBOARD</span>
             </a>
+            <a class="menu-item" href="analiseHistorica.html">
+                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_analise_historica.png" alt="">
+                <span class="menu-rotulo">ANÁLISE HISTÓRICA</span>
+            </a>
+
+            <a class="menu-item" href="#" onclick="abrirPerfilRisco(); return false;">
+                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_risco.png" alt="">
+                <span class="menu-rotulo">PERFIL DE RISCO</span>
+            </a>
 
             <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
                 <img class="menu-icone" src="assets/img/icon_user.png" alt="">
                 <span class="menu-rotulo">USUÁRIOS</span>
             </a>
+
 
         </nav>
 
@@ -156,7 +167,7 @@
                 <div class="box-grafico2">
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: como os 87 filmes semelhantes se dividem entre superávit, neutro e déficit.&#10;COMO CALCULA: pelo ROI. Superávit é acima de +10%, neutro entre −10% e +10% e déficit abaixo de −10%. A barra de baixo mostra quantos chegaram a US$ 40 mi.&#10;COMO LER: quanto maior a fatia amarela, melhor o histórico. Clique na legenda para ocultar uma faixa.">i</span>
-                    <h3 class="titulo-grafico">TAXA DE SUCESSO E  RETORNO FINANCEIRO</h3>
+                    <h3 class="titulo-grafico">TAXA DE SUCESSO E RETORNO FINANCEIRO</h3>
 
                     <div class="area-grafico-pizza">
                         <canvas id="graficoPizza"></canvas>
@@ -185,9 +196,11 @@
             <div class="container-kpi">
                 <div class="box-kpi4">
                     <span class="info-dica" tabindex="0"
-                        data-dica="O QUE É: a posição do gênero entre os 10 mais buscados no último mês.&#10;COMO CALCULA: ordena os gêneros pelo índice do Google Trends (Brasil, 0 a 100) e compara com set/2026 (era 3º). Terror em out/2026: 76 pontos.&#10;COMO LER: 1º é o mais buscado, e seta para cima é ganho de posição. Busca mede interesse, não bilheteria.">INTERESSE DO PÚBLICO</h6>
-                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1º/10</h5>
-                    <h6 class="descricao-kpi">SUBIU 02 POSIÇÕES EM RELAÇÃO AO MÊS ANTERIOR</h6>
+                        data-dica="O QUE É: a posição do gênero entre os 10 mais buscados no último mês.&#10;COMO CALCULA: ordena os gêneros pelo índice do Google Trends (Brasil, 0 a 100) e compara com set/2026 (era 3º). Terror em out/2026: 76 pontos.&#10;COMO LER: 1º é o mais buscado, e seta para cima é ganho de posição. Busca mede interesse, não bilheteria.">INTERESSE
+                        DO PÚBLICO</h6>
+                        <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1º/10
+                        </h5>
+                        <h6 class="descricao-kpi">SUBIU 02 POSIÇÕES EM RELAÇÃO AO MÊS ANTERIOR</h6>
                 </div>
 
                 <div class="box-kpi5">
