@@ -195,30 +195,7 @@
             <div class="grafico">
                 <div class="container-grafico empilhado">
 
-                    <!-- Orçamento x Receita -->
-                    <div class="box-grafico1">
-                        <span class="info-dica" tabindex="0"
-                            data-dica="O QUE É: cada ponto é um filme semelhante (orçamento × receita). O losango amarelo é o seu projeto.&#10;COMO CALCULA: a linha tracejada é a tendência. A correlação de 0,89 (Pearson, 87 filmes) vai de −1 a 1. Pontos amarelos soltos fogem do padrão de ROI (regra do IQR).&#10;COMO LER: quanto mais os pontos seguem a linha, mais o orçamento explica a receita. Correlação não é causa.">i</span>
-                        <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
-
-                        <div class="area-grafico">
-                            <canvas class="dispersao" id="graficoDispersao"></canvas>
-                        </div>
-
-                        <div class="informacoes-grafico">
-                            <div class="card-informacao">
-                                <h6>Correlação</h6>
-                                <h3>0,89</h3>
-                                <p>Forte · orçamento x receita</p>
-                            </div>
-
-                            <div class="card-informacao">
-                                <h6>Filmes analisados</h6>
-                                <h3>87</h3>
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     <!-- ROI mediano do gênero por período -->
                     <div class="box-grafico2">
                         <span class="info-dica" tabindex="0"
@@ -244,6 +221,31 @@
                             <canvas id="graficoRoiPeriodo"></canvas>
                         </div>
                     </div>
+
+                    <!-- Orçamento x Receita -->
+                    <div class="box-grafico1">
+                        <span class="info-dica" tabindex="0"
+                            data-dica="O QUE É: cada ponto é um filme semelhante (orçamento × receita). O losango amarelo é o seu projeto.&#10;COMO CALCULA: a linha tracejada é a tendência. A correlação de 0,89 (Pearson, 87 filmes) vai de −1 a 1. Pontos amarelos soltos fogem do padrão de ROI (regra do IQR).&#10;COMO LER: quanto mais os pontos seguem a linha, mais o orçamento explica a receita. Correlação não é causa.">i</span>
+                        <h3 class="titulo-grafico">ORÇAMENTO x RECEITA</h3>
+
+                        <div class="area-grafico">
+                            <canvas class="dispersao" id="graficoDispersao"></canvas>
+                        </div>
+
+                        <div class="informacoes-grafico">
+                            <div class="card-informacao">
+                                <h6>Correlação</h6>
+                                <h3>0,89</h3>
+                                <p>Forte · orçamento x receita</p>
+                            </div>
+
+                            <div class="card-informacao">
+                                <h6>Filmes analisados</h6>
+                                <h3>87</h3>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -474,8 +476,8 @@
             datasets: [{
                 label: generoSelecionado,
                 data: roisData,
-                borderColor: '#ff3030',
-                backgroundColor: '#ff3030',
+                borderColor: '#f5c207',
+                backgroundColor: '#f5c207',
                 borderWidth: 3,
                 pointRadius: 4,
                 pointHoverRadius: 6,
