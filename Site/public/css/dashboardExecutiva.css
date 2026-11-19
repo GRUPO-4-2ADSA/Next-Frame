@@ -10,6 +10,10 @@ body {
     color: #f1f5f9;
 }
 
+.conteudo-principal {
+    padding: 25px;
+}
+
 /* ---------- KPIs ---------- */
 .kpi {
     width: 100%;

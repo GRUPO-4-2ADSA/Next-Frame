@@ -11,7 +11,6 @@
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link rel="stylesheet" href="css/dashboardExecutiva.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/menuLateral.css">
     <link rel="stylesheet" href="css/menuTopo.css">
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/ImprimirPdf.css">
@@ -21,47 +20,6 @@
 
 <body onload="plotarInfoUsuario()">
 
-    <!-- Menu lateral -->
-    <aside class="menu-lateral">
-        <div class="menu-topo">
-            <a class="menu-logotipo-link" href="index.html">
-                <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
-            </a>
-            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu"><img
-                    src="assets/img/icon_menuLat.svg" alt="">
-            </button>
-        </div>
-
-        <nav class="menu-itens">
-            <a class="menu-item" href="index.html">
-                <img class="menu-icone" src="assets/img/icon_home.png" alt="">
-                <span class="menu-rotulo">INÍCIO</span>
-            </a>
-
-            <a class="menu-item ativo" href="dashboardExecutiva.html">
-                <img class="menu-icone" src="assets/img/chart.png" alt="">
-                <span class="menu-rotulo">DASHBOARD</span>
-            </a>
-
-            <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
-                <img class="menu-icone" src="assets/img/icon_user.png" alt="">
-                <span class="menu-rotulo">USUÁRIOS</span>
-            </a>
-
-        </nav>
-
-        <div class="menu-usuario">
-            <div class="usuario-linha">
-                <img class="usuario-avatar" id="fotoPerfilHeader" src="assets/img/persona_exec.png" alt="">
-                <div class="usuario-texto">
-                    <p class="usuario-nome" id="infoNome">Mariana</p>
-                    <p class="usuario-cargo">Produtor Executiva</p>
-                </div>
-                <span class="usuario-seta">▾</span>
-            </div>
-            <button type="button" class="botao-sair" onclick="sair()">Sair</button>
-        </div>
-    </aside>
     <!-- Inicio dashboard -->
     <main class="conteudo-principal">
         <div class="topo-dashboard">
@@ -268,21 +226,6 @@
             });
 
             botaoBaixar.addEventListener('click', baixarPdf);
-
-            // ---------- Menu lateral: expandir / minimizar ----------
-            let botaoMenu = document.getElementById('botaoAlternarMenu');
-
-            function alternarMenu() {
-                document.body.classList.toggle('menu-minimizado');
-
-                if (document.body.classList.contains('menu-minimizado')) {
-                    botaoMenu.setAttribute('aria-label', 'Expandir menu'); //o aria-label é um atributo de acessibilidade para elementos que não tem texto escrito, tipo botões.
-                } else {
-                    botaoMenu.setAttribute('aria-label', 'Minimizar menu');
-                }
-            }
-
-            botaoMenu.addEventListener('click', alternarMenu);
 
             // ---------- Padrões do Chart.js ----------
             Chart.defaults.color = '#b8c9da'; // cor padrão para os textos dos graficos
