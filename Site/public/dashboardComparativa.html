@@ -66,7 +66,7 @@
     <main class="conteudo-principal">
         <div class="topo-dashboard">
             <div class="topo-titulo">
-                <h1>Dashboard Executiva</h1>
+                <h1>Dashboard COMPARATIVA</h1>
                 <p>Visão geral dos dados e análises para o seu novo projeto.</p>
             </div>
 
@@ -295,6 +295,125 @@
 
             function tomCinza(posicao) { //função pra retornar um indice do degrade
                 return paletaCinza[posicao];
+            }
+
+           
+            // ---------- Rosca: desempenho financeiro -----------
+            new Chart(document.getElementById('graficoPizza'), {
+                type: 'doughnut',
+                plugins: [ChartDataLabels],
+                data: {
+                    labels: ['Déficit', 'Neutro', 'Superávit'],
+                    datasets: [{
+                        data: [21, 7, 59],
+                        backgroundColor: ['#ff3b30', '#d9d0c4', '#ffc400'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#dce6f2', usePointStyle: true }
+                        },
+                        datalabels: {
+                            font: { weight: 'bold', size: 14 },
+                            color: '#2a2624',
+                            formatter: function (valor, contexto) {
+                                let lista = contexto.dataset.data;
+                                let total = 0;
+                                for (let i = 0; i < lista.length; i++) {
+                                    total = total + lista[i];
+                                }
+                                return Math.round((valor / total) * 100) + '%';
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let valor = context.raw;
+                                    let lista = context.dataset.data;
+                                    let total = 0;
+                                    for (let i = 0; i < lista.length; i++) {
+                                        total = total + lista[i];
+                                    }
+                                    let porcentagem = ((valor / total) * 100).toFixed(1);
+                                    return context.label + ': ' + valor + ' filmes (' + porcentagem + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Séries mensais do Google Trends (Jan a Dez + Jan do próximo ano)
+            let mesesRotulos = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+            // Rótulos simples para os últimos 12 meses do Top 5
+            let rotulos12Meses = [
+                'Nov/25', 'Dez/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26',
+                'Mai/26', 'Jun/26', 'Jul/26', 'Ago/26', 'Set/26', 'Out/26'
+            ];
+
+            // 1.  linhas dos gráficos
+            function criarLinha(nome, valores, cor, destaque) {
+                let espessura = 1.4;
+                let ordem = 1;
+
+                if (destaque) {
+                    espessura = 2.0;
+                    ordem = 0;
+                }
+
+                return {
+                    label: nome,
+                    data: valores,
+                    borderColor: cor,
+                    backgroundColor: cor,
+                    borderWidth: espessura,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0.35,
+                    order: ordem
+                };
+            }
+
+            // 2. Configuração para eixos e tooltips dos gráficos de linha
+            function obterOpcoesLinha() {
+                return {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, color: '#dce6f2' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + ' pts';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#b8c9da', maxRotation: 0, autoSkip: false },
+                            grid: { color: corGrade }
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: { display: true, text: 'PONTUAÇÃO DE INTERESSE (0–100)', color: '#dce6f2' },
+                            ticks: { color: '#b8c9da', stepSize: 20 },
+                            grid: { color: corGrade }
+                        }
+                    }
+                };
             }
 
             // ---------- 1º GRÁFICO: Top 5 Gêneros Mais Buscados ----------
