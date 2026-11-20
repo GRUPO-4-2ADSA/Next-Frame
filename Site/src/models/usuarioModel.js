@@ -3,7 +3,7 @@ var database = require("../database/config");
 
 function cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa) {
     var instrucaoSql = `
-        INSERT INTO Usuario
+        INSERT INTO usuario
             (nome, cargo, cpf, dt_nascimento, email, senha, id_empresa)
         VALUES
             ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', '${empresa}');
@@ -14,7 +14,7 @@ function cadastrar(nome, cargo, cpf, dtNascimento, email, senha, empresa) {
 
 function cadastrarUsuario(nome, cargo, cpf, dtNascimento, email, senha, idEmpresa) {
     var instrucaoSql = `
-        INSERT INTO Usuario
+        INSERT INTO usuario
             (nome, cargo, cpf, dt_nascimento, email, senha, id_empresa)
         VALUES
             ('${nome}', '${cargo}', '${cpf}', '${dtNascimento}', '${email}', '${senha}', ${idEmpresa});
@@ -32,7 +32,7 @@ function autenticar(email, senha) {
             senha,
             cargo,
             id_empresa
-        FROM Usuario
+        FROM usuario
         WHERE email = '${email}'
           AND senha = '${senha}';
     `;
@@ -44,12 +44,12 @@ function verificarCodEmpresa(codEmpresa) {
     var instrucaoSql = `
         SELECT EXISTS (
             SELECT 1
-            FROM Empresa
+            FROM empresa
             WHERE cod_empresa = '${codEmpresa}'
         ) AS existe,
         (
         SELECT id_empresa
-        FROM Empresa
+        FROM empresa
         WHERE cod_empresa = '${codEmpresa}'
         ) AS id_empresa;
     `;
@@ -68,8 +68,8 @@ function listar(idEmpresa) {
             u.id_empresa,
             e.nome AS empresa,
             u.cargo
-        FROM Usuario u
-        INNER JOIN Empresa e
+        FROM usuario u
+        INNER JOIN empresa e
             ON u.id_empresa = e.id_empresa
         WHERE u.id_empresa = ?
         ORDER BY u.nome;
@@ -91,8 +91,8 @@ function buscarPorId(id) {
             u.id_empresa,
             e.nome AS empresa,
             u.cargo
-        FROM Usuario u
-        INNER JOIN Empresa e
+        FROM usuario u
+        INNER JOIN empresa e
             ON u.id_empresa = e.id_empresa
         WHERE u.id_usuario = ${id};
     `;
@@ -102,7 +102,7 @@ function buscarPorId(id) {
 
 function editar(id, dados) {
     var instrucaoSql = `
-        UPDATE Usuario
+        UPDATE usuario
         SET
             nome = '${dados.nomeServer}',
             email = '${dados.emailServer}',
@@ -118,7 +118,7 @@ function editar(id, dados) {
 
 function excluir(id) {
     var instrucaoSql = `
-        DELETE FROM Usuario
+        DELETE FROM usuario
         WHERE id_usuario = ${id};
     `;
 
@@ -132,7 +132,7 @@ function buscarHistorico(id) {
             categoria,
             acao,
             dt_hora
-        FROM Log
+        FROM log
         WHERE id_usuario = ${id}
         ORDER BY dt_hora DESC;
     `;
@@ -143,7 +143,7 @@ function buscarHistorico(id) {
 function listarEmpresas() {
     var instrucaoSql = `
         SELECT id_empresa, nome
-        FROM Empresa
+        FROM empresa
         ORDER BY nome;
     `;
     return database.executar(instrucaoSql);
@@ -159,7 +159,7 @@ function buscarPerfil(id) {
             cpf,
             dt_nascimento,
              foto_perfil
-        FROM Usuario
+        FROM usuario
         WHERE id_usuario = ?;
     `;
 
@@ -168,7 +168,7 @@ function buscarPerfil(id) {
 
 function editarPerfil(id, dados) {
     var instrucaoSql = `
-        UPDATE Usuario
+        UPDATE usuario
         SET
             nome = '${dados.nomeServer}',
             email = '${dados.emailServer}',
@@ -189,7 +189,7 @@ function editarPerfil(id, dados) {
 
 function atualizarFoto(id, caminhoFoto) {
     var instrucaoSql = `
-        UPDATE Usuario
+        UPDATE usuario
         SET foto_perfil = '${caminhoFoto}'
         WHERE id_usuario = ${id};
     `;

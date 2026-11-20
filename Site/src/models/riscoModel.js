@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function atualizarRisco(id_empresa, risco) {
     var instrucaoSql = `
-            UPDATE Empresa SET perfil_risco = '${risco}'
+            UPDATE empresa SET perfil_risco = '${risco}'
                 WHERE id_empresa = ${id_empresa}
         `;
 
@@ -12,7 +12,7 @@ function atualizarRisco(id_empresa, risco) {
 function consultarRisco(idEmpresa) {
     var instrucaoSql = `
         SELECT perfil_risco
-        FROM Empresa
+        FROM empresa
         WHERE id_empresa = ${Number(idEmpresa)};
     `;
 

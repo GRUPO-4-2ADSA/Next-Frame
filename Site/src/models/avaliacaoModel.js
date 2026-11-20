@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function salvarDash(idUsuario, orcamento, receita, genero) {
     var instrucaoSql = `
-        INSERT INTO HistoricoAvaliacao
+        INSERT INTO historicoAvaliacao
             (id_usuario, orcamento, receita, genero)
         VALUES
             ('${idUsuario}', '${orcamento}', '${receita}', '${genero}');
@@ -18,7 +18,7 @@ function buscarHistorico(idUsuario) {
             receita,
             genero,
             id_historico AS idAvaliacao
-        FROM HistoricoAvaliacao
+        FROM historicoAvaliacao
             WHERE id_usuario = '${idUsuario}'
         ORDER BY id_historico DESC
         LIMIT 5;
@@ -38,7 +38,7 @@ function excluirAvaliacao(idAvaliacao) {
 
 function editarAvaliacao(idAvaliacao, orcamento, receita, genero) {
     var instrucaoSql = `
-        UPDATE HistoricoAvaliacao
+        UPDATE historicoAvaliacao
         SET orcamento = ${orcamento}, receita = ${receita}, genero = '${genero}'
             WHERE id_historico = ${idAvaliacao};
     `;
