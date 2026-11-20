@@ -11,10 +11,8 @@ body {
 }
 
 .conteudo-principal {
-    height: 100%;
-    padding: 25px;
+    padding: 110px 25px 0px 25px;
 }
-
 /* ---------- KPIs ---------- */
 .kpi {
     width: 100%;

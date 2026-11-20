@@ -9,6 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+        <link rel="stylesheet" href="css/modal-perfil.css">
+        <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/dashboardComparativa.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/menuTopo.css">
@@ -19,6 +21,48 @@
 </head>
 
 <body onload="plotarInfoUsuario()">
+
+    <!-- Navbar -->
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="assets/img/logo.png" alt="Next Frame">
+            </a>
+
+            <ul class="navbar">
+                <li><a href="lobby.html">Início</a></li>
+                <li><a class="ativo" href="dashboardExecutiva.html">Dashboard</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+
+            <div class="usuario-wrapper">
+                <a href="editarPerfil.html">
+                    <div class="container-horizontal usuario">
+                        <div class="icone-usuario">
+                            <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                        </div>
+                        <p>BEM VINDO,<br>
+                            <span class="amarelo" id="infoNome">Mariana</span>
+                        </p>
+                    </div>
+                </a>
+
+                <div class="menu-usuario">
+                    <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                    <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Inicio dashboard -->
     <main class="conteudo-principal">
         <div class="topo-dashboard">
@@ -46,7 +90,7 @@
         <!-- KPIs -->
         <div class="kpi">
             <div class="titulo-linha">
-                <h6 class="titulo">DESEMPENHO FINANCEIRO DE FILMES SEMELHANTES</h6>
+                <h6 class="titulo">DESEMPENHO ENTRE GÊNEROS E INTERESSE DO PÚBLICO</h6>
                 <span class="subtitulo-kpi">87 FILMES DE TERROR COM ORÇAMENTO SEMELHANTE, LANÇADOS ENTRE 2010 E
                     2024</span>
             </div>
@@ -54,9 +98,6 @@
         </div>
         <!-- ===== BLOCO 2 — Análise comparativa ===== -->
         <div class="kpi bloco2">
-            <div class="titulo-linha">
-                <h6 class="titulo">ANÁLISE COMPARATIVA DE GÊNEROS</h6>
-            </div>
 
             <div class="container-kpi">
                 <div class="box-kpi4">
