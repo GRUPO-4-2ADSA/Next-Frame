@@ -177,21 +177,27 @@
                 idUsuarioServer: sessionStorage.getItem("ID_USUARIO")
             }),
         })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    if (cargo === "Produtor Executivo" || cargo === "Gestor") {
-                        window.location.href = "dashboardExecutiva.html";
-                    } else if (cargo === "Produtor Financeiro") {
-                        window.location.href = "dashboardFinanceira.html";
-                    } else {
-                        alert("Cargo não identificado.");
-                    }
-                } else {
+            .then(function (resposta) {
+                if (!resposta.ok) {
                     throw "Houve um erro ao salvar os dados!";
                 }
+
+                return resposta.json();
             })
+            .then(function (resultado) {
+
+                sessionStorage.setItem("ID_AVALIACAO", resultado.insertId);
+
+                if (cargo === "Produtor Executivo" || cargo === "Gestor") {
+                    window.location.href = "dashboardExecutiva.html";
+                } else if (cargo === "Produtor Financeiro") {
+                    window.location.href = "dashboardFinanceira.html";
+                } else {
+                    alert("Cargo não identificado.");
+                }
+            })
+
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
                 alert("Erro ao efetuar o cadastro")

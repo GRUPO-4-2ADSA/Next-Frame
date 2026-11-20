@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-        <link rel="stylesheet" href="css/modal-perfil.css">
-        <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/modal-perfil.css">
+    <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/dashboardComparativa.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/menuTopo.css">
@@ -102,7 +102,8 @@
             <div class="container-kpi">
                 <div class="box-kpi4">
                     <span class="info-dica" tabindex="0"
-                        data-dica="O QUE É: a posição do gênero entre os 10 mais buscados no último mês.&#10;COMO CALCULA: ordena os gêneros pelo índice do Google Trends (Brasil, 0 a 100) e compara com set/2026 (era 3º). Terror em out/2026: 76 pontos.&#10;COMO LER: 1º é o mais buscado, e seta para cima é ganho de posição. Busca mede interesse, não bilheteria.">i</span><h6 class="titulo-kpi">INTERESSE DO PUBLICO</h6>
+                        data-dica="O QUE É: a posição do gênero entre os 10 mais buscados no último mês.&#10;COMO CALCULA: ordena os gêneros pelo índice do Google Trends (Brasil, 0 a 100) e compara com set/2026 (era 3º). Terror em out/2026: 76 pontos.&#10;COMO LER: 1º é o mais buscado, e seta para cima é ganho de posição. Busca mede interesse, não bilheteria.">i</span>
+                    <h6 class="titulo-kpi">INTERESSE DO PUBLICO</h6>
                     <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1º/10</h5>
                     <h6 class="descricao-kpi">SUBIU 02 POSIÇÕES EM RELAÇÃO AO MÊS ANTERIOR</h6>
                 </div>
@@ -119,8 +120,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: o ranking do gênero entre os 10 de maior retorno típico.&#10;COMO CALCULA: ROI mediano de cada gênero (todos os orçamentos, 2010–2024), do maior para o menor.&#10;COMO LER: 1º tem o maior retorno típico. Compare com o líder (Fantasia, 120%).">i</span>
                     <h6 class="titulo-kpi">POSIÇÃO DO GÊNERO NO TOP 10 ROIS NO RECORTE ANALISADO</h6>
-                    <h5 class="informacao-kpi">5º/10</h5>
-                    <h6 class="descricao-kpi">ROI DE TERROR: 45% · LÍDER: FANTASIA (120%)</h6>
+                    <h5 class="informacao-kpi" id="posicaoGenero">Carregando...</h5>
+                    <h6 class="descricao-kpi" id="descricaoRanking"></h6>
                 </div>
 
                 <div class="box-kpi7">
@@ -280,7 +281,7 @@
                 return paletaCinza[posicao];
             }
 
-           
+
             // ---------- Rosca: desempenho financeiro -----------
             new Chart(document.getElementById('graficoPizza'), {
                 type: 'doughnut',
@@ -436,9 +437,8 @@
             });
 
             // ---------- 3º GRÁFICO: Barras Horizontais — ROI Mediano por Gênero ----------
-            let generosRoi = ['Fantasia', 'Animação', 'Romance', 'Comédia', 'Terror', 'Suspense', 'Ficção científica', 'Drama', 'Ação', 'Aventura'];
-            let valoresRoi = [120, 95, 70, 58, 45, 40, 33, 28, 22, 18];
-
+            let generosRoi = [];
+            let valoresRoi = [];
             // Monta o array de cores usando a função tomCinza
             let coresBarras = [];
             let indiceCinza = 0;
@@ -452,7 +452,7 @@
                 }
             }
 
-            new Chart(document.getElementById('graficoRoiGenero'), {
+            var graficoRoiGenero = new Chart(document.getElementById('graficoRoiGenero'), {
                 type: 'bar',
                 plugins: [ChartDataLabels],
                 data: {
@@ -491,7 +491,6 @@
                     scales: {
                         x: {
                             min: 0,
-                            max: 140,
                             title: { display: true, text: 'ROI MEDIANO (%)', color: '#dce6f2' },
                             ticks: { color: '#b8c9da' },
                             grid: { color: corGrade }
@@ -503,6 +502,88 @@
                     }
                 }
             });
+
+
+            function carregarDadosComparativa() {
+
+                var idAvaliacao = sessionStorage.getItem("ID_AVALIACAO");
+                var idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+                if (!idAvaliacao || !idUsuario) {
+                    console.error("Avaliação ou usuário não identificado.");
+                    document.getElementById("posicaoGenero").textContent = "Sem avaliação";
+                    return;
+                }
+
+                fetch(`/dashboard-comparativa/dados/${idAvaliacao}/${idUsuario}`)
+                    .then(function (resposta) {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao buscar dados da Comparativa.");
+                        }
+
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+
+                        // Atualiza o gráfico Top 10
+                        graficoRoiGenero.data.labels = dados.top10.map(function (item) {
+                            return item.genero;
+                        });
+
+                        graficoRoiGenero.data.datasets[0].data = dados.top10.map(function (item) {
+                            return item.roiMediano;
+                        });
+
+                        // Destaca o gênero escolhido
+                        graficoRoiGenero.data.datasets[0].backgroundColor =
+                            dados.top10.map(function (item, indice) {
+
+                                if (item.genero.toLowerCase() === dados.kpi.genero.toLowerCase()) {
+                                    return corDestaque;
+                                }
+
+                                return tomCinza(indice);
+                            });
+
+                        graficoRoiGenero.update();
+
+                        // Atualiza a KPI
+                        var kpi = dados.kpi;
+
+                        document.getElementById("posicaoGenero").textContent =
+                            kpi.posicao ? kpi.posicao + "º/10" : "Fora do Top 10";
+
+                        var roiGenero = kpi.roiMediano != null
+                            ? kpi.roiMediano + "%"
+                            : "Sem dados";
+
+                        var lider = kpi.lider
+                            ? kpi.lider.genero + " (" + kpi.lider.roiMediano + "%)"
+                            : "Sem dados";
+
+                        document.getElementById("descricaoRanking").textContent =
+                            "ROI DE " + kpi.genero.toUpperCase() + ": " +
+                            roiGenero + " · LÍDER: " + lider.toUpperCase();
+
+                        // Atualiza o período do gráfico
+                        var titulo = document.querySelector(".box-roi .titulo-grafico");
+
+                        if (dados.periodo.anoInicio && dados.periodo.anoFim) {
+                            titulo.textContent =
+                                "TOP 10 GÊNEROS POR ROI MEDIANO — FILMES " +
+                                dados.periodo.anoInicio + "–" + dados.periodo.anoFim;
+                        }
+
+                    })
+                    .catch(function (erro) {
+                        console.error("Erro na Dashboard Comparativa:", erro);
+                        document.getElementById("posicaoGenero").textContent =
+                            "Dados indisponíveis";
+                    });
+            }
+
+            carregarDadosComparativa();
+
         </script>
     </main>
 </body>

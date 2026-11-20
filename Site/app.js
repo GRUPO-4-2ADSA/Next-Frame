@@ -17,6 +17,7 @@ var usuarioRouter = require("./src/routes/usuarios");
 var analiseHistoricaRouter = require("./src/routes/analiseHistorica");
 var avaliacaoRouter = require("./src/routes/avaliacao")
 var riscoRouter = require("./src/routes/risco")
+var dashboardComparativaRouter = require("./src/routes/dashboardComparativa");
 
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
@@ -35,6 +36,7 @@ app.use("/usuarios", usuarioRouter);
 app.use("/analise-historica", analiseHistoricaRouter);
 app.use("/avaliacao", avaliacaoRouter);
 app.use("/risco", riscoRouter);
+app.use("/dashboard-comparativa", dashboardComparativaRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
