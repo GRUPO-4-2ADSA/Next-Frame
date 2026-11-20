@@ -22,7 +22,7 @@
     <script src="js/infoSessao.js"></script>
 </head>
 
-<body>
+<body onload="plotarInfoUsuario()">
 
         <div class="header">
         <div class="container-horizontal">
@@ -126,7 +126,7 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
                     <h6 class="titulo-kpi">SEU ORÇAMENTO</h6>
-                    <h5 class="informacao-kpi">US$20mi</h5>
+                    <h5 class="informacao-kpi" id="infoKpiMeuOrcamento">US$XXmi</h5>
                     <h6 class="descricao-kpi">AUMENTO NO ORÇAMENTO NÃO IMPACTA SIGNIFICATIVAMENTE O SUCESSO(+3%)</h6>
                 </div>
 
@@ -785,5 +785,21 @@
                 kpiCenario.classList.remove('trocando');
             }, 150);
         });
+    }
+
+    // ---------- KPI de cenário: alternar pior / melhor ----------
+    document.addEventListener("DOMContentLoaded", plotarKpiMeuOrcamento);
+
+    function plotarKpiMeuOrcamento() {
+        let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+        orcamento = orcamento.replace(".", "");
+
+        if (orcamento.length >= 7) {
+            orcamento = orcamento.slice(0, -7) + "mi";
+        } else if (orcamento.length >= 4) {
+            orcamento = orcamento.slice(0, -3) + " mil";
+        }
+
+        infoKpiMeuOrcamento.innerHTML = "US$ " + orcamento;
     }
 </script>

@@ -163,6 +163,8 @@
             return;
         }
 
+        sessionStorage.setItem("ORCAMENTO_USUARIO", iptOrcamento.value);
+
         let cargo = sessionStorage.getItem("CARGO_USUARIO");
 
         fetch("/avaliacao/salvarDash", {
