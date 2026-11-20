@@ -27,9 +27,7 @@ function plotarInfoUsuario() {
 
         let nomeDividido = nome.split(` `);
         divNomeUsuario.innerHTML = nomeDividido[0];
-    } else {
-        window.location = "../login.html";
-    }
+    } 
 }
 
 function sair() {
