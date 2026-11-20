@@ -3,6 +3,7 @@ package org.example;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import io.github.cdimascio.dotenv.Dotenv;
 
 import static org.apache.poi.common.usermodel.HyperlinkType.URL;
@@ -16,10 +17,6 @@ public class Conexao {
     private static String senha = dotenv.get("DB_PASSWORD");
 
     public static Connection conectar() throws SQLException {
-        return DriverManager.getConnection(url, usuario, senha); // DriverManager é uma classe gerencia conexões com bancos de dados por meio do JDBC.
+        return DriverManager.getConnection(url, usuario, senha);
     }
-
-
-
-
 }

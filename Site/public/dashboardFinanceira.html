@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/ImprimirPdf.css">
     <link rel="icon" type="image/x-icon" href="assets/img/fav.png">
+
+    <script src="js/perfilRiscoHeader.js"></script>
+    <script src="js/infoSessao.js"></script>
 </head>
 
 <body>
@@ -724,20 +727,20 @@
     new Chart(document.getElementById('graficoDispersao'), configuracaoDispersao);
 
     // ---------- KPI de cenário: alternar pior / melhor ----------
-let cenarios = {
-    pior: {
-        titulo: 'ROI no pior cenário (P10)',
-        valor: '0,5x',
-        detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
-        dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
-    },
-    melhor: {
-        titulo: 'ROI no melhor cenário (P90)',
-        valor: '4x',
-        detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
-        dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
-    }
-};
+    let cenarios = {
+        pior: {
+            titulo: 'ROI no pior cenário (P10)',
+            valor: '0,5x',
+            detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
+            dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
+        },
+        melhor: {
+            titulo: 'ROI no melhor cenário (P90)',
+            valor: '4x',
+            detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
+            dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
+        }
+    };
 
     // Inicia com 'melhor' por padrão
     let cenarioAtual = 'melhor';
