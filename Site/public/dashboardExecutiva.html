@@ -9,9 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+                <link rel="stylesheet" href="css/modal-perfil.css">
+        <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/dashboardExecutiva.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/menuLateral.css">
     <link rel="stylesheet" href="css/menuTopo.css">
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/ImprimirPdf.css">
@@ -22,56 +23,47 @@
 
 <body onload="plotarInfoUsuario()">
 
-    <!-- Menu lateral -->
-    <aside class="menu-lateral">
-        <div class="menu-topo">
-            <a class="menu-logotipo-link" href="index.html">
-                <img class="menu-logotipo" src="assets/img/logo.png" alt="Next Frame">
-            </a>
-            <button type="button" class="botao-menu" id="botaoAlternarMenu" aria-label="Minimizar menu"><img
-                    src="assets/img/icon_menuLat.svg" alt="">
-            </button>
-        </div>
-
-        <nav class="menu-itens">
-            <a class="menu-item" href="index.html">
-                <img class="menu-icone" src="assets/img/icon_home.png" alt="">
-                <span class="menu-rotulo">INÍCIO</span>
-            </a>
-            <a class="menu-item ativo" href="dashboardExecutiva.html">
-                <img class="menu-icone" src="assets/img/chart.png" alt="">
-                <span class="menu-rotulo">DASHBOARD</span>
-            </a>
-            <a class="menu-item" href="analiseHistorica.html">
-                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_analise_historica.png" alt="">
-                <span class="menu-rotulo">ANÁLISE HISTÓRICA</span>
+        <!-- Navbar -->
+    <div class="header">
+        <div class="container-horizontal">
+            <a href="index.html">
+                <img class="logo" src="assets/img/logo.png" alt="Next Frame">
             </a>
 
-            <a class="menu-item" href="#" onclick="abrirPerfilRisco(); return false;">
-                <img class="menu-icone menu-icone-ajustado" src="assets/img/icon_risco.png" alt="">
-                <span class="menu-rotulo">PERFIL DE RISCO</span>
-            </a>
+            <ul class="navbar">
+                <li><a href="lobby.html">Início</a></li>
+                <li><a class="ativo" href="dashboardExecutiva.html">Dashboard</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li>
+                    <a href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
 
-            <a class="menu-item menu-gerenciamento" href="usuarios.html" style="display: none;">
-                <img class="menu-icone" src="assets/img/icon_user.png" alt="">
-                <span class="menu-rotulo">USUÁRIOS</span>
-            </a>
+            <div class="usuario-wrapper">
+                <a href="editarPerfil.html">
+                    <div class="container-horizontal usuario">
+                        <div class="icone-usuario">
+                            <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                        </div>
+                        <p>BEM VINDO,<br>
+                            <span class="amarelo" id="infoNome">Mariana</span>
+                        </p>
+                    </div>
+                </a>
 
-
-        </nav>
-
-        <div class="menu-usuario">
-            <div class="usuario-linha">
-                <img class="usuario-avatar" id="fotoPerfilHeader" src="assets/img/persona_exec.png" alt="">
-                <div class="usuario-texto">
-                    <p class="usuario-nome" id="infoNome">Mariana</p>
-                    <p class="usuario-cargo">Produtor Executiva</p>
+                <div class="menu-usuario">
+                    <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                    <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
                 </div>
-                <span class="usuario-seta">▾</span>
             </div>
-            <button type="button" class="botao-sair" onclick="sair()">Sair</button>
         </div>
-    </aside>
+    </div>
+
     <!-- Inicio dashboard -->
     <main class="conteudo-principal">
         <div class="topo-dashboard">
@@ -123,7 +115,7 @@
 
                 <div class="box-kpi3">
                     <span class="info-dica" tabindex="0"
-                        ddata-dica="O QUE É: a receita do filme que fica no meio dos 87 semelhantes.&#10;COMO CALCULA: ordena as receitas do menor para o maior e pega a central.&#10;COMO LER: metade dos filmes faturou mais e metade menos. Compare com a receita desejada (US$ 40 mi): se a mediana está abaixo, a sua meta é mais ambiciosa que o típico.">i</span>
+                        data-dica="O QUE É: a receita do filme que fica no meio dos 87 semelhantes.&#10;COMO CALCULA: ordena as receitas do menor para o maior e pega a central.&#10;COMO LER: metade dos filmes faturou mais e metade menos. Compare com a receita desejada (US$ 40 mi): se a mediana está abaixo, a sua meta é mais ambiciosa que o típico.">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA NO RECORTE ANALISADO</h6>
                     <h5 class="informacao-kpi">US$ 30 mi</h5>
                     <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
@@ -278,21 +270,6 @@
             });
 
             botaoBaixar.addEventListener('click', baixarPdf);
-
-            // ---------- Menu lateral: expandir / minimizar ----------
-            let botaoMenu = document.getElementById('botaoAlternarMenu');
-
-            function alternarMenu() {
-                document.body.classList.toggle('menu-minimizado');
-
-                if (document.body.classList.contains('menu-minimizado')) {
-                    botaoMenu.setAttribute('aria-label', 'Expandir menu'); //o aria-label é um atributo de acessibilidade para elementos que não tem texto escrito, tipo botões.
-                } else {
-                    botaoMenu.setAttribute('aria-label', 'Minimizar menu');
-                }
-            }
-
-            botaoMenu.addEventListener('click', alternarMenu);
 
             // ---------- Padrões do Chart.js ----------
             Chart.defaults.color = '#b8c9da'; // cor padrão para os textos dos graficos
@@ -571,111 +548,6 @@
                     }
                 };
             }
-
-            // ---------- 1º GRÁFICO: Top 5 Gêneros Mais Buscados ----------
-            let dadosTop5 = [
-                criarLinha('Terror', [36, 42, 43, 44, 41, 41, 52, 76, 58, 41, 51, 78], corDestaque, true),
-                criarLinha('Ação', [59, 60, 61, 67, 70, 73, 69, 60, 57, 61, 62, 59], tomCinza(0), false),
-                criarLinha('Comédia', [52, 56, 55, 52, 54, 55, 56, 56, 53, 52, 58, 61], tomCinza(2), false),
-                criarLinha('Romance', [45, 55, 46, 43, 45, 52, 43, 43, 42, 43, 47, 50], tomCinza(4), false),
-                criarLinha('Ficção científica', [35, 35, 36, 37, 39, 36, 37, 37, 34, 35, 39, 40], tomCinza(6), false)
-            ];
-
-            new Chart(document.getElementById('graficoInteresseAno'), {
-                type: 'line',
-                data: {
-                    labels: rotulos12Meses,
-                    datasets: dadosTop5
-                },
-                options: obterOpcoesLinha()
-            });
-
-            // ---------- 2º GRÁFICO: Interesse em Terror por Mês nos últimos anos ----------
-            let dadosTerrorAnos = [
-                criarLinha('2026', [37, 33, 34, 37, 43, 44, 41, 41, 52, 76], corDestaque, true),
-                criarLinha('2025', [36, 32, 33, 36, 42, 43, 40, 40, 51, 74, 58, 41], tomCinza(1), false),
-                criarLinha('2024', [35, 31, 32, 35, 41, 42, 39, 39, 50, 73, 57, 40], tomCinza(3), false),
-                criarLinha('2023', [34, 30, 31, 34, 40, 41, 38, 38, 49, 72, 56, 39], tomCinza(5), false),
-                criarLinha('2022', [33, 29, 30, 33, 39, 40, 37, 37, 48, 70, 55, 38], tomCinza(7), false)
-            ];
-
-            new Chart(document.getElementById('graficoInteresseMeses'), {
-                type: 'line',
-                data: {
-                    labels: mesesRotulos,
-                    datasets: dadosTerrorAnos
-                },
-                options: obterOpcoesLinha()
-            });
-
-            // ---------- 3º GRÁFICO: Barras Horizontais — ROI Mediano por Gênero ----------
-            let generosRoi = ['Fantasia', 'Animação', 'Romance', 'Comédia', 'Terror', 'Suspense', 'Ficção científica', 'Drama', 'Ação', 'Aventura'];
-            let valoresRoi = [120, 95, 70, 58, 45, 40, 33, 28, 22, 18];
-
-            // Monta o array de cores usando a função tomCinza
-            let coresBarras = [];
-            let indiceCinza = 0;
-
-            for (let i = 0; i < generosRoi.length; i++) {
-                if (generosRoi[i] === 'Terror') {
-                    coresBarras.push(corDestaque); // Amarelo de destaque para Terror
-                } else {
-                    coresBarras.push(tomCinza(indiceCinza));
-                    indiceCinza++;
-                }
-            }
-
-            new Chart(document.getElementById('graficoRoiGenero'), {
-                type: 'bar',
-                plugins: [ChartDataLabels],
-                data: {
-                    labels: generosRoi,
-                    datasets: [{
-                        label: 'ROI mediano (%)',
-                        data: valoresRoi,
-                        backgroundColor: coresBarras,
-                        borderWidth: 0,
-                        borderRadius: 3
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'end',
-                            color: '#f1f5f9',
-                            font: { size: 11 },
-                            formatter: function (valor) {
-                                return valor + '%';
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    return 'ROI mediano: ' + context.raw + '%';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            min: 0,
-                            max: 140,
-                            title: { display: true, text: 'ROI MEDIANO (%)', color: '#dce6f2' },
-                            ticks: { color: '#b8c9da' },
-                            grid: { color: corGrade }
-                        },
-                        y: {
-                            ticks: { color: '#dce6f2' },
-                            grid: { display: false }
-                        }
-                    }
-                }
-            });
         </script>
     </main>
 </body>

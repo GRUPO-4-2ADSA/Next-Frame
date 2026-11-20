@@ -117,20 +117,12 @@ function editar(id, dados) {
 }
 
 function excluir(id) {
-    var instrucaoSqlLog = `
-        DELETE FROM Log
-        WHERE id_usuario = ${id};
-    `;
-
-    var instrucaoSqlUsuario = `
+    var instrucaoSql = `
         DELETE FROM Usuario
         WHERE id_usuario = ${id};
     `;
 
-    return database.executar(instrucaoSqlLog)
-        .then(function () {
-            return database.executar(instrucaoSqlUsuario);
-        });
+    return database.executar(instrucaoSql);
 }
 
 function buscarHistorico(id) {
