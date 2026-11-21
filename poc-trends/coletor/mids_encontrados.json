@@ -1,0 +1,452 @@
+{
+  "Action": {
+    "busca": "Action film",
+    "candidatos": [
+      {
+        "mid": "/m/02kdv5l",
+        "title": "Action",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11zbmjpbwp",
+        "title": "Parimala and Co",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11z1jx8rsn",
+        "title": "Sigabo",
+        "type": "Television series"
+      },
+      {
+        "mid": "/g/11yh39crps",
+        "title": "Balti",
+        "type": "Film"
+      },
+      {
+        "mid": "/g/11nr8p4x9s",
+        "title": "Atlas King",
+        "type": "Movie"
+      }
+    ]
+  },
+  "Adventure": {
+    "busca": "Adventure film",
+    "candidatos": [
+      {
+        "mid": "/m/03k9fj",
+        "title": "Adventure",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/m/0vxz3gk",
+        "title": "Beauty from Surrender",
+        "type": "Book by Georgia Cates"
+      },
+      {
+        "mid": "/g/11vqzn6639",
+        "title": "Ryan's World the Movie: Titan Universe Adventure",
+        "type": "2024 film"
+      },
+      {
+        "mid": "/g/12bm7xfd6",
+        "title": "The Art of Brave",
+        "type": "Book by Jenny Lerew"
+      },
+      {
+        "mid": "/g/11hyj8l3db",
+        "title": "The White Darkness",
+        "type": "Book by David Grann"
+      }
+    ]
+  },
+  "Animation": {
+    "busca": "Animation film",
+    "candidatos": [
+      {
+        "mid": "/g/120pnns2",
+        "title": "Animated film",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11b5lwxkbw",
+        "title": "Connie S. Young",
+        "type": "Author"
+      },
+      {
+        "mid": "/g/12bm7xfd6",
+        "title": "The Art of Brave",
+        "type": "Book by Jenny Lerew"
+      },
+      {
+        "mid": "/m/0fck2k",
+        "title": "Annecy International Animation Film Festival",
+        "type": "Film festival"
+      },
+      {
+        "mid": "/g/11x79kps3z",
+        "title": "Among Neighbors",
+        "type": "2024 film"
+      }
+    ]
+  },
+  "Comedy": {
+    "busca": "Comedy film",
+    "candidatos": [
+      {
+        "mid": "/m/05p553",
+        "title": "Comedy",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/m/06cvj",
+        "title": "Romantic comedy",
+        "type": "Literary genre"
+      },
+      {
+        "mid": "/g/11zbmjpbwp",
+        "title": "Parimala and Co",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11z1jx8rsn",
+        "title": "Sigabo",
+        "type": "Television series"
+      },
+      {
+        "mid": "/g/1229clmw",
+        "title": "Action comedy",
+        "type": "Comedy genres"
+      }
+    ]
+  },
+  "Crime": {
+    "busca": "Crime film",
+    "candidatos": [
+      {
+        "mid": "/m/0119mbcs",
+        "title": "Crime",
+        "type": "Film genre (manual)"
+      }
+    ]
+  },
+  "Documentary": {
+    "busca": "Documentary film",
+    "candidatos": [
+      {
+        "mid": "/m/0jtdp",
+        "title": "Documentário",
+        "type": "Topic (manual)"
+      }
+    ]
+  },
+  "Drama": {
+    "busca": "Drama film",
+    "candidatos": [
+      {
+        "mid": "/g/11bwdpgj8t",
+        "title": "Drama",
+        "type": "Film and television genre (manual)"
+      }
+    ]
+  },
+  "Family": {
+    "busca": "Family film",
+    "candidatos": [
+      {
+        "mid": "/m/0hqxf",
+        "title": "Children's film",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11zbmjpbwp",
+        "title": "Parimala and Co",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/1215clx1",
+        "title": "Family film",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/m/09y18f",
+        "title": "The Addams Family",
+        "type": "1991 film"
+      },
+      {
+        "mid": "/g/11z67y17pg",
+        "title": "The Sixth Faction",
+        "type": "Book by Veronica Roth"
+      }
+    ]
+  },
+  "Fantasy": {
+    "busca": "Fantasy film",
+    "candidatos": [
+      {
+        "mid": "/m/011869tv",
+        "title": "Fantasy",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11wv32d_2g",
+        "title": "Shield of Sparrows",
+        "type": "Novel by Devney Perry"
+      },
+      {
+        "mid": "/g/11h2fw4t49",
+        "title": "The Grace Year",
+        "type": "Book by Kim Liggett"
+      },
+      {
+        "mid": "/g/11yw4f_d14",
+        "title": "Gale: Yellow Brick Road",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11l_32slbv",
+        "title": "A Stage Set for Villains",
+        "type": "Book by Shannon J. Spann"
+      }
+    ]
+  },
+  "History": {
+    "busca": "History film",
+    "candidatos": [
+      {
+        "mid": "/g/12290z2k",
+        "title": "Historical film",
+        "type": "Film genre (manual)"
+      }
+    ]
+  },
+  "Horror": {
+    "busca": "Horror film",
+    "candidatos": [
+      {
+        "mid": "/m/03npn",
+        "title": "Horror",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11btymdphw",
+        "title": "Lights Out",
+        "type": "2016 film"
+      },
+      {
+        "mid": "/g/11n3g00wpr",
+        "title": "This Is Me: A Reckoning",
+        "type": "Book by Hayden Panettiere"
+      },
+      {
+        "mid": "/m/0djjxz",
+        "title": "Korean horror",
+        "type": "Topic"
+      },
+      {
+        "mid": "/g/11x1v0kjh8",
+        "title": "Return of the Living Dead",
+        "type": "Upcoming film"
+      }
+    ]
+  },
+  "Music": {
+    "busca": "Musical film",
+    "candidatos": [
+      {
+        "mid": "/m/04t36",
+        "title": "Musical",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11ydjr41hn",
+        "title": "Once More",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11n3g00wpr",
+        "title": "This Is Me: A Reckoning",
+        "type": "Book by Hayden Panettiere"
+      },
+      {
+        "mid": "/g/11st908pgh",
+        "title": "Waitress: The Musical",
+        "type": "2023 film"
+      },
+      {
+        "mid": "/m/011x0sbh",
+        "title": "Sonstar Peterson",
+        "type": "Author ‧ Tory Lanez's father"
+      }
+    ]
+  },
+  "Mystery": {
+    "busca": "Mystery film",
+    "candidatos": [
+      {
+        "mid": "/m/01199x0y",
+        "title": "Mystery",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/m/02n4kr",
+        "title": "Mystery",
+        "type": "Literary genre"
+      },
+      {
+        "mid": "/g/11yj56srk7",
+        "title": "Mirage",
+        "type": "2025 film"
+      },
+      {
+        "mid": "/g/11h0mj1k6j",
+        "title": "Melissa Ferguson",
+        "type": "Author"
+      },
+      {
+        "mid": "/g/11xzd_w5vs",
+        "title": "Woman Down: A Novel",
+        "type": "Novel by Colleen Hoover"
+      }
+    ]
+  },
+  "Romance": {
+    "busca": "Romance film",
+    "candidatos": [
+      {
+        "mid": "/m/02l7c8",
+        "title": "Romance",
+        "type": "Topic"
+      },
+      {
+        "mid": "/g/11x87mbqjh",
+        "title": "Office Romance",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11j8gm79vz",
+        "title": "Credence",
+        "type": "Novel by Penelope Douglas"
+      },
+      {
+        "mid": "/g/11wv32d_2g",
+        "title": "Shield of Sparrows",
+        "type": "Novel by Devney Perry"
+      },
+      {
+        "mid": "/g/11vskkstcj",
+        "title": "Nothing Like the Movies",
+        "type": "Book by Lynn Painter"
+      }
+    ]
+  },
+  "Science Fiction": {
+    "busca": "Science fiction film",
+    "candidatos": [
+      {
+        "mid": "/m/0119r056",
+        "title": "Science fiction",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/m/02g2nx",
+        "title": "Saturn Award for Best Science Fiction Film",
+        "type": "Award"
+      },
+      {
+        "mid": "/g/11h2fw4t49",
+        "title": "The Grace Year",
+        "type": "Book by Kim Liggett"
+      },
+      {
+        "mid": "/g/11nz3vlnq4",
+        "title": "The Girl Who Fell Beneath the Sea",
+        "type": "Book by Axie Oh"
+      },
+      {
+        "mid": "/g/11j0d81xnz",
+        "title": "Into the Drowning Deep",
+        "type": "Novel by Seanan McGuire"
+      }
+    ]
+  },
+  "Thriller": {
+    "busca": "Thriller film",
+    "candidatos": [
+      {
+        "mid": "/g/122hp9x6",
+        "title": "Thriller",
+        "type": "Film genre"
+      },
+      {
+        "mid": "/g/11zbmjpbwp",
+        "title": "Parimala and Co",
+        "type": "2026 film"
+      },
+      {
+        "mid": "/g/11nr8p4x9s",
+        "title": "Atlas King",
+        "type": "Movie"
+      },
+      {
+        "mid": "/g/11yj56srk7",
+        "title": "Mirage",
+        "type": "2025 film"
+      },
+      {
+        "mid": "/g/11x28pwlfh",
+        "title": "Bromance",
+        "type": "2025 film"
+      }
+    ]
+  },
+  "TV Movie": {
+    "busca": "TV movie",
+    "candidatos": [
+      {
+        "mid": "/m/015w9s",
+        "title": "TV movie",
+        "type": "Television genre (manual)"
+      }
+    ]
+  },
+  "War": {
+    "busca": "War film",
+    "candidatos": [
+      {
+        "mid": "/m/082gq",
+        "title": "War",
+        "type": "Film genre (manual)"
+      }
+    ]
+  },
+  "Western": {
+    "busca": "Western film",
+    "candidatos": [
+      {
+        "mid": "/m/0hfjk",
+        "title": "Western",
+        "type": "Genre"
+      },
+      {
+        "mid": "/g/11h00j__6r",
+        "title": "Ennio Morricone: In His Own Words",
+        "type": "Book"
+      },
+      {
+        "mid": "/g/11h38z_wn0",
+        "title": "Wraiths of the Broken Land",
+        "type": "Novel by S. Craig Zahler"
+      },
+      {
+        "mid": "/g/11hjb5zcm2",
+        "title": "Django / Zorro",
+        "type": "Book by Matt Wagner and Quentin Tarantino"
+      },
+      {
+        "mid": "/g/11f6y24vsz",
+        "title": "The Good Time Girls",
+        "type": "2017 film"
+      }
+    ]
+  }
+}
