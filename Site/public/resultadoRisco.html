@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Next Frame | Perfil de Risco</title>
+
+    <link rel="stylesheet" href=" css/modal-perfil.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/resultado-produtora.css">
+    <link rel="stylesheet" href="css/confirmacao-risco.css">
+</head>
+<script src="js/perfilRiscoHeader.js"></script>
+
+<body onload="plotarInfoUsuario()">
+
+    <div class="header">
+        <div class="container-horizontal">
+
+            <a href="index.html">
+                <img class="logo" src="assets/img/logo.png">
+            </a>
+
+            <ul class="navbar">
+                <li><a href="lobby.html">Início</a></li>
+                <li><a href="analiseHistorica.html">Análise Histórica</a></li>
+                <li><a href="avaliacao.html">Avaliação</a></li>
+                <li>
+                    <a class="ativo" href="#" onclick="abrirPerfilRisco(); return false;">
+                        Perfil de Risco
+                    </a>
+                </li>
+                <li class="menu-gerenciamento" style="display: none;">
+                    <a href="usuarios.html">Usuários</a>
+                </li>
+            </ul>
+
+            <a href="editarPerfil.html">
+                <div class="usuario-wrapper">
+                    <a href="editarPerfil.html">
+                        <div class="container-horizontal usuario">
+                            <div class="icone-usuario">
+                                <img id="fotoPerfilHeader" src="assets/img/icon_usuario.png" alt="Usuário">
+                            </div>
+                            <p>BEM VINDO,<br>
+                                <span class="amarelo" id="infoNome">Usuário</span>
+                            </p>
+                        </div>
+                    </a>
+
+                    <div class="menu-usuario">
+                        <a href="editarPerfil.html" class="item-menu-usuario">EDITAR PERFIL</a>
+                        <button type="button" class="item-menu-usuario btn-sair" onclick="sair()">SAIR</button>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <main class="conteudo-questionario">
+
+        <section id="perfilNaoDefinido" style="display: none;">
+            <div class="card-perfil-nao-definido">
+                <h1>PERFIL DE RISCO NÃO DEFINIDO</h1>
+
+                <p>
+                    O Gestor da empresa ainda não realizou o questionário
+                    de perfil de risco.
+                </p>
+
+                <div class="status-perfil">
+                    Aguardando avaliação do Gestor
+                </div>
+
+                <a id="iniciarPerfil" href="perfilRisco.html" style="display: none;" class="botao-iniciar-perfil">
+                    RESPONDER QUESTIONÁRIO
+                </a>
+            </div>
+        </section>
+
+        <section class="resultado-perfil">
+
+            <div class="cabecalho-resultado">
+                <h1>SEU <span>PERFIL DE RISCO</span></h1>
+                <p>Aqui está o resumo do perfil da sua produtora.</p>
+            </div>
+
+            <div class="cards-resultado">
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_alvo.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CAPACIDADE DE ABSORVER IMPACTOS</h3>
+                        <h2 id="resultadoCapacidade"></h2>
+                        <p id="descricaoCapacidade"></p>
+                        <p class="pontuacao-resultado" id="pontosCapacidade"></p>
+                    </div>
+                </div>
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_duvida.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>TOLERÂNCIA À INCERTEZA</h3>
+                        <h2 id="resultadoTolerancia"></h2>
+                        <p id="descricaoTolerancia"></p>
+                        <p class="pontuacao-resultado" id="pontosTolerancia"></p>
+                    </div>
+                </div>
+
+                <div class="card-resultado">
+                    <div class="icone-resultado">
+                        <img src="assets/img/icon_user2.png" alt="">
+                    </div>
+
+                    <div class="informacao-resultado">
+                        <h3>CLASSIFICAÇÃO DO PERFIL</h3>
+                        <h2 id="resultadoPerfilTexto"></h2>
+                        <p id="descricaoPerfil"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="finalizacao-resultado">
+                <button type="button" onclick="refazerFormulario()">
+                    REFAZER FORMULÁRIO
+                </button>
+
+                <button type="button" id="botaoConcluir" onclick="concluir()">
+                    CONCLUIR
+                </button>
+            </div>
+
+        </section>
+
+        <section class="confirmacao-perfil" id="confirmacaoPerfil" hidden>
+
+            <div class="cabecalho-resultado">
+                <h1>PERFIL <span>REGISTRADO</span></h1>
+                <p>Seu perfil de risco foi salvo com sucesso!</p>
+            </div>
+
+            <div class="conteudo-confirmacao">
+
+                <div class="icone-confirmacao">
+                    ✓
+                </div>
+
+                <h2>
+                    Agora você já pode contar com seu perfil de produtora
+                    nas próximas avaliações de filmes.
+                </h2>
+
+                <hr>
+
+                <h3>RESUMO DO SEU PERFIL</h3>
+
+                <div class="resumo-perfil">
+                    <p>
+                        Capacidade de absorver impactos:
+                        <strong id="resumoCapacidade"></strong>
+                    </p>
+
+                    <p>
+                        Tolerância à incerteza:
+                        <strong id="resumoTolerancia"></strong>
+                    </p>
+
+                    <p>
+                        Perfil de risco:
+                        <strong id="resumoClassificacao"></strong>
+                    </p>
+                </div>
+
+                <button type="button" onclick="visualizarPerfil()">
+                    VISUALIZAR PERFIL
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <div class="footer">
+        <div class="container-horizontal footer-infos">
+
+            <p>
+                A Next Frame utiliza dados históricos do cinema para <br>
+                transformar informações sobre filmes em análises <br>
+                que ajudam a avaliar novas produções.
+            </p>
+
+            <img src="assets/img/logo_footer.png">
+
+            <h2>
+                Acompanhe nossas redes <br>
+                <img class="icon-redes" src="assets/img/redes_socias.png">
+            </h2>
+
+        </div>
+
+        <div class="container creditos">
+            <hr class="linha">
+            <h6>© 2026 Next Frame. Todos os direitos reservados.</h6>
+        </div>
+    </div>
+
+    <script src="js/infoSessao.js"></script>
+
+    <script>
+
+        var dadosPerfil = sessionStorage.getItem("perfilProdutora");
+
+        var perfil = null;
+        var cargo = sessionStorage.getItem("CARGO_USUARIO");
+        var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+        var dadosPerfil = sessionStorage.getItem("perfilProdutora");
+
+        if (cargo == "Gestor" && dadosPerfil != null) {
+            perfil = JSON.parse(dadosPerfil);
+            mostrarResultado(perfil, true);
+        } else {
+            consultarResultado();
+        }
+
+        function consultarResultado() {
+            if (!idEmpresa) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            fetch("/risco/consultar/" + idEmpresa)
+                .then(function (resposta) {
+                    if (!resposta.ok) {
+                        throw new Error("Erro ao buscar perfil.");
+                    }
+
+                    return resposta.json();
+                })
+                .then(function (dados) {
+                    if (dados.perfil_risco) {
+                        mostrarResultado({
+                            perfil: dados.perfil_risco
+                        }, false);
+                    } else {
+                        mostrarSemResultado();
+                    }
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                    alert("Não foi possível carregar o perfil de risco.");
+                });
+        }
+
+        function mostrarResultado(dados, novoResultado) {
+            document.getElementById("perfilNaoDefinido").style.display = "none";
+            document.querySelector(".resultado-perfil").style.display = "";
+            document.querySelector(".resultado-perfil").hidden = false;
+
+            document.getElementById("confirmacaoPerfil").hidden = true;
+
+            document.getElementById("resultadoPerfilTexto").textContent = dados.perfil;
+
+            var descricao = "";
+
+            if (dados.perfil == "Conservador") {
+                descricao = "Prioriza segurança e projetos com menor exposição a riscos.";
+            } else if (dados.perfil == "Moderado") {
+                descricao = "Busca equilibrar segurança e potencial de retorno.";
+            } else if (dados.perfil == "Arrojado") {
+                descricao = "Apresenta maior disposição para assumir riscos em busca de retornos potenciais.";
+            }
+
+            document.getElementById("descricaoPerfil").textContent = descricao;
+
+            var cards = document.querySelectorAll(".card-resultado");
+
+            if (novoResultado) {
+                cards[0].style.display = "";
+                cards[1].style.display = "";
+
+                document.getElementById("resultadoCapacidade").textContent =
+                    dados.capacidade;
+
+                document.getElementById("pontosCapacidade").textContent =
+                    "Pontuação: " + dados.pontosCapacidade + " de 9";
+
+                document.getElementById("resultadoTolerancia").textContent =
+                    dados.tolerancia;
+
+                document.getElementById("pontosTolerancia").textContent =
+                    "Pontuação: " + dados.pontosTolerancia + " de 9";
+
+                document.getElementById("descricaoCapacidade").textContent =
+                    dados.capacidade == "Baixa"
+                        ? "A produtora apresenta menor capacidade declarada de absorver impactos financeiros."
+                        : dados.capacidade == "Moderada"
+                            ? "A produtora apresenta capacidade intermediária de lidar com impactos financeiros."
+                            : "A produtora demonstra boa capacidade declarada para lidar com impactos financeiros.";
+
+                document.getElementById("descricaoTolerancia").textContent =
+                    dados.tolerancia == "Baixa"
+                        ? "A produtora prefere projetos com menor nível de incerteza."
+                        : dados.tolerancia == "Moderada"
+                            ? "A produtora considera os riscos e busca equilibrar incerteza e segurança."
+                            : "A produtora demonstra maior disposição para assumir incertezas financeiras.";
+
+            } else {
+                cards[0].style.display = "none";
+                cards[1].style.display = "none";
+            }
+
+            // Somente o Gestor pode refazer
+            document.querySelector(".finalizacao-resultado").style.display =
+                cargo == "Gestor" ? "" : "none";
+
+            // Concluir aparece apenas para um resultado ainda não salvo
+            document.getElementById("botaoConcluir").style.display =
+                cargo == "Gestor" && novoResultado ? "" : "none";
+        }
+
+        function mostrarSemResultado() {
+            document.querySelector(".resultado-perfil").style.display = "none";
+            document.getElementById("confirmacaoPerfil").style.display = "none";
+            document.getElementById("perfilNaoDefinido").style.display = "flex";
+
+            if (cargo == "Gestor") {
+                document.getElementById("iniciarPerfil").style.display = "inline-block";
+            } else {
+                document.getElementById("iniciarPerfil").style.display = "none";
+            }
+        }
+
+        function refazerFormulario() {
+            sessionStorage.removeItem("perfilProdutora");
+            window.location.href = "questionarioRisco.html";
+        }
+
+        function visualizarPerfil() {
+
+            document.getElementById("confirmacaoPerfil").hidden = true;
+
+            document.querySelector(".resultado-perfil").hidden = false;
+
+            document.getElementById("botaoConcluir").style.display = "none";
+        }
+
+        async function concluir() {
+
+            var idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+            if (idEmpresa == null || idEmpresa == "") {
+                alert("Não foi possível identificar sua empresa.");
+                return;
+            }
+
+            try {
+
+                var resposta = await fetch("/risco/atualizar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idEmpresaServer: idEmpresa,
+                        riscoServer: perfil.perfil
+                    })
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao salvar o perfil de risco.");
+                }
+
+                sessionStorage.removeItem("perfilProdutora");
+
+                document.querySelector(".resultado-perfil").hidden = true;
+                document.querySelector(".resultado-perfil").style.display = "";
+
+                document.getElementById("resumoCapacidade").textContent = perfil.capacidade;
+                document.getElementById("resumoTolerancia").textContent = perfil.tolerancia;
+                document.getElementById("resumoClassificacao").textContent = perfil.perfil;
+
+                document.getElementById("confirmacaoPerfil").hidden = false;
+
+            } catch (erro) {
+
+                console.log(erro);
+                alert("Não foi possível salvar seu perfil de risco. Tente novamente.");
+
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var cargo = sessionStorage.getItem("CARGO_USUARIO");
+
+            if (cargo === "Gestor") {
+                document.querySelectorAll(".menu-gerenciamento")
+                    .forEach(function (item) {
+                        item.style.display = "";
+                    });
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

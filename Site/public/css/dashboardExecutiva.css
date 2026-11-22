@@ -1,0 +1,357 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #181010;
+    color: #f1f5f9;
+}
+
+.conteudo-principal {
+    padding: 110px 25px 0px 25px;
+}
+
+/* ---------- KPIs ---------- */
+.kpi {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.titulo-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.titulo {
+    font-size: 20px;
+}
+
+.subtitulo-kpi {
+    font-size: 13px;
+    color: #f6e2b9;
+}
+
+.container-kpi {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 15px;
+    row-gap: 0;
+}
+
+/* espaço entre o Bloco 1 e o Bloco 2 */
+.kpi.bloco2 {
+    margin-top: 30px;
+}
+
+.box-kpi1,
+.box-kpi2,
+.box-kpi3,
+.box-kpi4,
+.box-kpi5,
+.box-kpi6,
+.box-kpi7,
+.box-kpi8 {
+    position: relative;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.titulo-kpi {
+    color: #f6e2b9;
+    font-size: 12px;
+    margin-bottom: 12px;
+    padding: 0 12px;
+    text-align: center;
+}
+
+.informacao-kpi {
+    font-size: 27px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.seta-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.descricao-kpi {
+    color: #f6e2b9;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* ---------- GRÁFICOS ---------- */
+.grafico {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 15px;
+}
+
+.container-grafico {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    width: 100%;
+    align-items: stretch;
+}
+
+.box-grafico1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 140px;
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    min-height: 350px;
+    align-items: stretch;
+}
+
+.box-grafico1 .titulo-grafico {
+    grid-column: 1 / -1;
+}
+
+.titulo-grafico {
+    color: #f1f5f9;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.4;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.area-grafico {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    min-width: 0;
+}
+
+.dispersao {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.informacoes-grafico {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 0;
+    margin-top: 30px;
+}
+
+.card-informacao {
+    background-color: #181010;
+    border: 1px solid #2a2624;
+    border-radius: 9px;
+    padding: 12px;
+    min-width: 0;
+
+    h6 {
+        color: #fff;
+        font-size: 12px;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        color: #f1f5f9;
+        font-size: 24px;
+        font-weight: normal;
+        margin-bottom: 5px;
+    }
+
+    p {
+        color: #fff;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+}
+
+.box-grafico2 {
+    display: flex;
+    flex-direction: column;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    min-height: 350px;
+}
+
+.box-grafico2 .titulo-grafico {
+    margin-bottom: 15px;
+}
+
+.area-grafico-pizza {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    min-width: 0;
+    flex: 1;
+}
+
+/* faixa da receita desejada, abaixo da rosca */
+.faixa-meta {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #4b4b4b;
+}
+
+.faixa-meta-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #f6e2b9;
+
+    strong {
+        font-size: 20px;
+        font-weight: normal;
+        color: #f1f5f9;
+    }
+
+
+}
+
+.faixa-barra {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #4b4b4b;
+    overflow: hidden;
+}
+
+.faixa-preenchimento {
+    height: 100%;
+    width: 30%;
+    border-radius: 4px;
+    background-color: #ffc400;
+}
+
+.faixa-meta p {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #f6e2b9;
+}
+
+/* linhas: interesse por ano / meses + ROI por gênero */
+
+.container-linhas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    gap: 15px;
+    width: 100%;
+}
+
+.box-linha,
+.box-roi {
+    display: flex;
+    flex-direction: column;
+    background-color: #232222;
+    border: 1px solid #2a2624;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.box-roi {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+.box-grafico1,
+.box-linha {
+    grid-column: span 2;
+}
+
+.area-linha {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    min-width: 0;
+}
+
+.area-roi {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 420px;
+}
+
+/* ---------- RODAPÉ ---------- */
+
+.rodape-dados {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 16px;
+}
+
+.rodape-item {
+    background-color: #232222;
+    border: 1px solid #292724;
+    border-radius: 10px;
+    padding: 14px 18px;
+
+    h4 {
+        margin: 0 0 8px;
+        font-size: 13px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 12px;
+        color: #f6e2b9;
+        line-height: 1.5;
+    }
+}
+
+@supports (grid-template-rows: subgrid) {
+    .box-kpi1,
+    .box-kpi2,
+    .box-kpi3,
+    .box-kpi4,
+    .box-kpi5,
+    .box-kpi6,
+    .box-kpi7,
+    .box-kpi8 {
+        grid-row: span 3;
+        display: grid;
+        grid-template-rows: subgrid;
+        align-content: start;
+    }
+}
+
+/* navegadores sem subgrid: reserva altura fixa */
+@supports not (grid-template-rows: subgrid) {
+    .titulo-kpi {
+        min-height: 3.6em;
+    }
+
+    .descricao-kpi {
+        min-height: 4.5em;
+    }
+}
