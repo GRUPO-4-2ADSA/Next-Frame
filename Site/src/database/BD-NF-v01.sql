@@ -97,22 +97,25 @@ CREATE INDEX idx_interesse_data ON interesse (data_ref);
 
 -- Gêneros (Terror primeiro: é a âncora usada pelo coletor)
 INSERT INTO genero (nome, termo_busca) VALUES
-  ('Terror', '/m/03npn'),
-  ('Ação', '/m/02kdv5l'),
-  ('Aventura', '/m/03k9fj'),
-  ('Comédia', '/m/05p553'),
-  ('Ficção Científica', '/m/0119r056'),
-  ('Animação', '/g/120pnns2'),
-  ('Suspense', '/g/122hp9x6'),
-  ('Super-herói', '/m/04pbhw'),
-  ('Fantasia', '/m/011869tv'),
-  ('Crime', '/m/0119mbcs'),
-  ('Família', '/g/1215clx1'),
-  ('Musical', '/m/04t36'),
-  ('Guerra', '/m/082gq'),
-  ('Documentário', '/m/0jtdp'),
-  ('Romance', '/m/02l7c8'),
-  ('Drama', 'drama movie');
+    ('Action', '/m/02kdv5l'),
+    ('Adventure', '/m/03k9fj'),
+    ('Animation', '/g/120pnns2'),
+    ('Comedy', '/m/05p553'),
+    ('Crime', '/m/0119mbcs'),
+    ('Documentary', '/m/0jtdp'),
+    ('Drama', '/g/11bwdpgj8t'),
+    ('Family', '/g/1215clx1'),
+    ('Fantasy', '/m/011869tv'),
+    ('History', '/g/12290z2k'),
+    ('Horror', '/m/03npn'),
+    ('Music', '/m/04t36'),
+    ('Mystery', '/m/01199x0y'),
+    ('Romance', '/m/02l7c8'),
+    ('Science Fiction', '/m/0119r056'),
+    ('Thriller', '/g/122hp9x6'),
+    ('TV Movie','/m/015w9s'),
+    ('War', '/m/082gq'),
+    ('Western', '/m/0hfjk');
 
 INSERT INTO Empresa
     (nome, razao_social, cnpj, taxa_sucesso_segura, cod_empresa)
