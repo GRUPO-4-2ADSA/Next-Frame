@@ -112,8 +112,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: quanto cada US$ 1 investido costuma render nos filmes parecidos com o seu.&#10;COMO CALCULA: ROI = receita ÷ orçamento, e vale o valor do meio dos 87 filmes. Marketing e divisão de bilheteria ficam de fora.&#10;COMO LER: 1x é empate e 1,5x é US$ 1 virando US$ 1,50 (o mesmo que 50%). Compare com a mediana geral do gênero (1,45x).">i</span>
                     <h6 class="titulo-kpi">ROI MEDIANO ATÉ US$20mi POR US$ INVESTIDO</h6>
-                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">1.5X</h5>
-                    <h6 class="descricao-kpi">+0.3X COMPARADO COM A MEDIANA GERAL DO GÊNERO</h6>
+                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon"><span id="kpiRoiDolarValor">1.5X</span></h5>
+                    <h6 class="descricao-kpi" id="kpiRoiDolarDescricao">+0.3X COMPARADO COM A MEDIANA GERAL DO GÊNERO</h6>
                 </div>
                 <div class="box-kpi3">
                     <span class="info-dica" tabindex="0"
@@ -379,7 +379,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     carregarKpiRisco(idUsuario, genero, orcamento);
+    carregarKpiRoiDolar(genero, orcamento);
 });
+
+
+function formatarX(valor) {
+    return valor.toFixed(2);
+}
+
+function carregarKpiRoiDolar(genero, orcamento) {
+    let url = `/dashboardExecutiva/kpi-roi-mediano?genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
+
+    fetch(url)
+        .then(function (resposta) { return resposta.json(); })
+        .then(function (dados) {
+            if (dados.erro) {
+                console.log(dados.erro);
+                return;
+            }
+
+            if (dados.semDados) {
+                document.getElementById("kpiRoiDolarValor").innerText = "--";
+                document.getElementById("kpiRoiDolarDescricao").innerText =
+                    "SEM FILMES SEMELHANTES PARA ESTE ORÇAMENTO";
+                return;
+            }
+
+            let sinal = dados.diferencaRetorno >= 0 ? "+" : "-";
+
+            document.getElementById("kpiRoiDolarValor").innerText = `${formatarX(dados.retornoMediano)}X`;
+            document.getElementById("kpiRoiDolarDescricao").innerText =
+                `${sinal}${formatarX(Math.abs(dados.diferencaRetorno))}X COMPARADO COM A MEDIANA GERAL DO GÊNERO (${formatarX(dados.retornoMedianoGenero)}X)`;
+        })
+        .catch(function (erro) { console.log(erro); });
+}
 
     // ---------- Gráficos ----------
     Chart.defaults.color = '#d8d2ce';
