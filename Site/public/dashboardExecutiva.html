@@ -99,10 +99,10 @@
             <div class="container-kpi">
                 <div class="box-kpi1">
                     <span class="info-dica" id="kpiRiscoDica" tabindex="0"
-                        data-dica="O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.&#10;COMO CALCULA: % dos 87 filmes semelhantes com ROI acima de +10%, comparada ao mínimo do seu perfil (conservador, moderado ou arrojado).&#10;COMO LER: quanto mais a % passa do mínimo do perfil, menor o risco. É histórico, não garante resultado.">i</span>
+                        data-dica="O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.&#10;COMO CALCULA: % dos 87 filmes semelhantes com ROI positivo, comparada ao mínimo do seu perfil (conservador, moderado ou arrojado).&#10;COMO LER: quanto mais a % passa do mínimo do perfil, menor o risco. É histórico, não garante resultado.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
                     <h5 class="informacao-kpi" id="kpiRiscoNivel">BAIXO</h5>
-                    <h6 class="descricao-kpi" id="kpiRiscoDescricao">TIVERAM ROI ACIMA DE 10%
+                    <h6 class="descricao-kpi" id="kpiRiscoDescricao">TIVERAM ROI ACIMA POSITIVO
                         (59 DE 87)</h6>
                 </div>
 
@@ -159,7 +159,7 @@
 
                 <div class="box-grafico2">
                     <span class="info-dica" tabindex="0"
-                        data-dica="O QUE É: como os 87 filmes semelhantes se dividem entre superávit, neutro e déficit.&#10;COMO CALCULA: pelo ROI. Superávit é acima de +10%, neutro entre −10% e +10% e déficit abaixo de −10%. A barra de baixo mostra quantos chegaram a US$ 40 mi.&#10;COMO LER: quanto maior a fatia amarela, melhor o histórico. Clique na legenda para ocultar uma faixa.">i</span>
+                        data-dica="O QUE É: como os 87 filmes semelhantes se dividem entre superávit, neutro e déficit.&#10;COMO CALCULA: pelo ROI. Superávit é positivo, neutro entre −10% e +10% e déficit abaixo de −10%. A barra de baixo mostra quantos chegaram a US$ 40 mi.&#10;COMO LER: quanto maior a fatia amarela, melhor o histórico. Clique na legenda para ocultar uma faixa.">i</span>
                     <h3 class="titulo-grafico">TAXA DE SUCESSO E RETORNO FINANCEIRO</h3>
 
                     <div class="area-grafico-pizza">
@@ -550,8 +550,8 @@
                 };
             }
 
-            function carregarKpiRisco(idEmpresa, genero, orcamento) {
-                let url = `/dashboardExecutiva/kpi-risco?idEmpresa=${idEmpresa}&genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
+            function carregarKpiRisco(idUsuario, genero, orcamento) {
+                let url = `/dashboardExecutiva/kpi-risco?idUsuario=${idUsuario}&genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
 
                 fetch(url)
                     .then(function (resposta) { return resposta.json(); })
@@ -570,15 +570,25 @@
                         }
 
                         document.getElementById("kpiRiscoDescricao").innerText =
-    `${dados.percentual}% DOS FILMES SIMILARES TIVERAM ROI ACIMA DE 10% (${dados.positivos} DE ${dados.total})`;
-
-                        document.getElementById("kpiRiscoDica").setAttribute("data-dica",
-                            `O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.\n` +
-                            `COMO CALCULA: % dos ${dados.total} filmes semelhantes com ROI acima de +10%, comparada ao mínimo do seu perfil (${dados.perfil.toLowerCase()}).\n` +
-                            `COMO LER: quanto mais a % passa do mínimo do perfil, menor o risco. É histórico, não garante resultado.`);
+                            `${dados.percentual}% DOS FILMES SIMILARES TIVERAM ROI POSITIVO (${dados.positivos} DE ${dados.total})`;
                     })
                     .catch(function (erro) { console.log(erro); });
             }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+                let receita = sessionStorage.getItem("AVALIACAO_RECEITA");
+                let genero = sessionStorage.getItem("AVALIACAO_GENERO");
+                let generoNome = sessionStorage.getItem("AVALIACAO_GENERO_NOME");
+                let idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+                if (!orcamento || !genero) {
+                    window.location.href = "avaliacao.html";
+                    return;
+                }
+
+                carregarKpiRisco(idUsuario, genero, orcamento);
+            });
 
             // exemplo de chamada; troque pelos valores reais da página
             document.addEventListener("DOMContentLoaded", function () {

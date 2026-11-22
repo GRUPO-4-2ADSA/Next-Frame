@@ -1,28 +1,30 @@
 let database = require("../database/config");
 
-function buscarPerfilEmpresa(idEmpresa) {
+function buscarPerfilPorUsuario(idUsuario) {
     let instrucao = `
-        SELECT perfil_risco, taxa_sucesso_segura
-        FROM empresa
-        WHERE id_empresa = ?;
+        SELECT e.perfil_risco
+        FROM usuario u
+        JOIN empresa e ON e.id_empresa = u.id_empresa
+        WHERE u.id_usuario = ?;
     `;
-    return database.executar(instrucao, [idEmpresa]);
+    return database.executar(instrucao, [idUsuario]);
 }
 
 function contarFilmesRecorte(genero, orcamento) {
-    let ROI_MINIMO = 0.1;
-
     let instrucao = `
         SELECT
             COUNT(*) AS total,
-            COALESCE(SUM(receita > orcamento * (1 + ?)), 0) AS positivos
+            COALESCE(SUM(receita > orcamento), 0) AS positivos
         FROM filme
         WHERE FIND_IN_SET(?, REPLACE(generos, ', ', ','))
           AND orcamento > 0
           AND receita > 0
           AND orcamento <= ?;
     `;
-    return database.executar(instrucao, [ROI_MINIMO, genero, orcamento]);
+    return database.executar(instrucao, [genero, orcamento]);
 }
 
-module.exports = { buscarPerfilEmpresa, contarFilmesRecorte };
+module.exports = {
+    buscarPerfilPorUsuario,
+    contarFilmesRecorte
+};
