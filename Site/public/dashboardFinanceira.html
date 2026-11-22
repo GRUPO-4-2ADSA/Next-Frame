@@ -105,8 +105,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.&#10;COMO CALCULA: % dos 87 filmes semelhantes com retorno positivo, comparada à taxa segura do seu perfil (linha tracejada do gráfico de faixas).&#10;COMO LER: quanto mais a % passa da taxa segura, menor o risco. É histórico, não garante resultado.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
-                    <h5 class="informacao-kpi">BAIXO</h5>
-                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (59 DE 87)</h6>
+                    <h5 class="informacao-kpi" id="kpiRiscoNivel">BAIXO</h5>
+                    <h6 class="descricao-kpi" id="kpiRiscoDescricao">66% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (58 DE 87)</h6>
                 </div>
                 <div class="box-kpi2">
                     <span class="info-dica" tabindex="0"
@@ -340,6 +340,46 @@
     }
 
     botaoFiltros.addEventListener('click', alternarFiltros);
+
+    function carregarKpiRisco(idUsuario, genero, orcamento) {
+    let url = `/dashboardExecutiva/kpi-risco?idUsuario=${idUsuario}&genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
+
+    fetch(url)
+        .then(function (resposta) { return resposta.json(); })
+        .then(function (dados) {
+            if (dados.erro) {
+                console.log(dados.erro);
+                return;
+            }
+
+            document.getElementById("kpiRiscoNivel").innerText = dados.nivel;
+
+            if (dados.total === 0) {
+                document.getElementById("kpiRiscoDescricao").innerText =
+                    "SEM FILMES SEMELHANTES PARA ESTE ORÇAMENTO";
+                return;
+            }
+
+            document.getElementById("kpiRiscoDescricao").innerText =
+                `${dados.percentual}% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (${dados.positivos} DE ${dados.total})`;
+        })
+        .catch(function (erro) { console.log(erro); });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+    let receita = sessionStorage.getItem("AVALIACAO_RECEITA");
+    let genero = sessionStorage.getItem("AVALIACAO_GENERO");
+    let generoNome = sessionStorage.getItem("AVALIACAO_GENERO_NOME");
+    let idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+    if (!orcamento || !genero) {
+        window.location.href = "avaliacao.html";
+        return;
+    }
+
+    carregarKpiRisco(idUsuario, genero, orcamento);
+});
 
     // ---------- Gráficos ----------
     Chart.defaults.color = '#d8d2ce';
