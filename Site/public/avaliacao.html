@@ -76,7 +76,7 @@
         <form class="card-avaliacao">
 
             <div class="historico-dash" onclick="abriHistorico()">
-                <p>Histórico de avalições</p>
+                <p>Histórico de avaliações</p>
                 <img src="assets/img/icon_seta_preta_baixo.png" id="imgSeta">
             </div>
             <div class="container-itens" id="ContainerItens"></div>
@@ -181,6 +181,11 @@
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
+                    sessionStorage.setItem("ORCAMENTO_USUARIO", orcamento);
+                    sessionStorage.setItem("AVALIACAO_RECEITA", receita);
+                    sessionStorage.setItem("AVALIACAO_GENERO", genero);
+                    sessionStorage.setItem("AVALIACAO_GENERO_NOME", inputGenero.value);
+
                     if (cargo === "Produtor Executivo" || cargo === "Gestor") {
                         window.location.href = "dashboardExecutiva.html";
                     } else if (cargo === "Produtor Financeiro") {
@@ -408,16 +413,16 @@
         { nome: "Comédia", mid: "/m/05p553", genero: "Comedy" },
         { nome: "Crime", mid: "/m/0119mbcs", genero: "Crime" },
         { nome: "Documentário", mid: "/m/0jtdp", genero: "Documentary" },
-        { nome: "Drama", mid: "drama movie", genero: "Drama" },
+        { nome: "Drama", mid: "/g/11bwdpgj8t", genero: "Drama" },
         { nome: "Família", mid: "/g/1215clx1", genero: "Family" },
         { nome: "Fantasia", mid: "/m/011869tv", genero: "Fantasy" },
         { nome: "Ficção Científica", mid: "/m/0119r056", genero: "Science Fiction" },
-        { nome: "Faroeste", mid: null, genero: "Western" },
-        { nome: "Filme para TV", mid: null, genero: "TV Movie" },
+        { nome: "Faroeste", mid: "/m/0hfjk", genero: "Western" },
+        { nome: "Filme para TV", mid: "/m/015w9s", genero: "TV Movie" },
         { nome: "Guerra", mid: "/m/082gq", genero: "War" },
-        { nome: "História", mid: null, genero: "History" },
-        { nome: "Mistério", mid: null, genero: "Mystery" },
-        { nome: "Música", mid: null, genero: "Music" },
+        { nome: "História", mid: "/g/12290z2k", genero: "History" },
+        { nome: "Mistério", mid: "/m/01199x0y", genero: "Mystery" },
+        { nome: "Música", mid: "/m/04t36", genero: "Music" },
         { nome: "Romance", mid: "/m/02l7c8", genero: "Romance" },
         { nome: "Suspense", mid: "/g/122hp9x6", genero: "Thriller" },
         { nome: "Terror", mid: "/m/03npn", genero: "Horror" }
