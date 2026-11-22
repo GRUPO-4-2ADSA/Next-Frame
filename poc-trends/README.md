@@ -1,310 +1,382 @@
 # PoC: interesse do público por gêneros de filmes (Google Trends)
 
-Prova de conceito para coletar, no Google Trends, o interesse do público por gêneros de filmes e guardar os dados em um banco MySQL, prontos para serem consumidos por uma API e exibidos em dashboards.
+Prova de conceito que coleta, no Google Trends, o interesse do público por 19 gêneros de filmes nos últimos 5 anos, grava os dados num JSON e num banco MySQL, e (nas próximas etapas) expõe tudo numa API em Node.js para uma dashboard.
 
-> **Escopo deste README:** coleta (Python) e banco (MySQL). A API e a dashboard serão documentadas quando forem implementadas(assim espero).
+```
+Google Trends ──► coletor (Python) ──► JSON (histórico) ──► MySQL ──► API Node.js ──► Dashboard
+                                                                      (a fazer)       (a fazer)
+```
+
+**Estado atual:** coletor, banco e busca de MIDs prontos. API e dashboard ainda não foram feitas.
+
+---
 
 ## Sumário
 
-- [Como funciona](#como-funciona)
-- [Estrutura de pastas](#estrutura-de-pastas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Como rodar o coletor](#como-rodar-o-coletor)
-- [Como o coletor processa os dados](#como-o-coletor-processa-os-dados)
-- [Banco de dados](#banco-de-dados)
-- [Gêneros acompanhados](#gêneros-acompanhados)
-- [Adicionar ou trocar um gênero](#adicionar-ou-trocar-um-gênero)
-- [Conferindo os dados](#conferindo-os-dados)
-- [Problemas comuns](#problemas-comuns)
-- [Limitações conhecidas](#limitações-conhecidas)
+1. [Como rodar tudo (passo a passo)](#como-rodar-tudo-passo-a-passo)
+2. [Estrutura do projeto](#estrutura-do-projeto)
+3. [Banco de dados](#banco-de-dados)
+4. [Como o coletor funciona](#como-o-coletor-funciona)
+5. [Configurações do coletor](#configurações-do-coletor)
+6. [Descobrindo os MIDs (`buscar_mids.py`)](#descobrindo-os-mids-buscar_midspy)
+7. [Rotina de atualização](#rotina-de-atualização)
+8. [Problemas comuns](#problemas-comuns)
+9. [Limitações conhecidas](#limitações-conhecidas)
+10. [Próximos passos](#próximos-passos)
 
-## Como funciona
+---
 
-```
-Google Trends → Coletor (Python) → MySQL
-```
+## Como rodar tudo (passo a passo)
 
-1. O **coletor** busca no Google Trends o interesse por 16 gêneros de filmes nos últimos 5 anos.
-2. Ele trata os números (junta as buscas na mesma escala e agrupa por mês).
-3. Grava o resultado no **MySQL**, nas tabelas `genero` e `interesse`.
+### Pré-requisitos
 
-O coletor roda de forma independente (manualmente, quando você quiser atualizar os dados). Quem for ler os dados depois consulta apenas o banco, sem depender do Google em tempo real.
+- **Python 3** instalado (confira com `python --version`)
+- **MySQL** instalado e rodando (Server + Workbench ou cliente de linha de comando)
+- **Git** (para clonar o repositório)
 
-### Por que a trendspyg
+### 1. Abrir o projeto
 
-A biblioteca `pytrends` foi arquivada em 2025 e não funciona de forma confiável. Este projeto usa a [`trendspyg`](https://github.com/flack0x/trendspyg), uma alternativa gratuita e mantida. Ela abre o **Google Chrome** nos bastidores, então o Chrome precisa estar instalado e cada busca leva de 10 a 90 segundos.
-
-Como o Google trends tem uma limitação de comparativo de 5 itens, ele faz varias buscas separadas para conseguir puxar todas as informações solicitadas
-
-## Estrutura de pastas
-
-```
-poc-trends/
-├── .gitignore
-├── README.md
-├── database/
-│   └── trendspyg_v2.sql          # cria o banco, as tabelas e cadastra os gêneros
-└── coletor/
-    ├── coletor_interesse_generos.py   # busca no Google Trends e grava no banco
-    ├── buscar_mids.py                 # ferramenta para descobrir o código (MID) de um gênero
-    ├── requirements.txt               # bibliotecas do Python
-    ├── .env.example                   # modelo das variáveis de ambiente
-    ├── .env                           # suas credenciais (não vai para o GitHub)
-    ├── venv/                          # ambiente virtual (não vai para o GitHub)
-    └── bruto_grupo*.json              # respostas cruas do Google (geradas na coleta)
+```bash
+git clone <url-do-repositorio>
+cd <pasta-do-projeto>
 ```
 
-## Pré-requisitos
+No VS Code: abra a pasta do projeto e use *Terminal > New Terminal*. Todos os comandos abaixo são rodados **dentro da pasta do projeto**.
 
-| Item | Observação |
-|---|---|
-| Python 3 | Testado com a versão 3.14. Marque **Add python.exe to PATH** na instalação (Windows). |
-| MySQL | Servidor local rodando.  |
-| Google Chrome | Usado pela trendspyg para buscar os dados. |
+### 2. Criar o ambiente virtual
 
-## Instalação
-
-### 1. Criar o banco
-
-Abra o `database/trendspyg_v2.sql` no MySQL Workbench (ou outro cliente) e execute o script inteiro.
-
-> **Atenção:** o script **apaga e recria** as tabelas `genero` e `interesse`. Use na primeira instalação ou para recomeçar do zero.
-
-Ao final, ele lista os gêneros cadastrados. Devem aparecer **16 linhas**.
-
-### 2. Preparar o ambiente Python
-
-No terminal, a partir da pasta `poc-trends`:
-
-```
-cd coletor
+```bash
 python -m venv venv
-venv\Scripts\activate
+```
+
+(Se `python` não for reconhecido no Windows, use `py -m venv venv`.)
+
+### 3. Ativar o ambiente virtual
+
+| Sistema | Comando |
+|---|---|
+| Windows (PowerShell / terminal do VS Code) | `venv\Scripts\activate` |
+| Windows (cmd) | `venv\Scripts\activate.bat` |
+| Linux / Mac | `source venv/bin/activate` |
+
+Quando ativar, aparece `(venv)` no começo da linha do terminal. **A cada terminal novo, ative de novo.** Para sair: `deactivate`.
+
+> Se o PowerShell reclamar de "execução de scripts desabilitada", rode uma vez:
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
+
+### 4. Instalar as dependências
+
+```bash
 pip install -r requirements.txt
 ```
 
-`python -m venv venv`
-```
-O que faz: Cria uma pasta isolada contendo uma cópia do Python e do gerenciador de pacotes (pip).
+Bibliotecas usadas: `trendspyg` (Google Trends), `PyMySQL` (conexão com o MySQL) e `python-dotenv` (leitura do `.env`). Para conferir: `pip list`.
 
-Por que usar: O primeiro venv chama o módulo do Python que constrói ambientes virtuais. O segundo venv é apenas o nome da pasta onde esses arquivos serão salvos (você poderia chamar de .venv ou meu_ambiente).
-```
+### 5. Criar o arquivo `.env`
 
-`venv\Scripts\activate`
-```
-O que faz: Ativa o ambiente virtual recém-criado no seu terminal (cmd ou PowerShell).
-
-Como saber se funcionou: O nome do ambiente aparecerá entre parênteses no início da linha do terminal, assim: (venv) C:\seu-projeto>.
-
-Por que usar: A partir do momento em que é ativado, qualquer pacote que você instalar usando o pip vai para dentro da pasta venv, sem interferir no Python global da sua máquina nem em outros projetos.
-```
-
-`pip install -r requirements.txt`
-```
-O que faz: Lê o arquivo de texto requirements.txt e instala todas as bibliotecas e versões listadas nele de uma só vez.
-
-Por que usar: Evita ter que instalar pacote por pacote manualmente (ex: pip install pandas, pip install flask) e garante que seu projeto use exatamente as mesmas versões que o desenvolvedor original utilizou.
-```
-
-No Linux ou Mac, a ativação é `source venv/bin/activate`.
-
-Quando o ambiente estiver ativo, o terminal mostra `(venv)` no começo da linha. É preciso ativar de novo a cada terminal novo.
-
-### 3. Configurar as credenciais
-
-Copie o modelo e preencha com os dados do seu MySQL:
-
-```
-copy .env.example .env
-```
-
-Edite o `.env`:
+Na raiz do projeto, crie um arquivo chamado `.env` (sem `.txt` no final):
 
 ```
 DB_HOST=localhost
-DB_USER=Usuario_do_seu_banco
-DB_SENHA=sua_senha_aqui
-DB_NOME=poc_trends
+DB_USER=root
+DB_SENHA=sua_senha
+DB_NOME=nextframe_trendspyg
 ```
 
-- Sem espaços em volta do `=`.
-- Se a senha tiver `#` ou espaços, coloque-a entre aspas: `DB_SENHA="minha#senha"`.
-- O `.env` está no `.gitignore` e **nunca deve ser enviado ao GitHub**.
+O `DB_NOME` precisa ser o mesmo nome do banco criado pelo script SQL. O `.env` **não** deve ir para o GitHub (veja o [`.gitignore`](#gitignore-sugerido)).
 
-### 4. Testar a conexão com o banco
+### 6. Criar o banco de dados
 
-Este teste não faz nenhuma busca no Google:
+Rode o script `database/script_v3.sql` no MySQL. Duas opções:
 
+- **MySQL Workbench:** *File > Open SQL Script*, escolha o arquivo e execute tudo (ícone do raio).
+- **Linha de comando** (funciona em PowerShell, cmd e Linux/Mac):
+
+  ```bash
+  mysql -u root -p -e "source database/script_v3.sql"
+  ```
+
+> **Atenção:** o script começa com `DROP DATABASE IF EXISTS nextframe_trendspyg`, ou seja, **apaga o banco e recria tudo**. Não rode se existir um banco com esse nome e dados que você queira manter.
+
+O `SELECT` do final do script deve listar os **19 gêneros** com o `termo_busca` preenchido.
+
+### 7. Testar a conexão com o banco
+
+Com o ambiente virtual ativado, direto na linha de comando:
+
+```bash
+python -c "import os, pymysql; from dotenv import load_dotenv; load_dotenv(); c = pymysql.connect(host=os.getenv('DB_HOST','localhost'), user=os.getenv('DB_USER','root'), password=os.getenv('DB_SENHA',''), database=os.getenv('DB_NOME')); cur = c.cursor(); cur.execute('SELECT COUNT(*) FROM pesquisa_mid'); print('Conexao OK! Generos:', cur.fetchone()[0]); c.close()"
 ```
-python -c "import os, pymysql; from dotenv import load_dotenv; load_dotenv(); c = pymysql.connect(host=os.getenv('DB_HOST'), user=os.getenv('DB_USER'), password=os.getenv('DB_SENHA'), database=os.getenv('DB_NOME')); print('Conexão OK'); c.close()"
-```
 
-Se aparecer `Conexão OK`, está tudo pronto.
+Resultado esperado: `Conexao OK! Generos: 19`.
 
-## Como rodar o coletor
+### 8. Rodar o coletor
 
-Com o `(venv)` ativo e dentro da pasta `coletor`:
-
-```
+```bash
 python coletor_interesse_generos.py
 ```
 
-- São **4 buscas**, com 45 segundos de pausa entre elas. O Chrome abre sozinho: **não feche a janela**(As vezes ele roda em segundo plano).
-- O processo leva de 5 a 10 minutos.
-- No final, o terminal mostra `Linhas gravadas/atualizadas: 960`.
-- Rodar de novo **atualiza** os valores existentes, sem duplicar.
+Na **primeira vez** ele faz a coleta completa de 5 anos: são **5 buscas no Google com pausas entre elas**, e leva cerca de 5 a 6 minutos. Acompanhe o terminal; ao final aparece `Linhas gravadas/atualizadas no banco: N`.
 
-**Rode uma vez e espere.** Se o Google bloquear (erro `RateLimitError`), pare e aguarde antes de tentar novamente.
+### 9. Conferir o resultado
 
-### Configurações
+No MySQL:
 
-No topo do `coletor_interesse_generos.py`:
+```sql
+SELECT g.nome, COUNT(*) AS meses
+FROM interesse i
+JOIN pesquisa_mid g ON g.id = i.fk_genero
+GROUP BY g.nome
+ORDER BY g.nome;
+```
 
-| Variável | Padrão | O que faz |
-|---|---|---|
-| `GEO` | `"BR"` | País da coleta. Use `""` para o mundo todo (gravado como `WW`). |
-| `TIMEFRAME` | `"today 5-y"` | Período buscado (últimos 5 anos). |
-| `CATEGORY` | `0` | Categoria do Google Trends (0 = sem filtro, 34 = Filmes). |
-| `ANCORA` | `"Terror"` | Gênero que entra em todas as buscas (explicado abaixo). |
-| `PAUSA` | `45` | Segundos de espera entre uma busca e outra. |
+Devem aparecer os 19 gêneros, todos com a mesma quantidade de meses (cerca de 58 a 60).
 
-## Como o coletor processa os dados
+### Resumo (para quem já configurou tudo uma vez)
 
-1. **Lê os gêneros** da tabela `genero`.
-2. **Divide em grupos.** O Google compara no máximo 5 termos por busca. Com 16 gêneros, o coletor faz 4 buscas, e o gênero âncora (Terror) entra em **todas**.
-3. **Busca os últimos 5 anos.** O Google devolve esse período por **semana**. A semana ainda incompleta é descartada.
-4. **Junta tudo na mesma escala.** Cada busca tem a própria escala de 0 a 100. Como a âncora aparece em todas, o coletor usa a média dela para multiplicar cada busca por um fator e igualar as escalas.
-5. **Agrupa por mês.** Tira a média das semanas de cada mês e ignora meses com menos de 4 semanas (meses incompletos nas pontas).
-6. **Reescala** para que o maior valor de todos seja 100.
-7. **Grava no MySQL**, com `INSERT ... ON DUPLICATE KEY UPDATE`.
+```bash
+venv\Scripts\activate                      # ativar o ambiente (Linux/Mac: source venv/bin/activate)
+python coletor_interesse_generos.py        # coletar / atualizar
+```
 
-Resultado: 60 meses × 16 gêneros = **960 linhas**.
+---
 
-A resposta crua de cada busca é salva em `bruto_grupo1.json` a `bruto_grupo4.json`, na pasta de onde o coletor foi executado. Assim, é possível refazer contas sem buscar de novo no Google.
+## Estrutura do projeto
+
+```
+.
+├── coletor_interesse_generos.py   # coleta no Google Trends, guarda no JSON e grava no MySQL
+├── buscar_mids.py                 # ajuda a descobrir o MID de cada gênero (uso eventual)
+├── database/
+│   └── script_v3.sql              # cria o banco, as tabelas e os 19 gêneros
+├── requirements.txt               # dependências Python
+├── .env                           # credenciais do banco (NÃO versionar)
+├── .gitignore
+│
+│   # arquivos gerados pelos scripts:
+├── dados_interesse_WW.json        # histórico mensal de todos os gêneros (fonte da verdade)
+├── mids_encontrados.json          # candidatos de MID devolvidos pelo Google (cache do buscar_mids)
+└── bruto_WW_<modo>_grupoN.json    # resposta crua de cada busca (só para retomar execuções)
+```
+
+### `.gitignore` sugerido
+
+```
+.env
+venv/
+__pycache__/
+bruto_*.json
+*.tmp
+*.bak
+```
+
+O `dados_interesse_WW.json` pode ser versionado: ele é o histórico acumulado e evita gastar requisições ao Google para reconstruir os dados em outra máquina.
+
+---
 
 ## Banco de dados
 
-Banco: `poc_trends`. Script de criação: [`database/trendspyg_v2.sql`](database/trendspyg_v2.sql).
+Banco: `nextframe_trendspyg`
 
-```
-genero (1) ──────< interesse (N)
-  id  ◄──────────── fk_genero
-```
+**`pesquisa_mid`**: os gêneros e o termo usado na busca
 
-Um gênero tem várias linhas de interesse, uma por mês.
-
-### Tabela `genero`
-
-Cadastro dos gêneros acompanhados.
-
-| Coluna | Tipo | O que guarda |
+| Coluna | Tipo | Descrição |
 |---|---|---|
-| `id` | INT, chave primária, auto incremento | Identificador do gênero |
-| `nome` | VARCHAR(50), único | Nome de exibição (ex.: Terror) |
-| `termo_busca` | VARCHAR(100), único | O que é enviado ao Google: um código de tópico (MID, ex.: `/m/03npn`) ou, quando não há tópico, um texto (ex.: `drama movie`) |
+| `id` | INT, PK, auto incremento | |
+| `nome` | VARCHAR(50), único | nome do gênero (ex.: `Horror`) |
+| `termo_busca` | VARCHAR(100) | MID do Google Trends (ex.: `/m/03npn`) |
 
-Um **MID** identifica um *assunto*, e não uma palavra. Por isso a busca por tópico funciona em qualquer idioma, ao contrário de um texto como "filme de terror", que só captura quem digita em português.
+**`interesse`**: o interesse mensal de cada gênero
 
-### Tabela `interesse`
-
-Série temporal: uma linha por gênero por mês.
-
-| Coluna | Tipo | O que guarda |
+| Coluna | Tipo | Descrição |
 |---|---|---|
-| `id` | INT, chave primária, auto incremento | Identificador da linha |
-| `fk_genero` | INT, chave estrangeira | Gênero a que a linha pertence (`genero.id`) |
-| `data_ref` | DATE | **Mês** de referência, sempre o dia 1 (ex.: `2026-09-01`). É a média das semanas daquele mês. |
-| `valor` | DECIMAL(6,2) | Interesse **relativo**, de 0 a 100, na mesma escala para todos os gêneros |
-| `geo` | VARCHAR(5), padrão `BR` | Região da coleta: `BR` (Brasil) ou `WW` (worldwide, mundo todo) |
-| `coletado_em` | DATETIME, padrão agora | Quando o coletor gravou a linha (preenchido pelo banco) |
+| `id` | INT, PK, auto incremento | |
+| `fk_genero` | INT, FK → `pesquisa_mid.id` | |
+| `data_ref` | DATE | sempre o dia 1 do mês (ex.: `2026-10-01`) |
+| `valor` | DECIMAL(6,2) | interesse relativo (escala de 0 a 100, veja [limitações](#limitações-conhecidas)) |
+| `geo` | VARCHAR(5) | `WW` (mundo todo) ou `BR` |
+| `coletado_em` | DATETIME | quando a linha foi gravada/atualizada |
 
-Regras da tabela:
+A restrição `UNIQUE (fk_genero, data_ref, geo)` garante um valor por gênero, por mês, por região, e é o que permite ao coletor rodar de novo sem duplicar linhas (`ON DUPLICATE KEY UPDATE`).
 
-- A combinação `fk_genero + data_ref + geo` é **única**. Por isso, rodar o coletor de novo atualiza os valores em vez de duplicar.
-- `WW` é uma convenção deste projeto. O Google representa o mundo todo com texto vazio.
+### Os 19 gêneros e seus MIDs
 
-Exemplo de linha:
+| Gênero | MID | Gênero | MID |
+|---|---|---|---|
+| Action | `/m/02kdv5l` | History | `/g/12290z2k` |
+| Adventure | `/m/03k9fj` | Horror | `/m/03npn` |
+| Animation | `/g/120pnns2` | Music | `/m/04t36` |
+| Comedy | `/m/05p553` | Mystery | `/m/01199x0y` |
+| Crime | `/m/0119mbcs` | Romance | `/m/02l7c8` |
+| Documentary | `/m/0jtdp` | Science Fiction | `/m/0119r056` |
+| Drama | `/g/11bwdpgj8t` | Thriller | `/g/122hp9x6` |
+| Family | `/g/1215clx1` | TV Movie | `/m/015w9s` |
+| Fantasy | `/m/011869tv` | War | `/m/082gq` |
+| | | Western | `/m/0hfjk` |
 
-| id | fk_genero | data_ref | valor | geo | coletado_em |
-|---|---|---|---|---|---|
-| 1 | 1 (Terror) | 2026-09-01 | 78.50 | BR | 2026-10-14 21:30:00 |
+Todas as buscas usam a categoria **Filmes** (`CATEGORY = 34`), o que restringe os tópicos ao cinema (inclusive os de Drama e TV Movie, que o Trends mostra como "cinema e televisão"/gênero televisivo).
 
-### O que significa o `valor`
+---
 
-O Google Trends não informa o número real de buscas. O valor 100 é o maior interesse de todos os gêneros em todo o período, e os demais são proporcionais a ele. Um gênero com valor 50 teve metade do interesse do pico.
+## Como o coletor funciona
 
-## Gêneros acompanhados
+### Visão geral
 
-| Gênero | `termo_busca` | Observação |
+1. Lê os 19 gêneros da tabela `pesquisa_mid`.
+2. Decide o que precisa buscar, olhando o JSON `dados_interesse_WW.json` (veja os 3 modos abaixo).
+3. Se precisar, faz as buscas no Google Trends, coloca todos os gêneros na mesma escala e calcula a média mensal.
+4. Guarda o resultado no JSON.
+5. Grava no MySQL **a partir do JSON** (em toda execução, sem gastar requisição ao Google).
+
+### Os 3 modos
+
+| Modo | Quando acontece | Requisições ao Google |
 |---|---|---|
-| Terror | `/m/03npn` | Âncora das buscas |
-| Ação | `/m/02kdv5l` | |
-| Aventura | `/m/03k9fj` | |
-| Comédia | `/m/05p553` | |
-| Ficção Científica | `/m/0119r056` | |
-| Animação | `/g/120pnns2` | |
-| Suspense | `/g/122hp9x6` | |
-| Super-herói | `/m/04pbhw` |   |
-| Fantasia | `/m/011869tv` | |
-| Crime | `/m/0119mbcs` | |
-| Família | `/g/1215clx1` | |
-| Musical | `/m/04t36` | |
-| Guerra | `/m/082gq` | |
-| Documentário | `/m/0jtdp` | Tópico genérico "Documentary" |
-| Romance | `/m/02l7c8` | Tópico genérico, menos confiável (pode incluir romance de livro e de relacionamento) |
-| Drama | `drama movie` | Texto, pois não há tópico de gênero de filme; menos confiável |
+| **completo** | não existe JSON, ou mudou o `GEO`, a âncora, algum gênero ou algum MID | 5 (busca 5 anos) |
+| **atualizar** | falta pelo menos um mês fechado no JSON | 5 (busca 12 meses e acrescenta só o que falta) |
+| **em_dia** | o JSON já tem o último mês fechado de todos os gêneros | **0** |
 
-## Adicionar ou trocar um gênero
+Na prática: **5 requisições por mês e nenhuma nos outros dias.** No modo completo, o JSON antigo é copiado para `.bak` antes de ser refeito.
 
-1. Descubra o código do gênero com a ferramenta de apoio. Edite o dicionário `GENEROS` do `buscar_mids.py` (nome do gênero e a busca em inglês) e rode:
+### Por que o modo "atualizar" busca 12 meses e não só o mês novo
 
-   ```
-   python buscar_mids.py
-   ```
+O Google comparar até **5 termos por busca** significa que atualizar 19 gêneros sempre custa 5 requisições, não importa o período. Além disso, **cada busca tem escala própria** (o maior valor da busca vira 100), então um mês buscado sozinho não seria comparável ao histórico.
 
-   O script lista, para cada gênero, os candidatos do tipo "gênero" (ex.: `/m/03npn | Horror | Film genre`). Escolha o que for **gênero de filme** e desconfie de códigos que não vieram desta lista: um MID errado não gera erro, apenas aponta para outro assunto.
+Por isso a atualização pede os últimos 12 meses, compara os meses em comum com o que já está salvo, calcula um fator de escala e **acrescenta apenas os meses que ainda não existem**. O histórico antigo nunca é alterado.
 
-2. Cadastre no banco:
+### Âncora (Thriller) e grupos por tamanho
 
-   ```sql
-   INSERT INTO genero (nome, termo_busca) VALUES ('Nome do gênero', '/m/xxxxx');
-   ```
+O Google só compara 5 termos por busca. O gênero **Thriller** entra em todas as buscas como âncora, e os outros 18 se dividem em grupos de 4.
 
-3. Rode o coletor de novo. Ele detecta o novo gênero e ajusta o número de buscas. Como a escala é recalculada a cada coleta, todos os valores são atualizados.
+A âncora é de **porte médio** de propósito: um gênero gigante (como o Horror) viraria 100 em toda busca e comprimiria os pequenos para perto de zero, com valores arredondados para 0 ou 1. O Thriller é grande o bastante para medir a escala e não esmaga os demais.
 
-## Conferindo os dados
+Os grupos são montados **por tamanho de interesse**: gêneros grandes juntos e pequenos juntos, usando a lista `ORDEM_TAMANHO` do coletor.
 
-Quantos meses cada gênero tem, a média e o pico:
+| Busca | Termos |
+|---|---|
+| 1 | Thriller, Horror, Documentary, Comedy, Action |
+| 2 | Thriller, Romance, Animation, War, Western |
+| 3 | Thriller, Science Fiction, Drama, Adventure, Crime |
+| 4 | Thriller, Mystery, Fantasy, TV Movie, Music |
+| 5 | Thriller, History, Family |
 
-```sql
-SELECT g.nome, COUNT(*) AS meses, ROUND(AVG(i.valor), 1) AS media, MAX(i.valor) AS pico
-FROM poc_trends.interesse i
-JOIN poc_trends.genero g ON g.id = i.fk_genero
-GROUP BY g.nome
-ORDER BY media DESC;
+Como o Thriller aparece em todas, a média dele em cada busca mostra a diferença de escala entre elas. O coletor multiplica os valores de cada busca por um fator (`média do Thriller na busca 1 ÷ média do Thriller na busca N`) para colocar todos os gêneros na mesma régua. Na coleta completa, no final, tudo é reescalado para que o maior valor seja 100.
+
+### Semanas viram meses (só meses fechados)
+
+O Google devolve dados **por semana**. O coletor:
+
+1. descarta a semana que ainda não terminou;
+2. agrupa as semanas por mês e faz a média;
+3. só guarda meses com **pelo menos 4 semanas** e **anteriores ao mês atual**. Se o mês não fechou, as semanas dele são descartadas.
+
+Assim, um valor gravado nunca precisa ser corrigido depois.
+
+### Proteção contra bloqueio do Google
+
+- Pausa de **60s + 0 a 15s sorteados** entre uma busca e outra.
+- Em caso de erro, tenta até **4 vezes**, esperando 120s, 240s, 360s...
+- Se as tentativas acabarem, o script **para sem gravar nada** e avisa; basta rodar de novo mais tarde.
+- Cada busca bem-sucedida é guardada em `bruto_WW_<modo>_grupoN.json`. Se uma execução falhar no meio, ao rodar de novo as buscas que já deram certo (com menos de 24h) são reaproveitadas, sem nova requisição.
+- Há uma trava de segurança: se o Google devolver nomes de termos diferentes dos enviados, o script para antes de gravar.
+
+### Formato do `dados_interesse_WW.json`
+
+```json
+{
+  "meta": { "geo": "WW", "ancora": "Thriller", "ultima_consulta": "2026-11-21" },
+  "generos": {
+    "Horror": {
+      "termo": "/m/03npn",
+      "meses": { "2021-12": 41.3, "2022-01": 44.8 }
+    }
+  }
+}
 ```
 
-Esperado: todos os gêneros com **60 meses** e o maior `pico` da tabela igual a **100**.
+---
+
+## Configurações do coletor
+
+Ficam no topo do `coletor_interesse_generos.py`:
+
+| Variável | Valor atual | Para que serve |
+|---|---|---|
+| `GEO` | `""` | `""` = mundo todo (gravado como `WW`), `"BR"` = Brasil |
+| `TIMEFRAME_COMPLETO` | `"today 5-y"` | janela da primeira coleta |
+| `TIMEFRAME_ATUALIZAR` | `"today 12-m"` | janela das atualizações (precisa se sobrepor ao histórico) |
+| `CATEGORY` | `34` | categoria Filmes (`0` = sem filtro) |
+| `ANCORA` | `"Thriller"` | gênero presente em todas as buscas, de porte médio (nome igual ao da tabela `pesquisa_mid`) |
+| `ORDEM_TAMANHO` | lista de 19 gêneros | ordem do maior para o menor interesse, usada para montar os grupos de busca |
+| `PAUSA` / `PAUSA_EXTRA` | `60` / `15` | espera entre buscas (segundos) |
+| `PAUSA_ERRO` | `120` | espera base após um erro (multiplicada pela tentativa) |
+| `TENTATIVAS` | `4` | tentativas por busca antes de desistir |
+| `CACHE_HORAS` | `24` | validade dos arquivos `bruto_*` usados para retomar execuções |
+
+> Trocar o `GEO` muda o nome do arquivo de dados (`dados_interesse_BR.json`) e o valor gravado na coluna `geo`, então os dados de Brasil e de mundo ficam separados.
+
+---
+
+## Descobrindo os MIDs (`buscar_mids.py`)
+
+Script de uso eventual, para achar o **MID** (identificador de tópico do Google Trends) de cada gênero.
+
+```bash
+python buscar_mids.py
+```
+
+- Pesquisa o texto de cada gênero (ex.: `Horror film`) e guarda **todas as sugestões** do Google no `mids_encontrados.json`.
+- No terminal mostra só os candidatos cujo tipo contém "genre" (ex.: *Film genre*).
+- Tem pausa de 20s entre buscas, 3 tentativas em caso de erro e **cache**: gêneros já buscados (com o mesmo texto de busca) não são consultados de novo.
+- Quando o script não acha candidato de gênero (acontece com alguns), o MID pode ser pego manualmente no site do Trends: pesquise o termo com a categoria **Filmes**, escolha o tópico e copie o valor do parâmetro `q=` da URL (`%2F` vira `/`).
+
+O `buscar_mids.py` é só para **descobrir** MIDs. O que o coletor usa é a coluna `termo_busca` da tabela `pesquisa_mid`, definida no `script_v3.sql`.
+
+---
+
+## Rotina de atualização
+
+1. Uma vez por mês (ou quando quiser), com o ambiente ativado: `python coletor_interesse_generos.py`.
+2. Se o mês anterior já estiver no JSON, ele avisa que está em dia, faz **0 requisições** e só reenvia o JSON ao banco.
+3. Se faltar um mês fechado, ele faz 5 buscas e acrescenta o mês novo.
+
+Se o banco for recriado com o `script_v3.sql`, basta rodar o coletor: ele repõe tudo a partir do JSON, sem ir ao Google.
+
+---
 
 ## Problemas comuns
 
-| Sintoma | Causa e solução |
+| Mensagem / sintoma | Causa provável |
 |---|---|
-| `RateLimitError` | O Google bloqueou temporariamente. Pare e espere antes de tentar de novo. |
-| `ATENÇÃO: os nomes devolvidos são diferentes dos enviados` | O coletor parou antes de gravar. O Google devolveu os termos com outro nome. Veja os arquivos `bruto_grupo*.json`. |
-| `Access denied for user` | Usuário ou senha errados no `.env`. |
-| `Can't connect to MySQL server` | O MySQL não está rodando. |
-| `No module named ...` | O `(venv)` não está ativo ou as bibliotecas não foram instaladas (`pip install -r requirements.txt`). |
-| `can't open file ... No such file` | O terminal está na pasta errada. Entre em `coletor` com `cd coletor`. |
-| `Fatal error in launcher` ao usar o `pip` | O `venv` foi movido de pasta e quebrou. Apague a pasta `venv` e crie de novo (passo 2 da instalação). |
+| `ModuleNotFoundError: No module named ...` | ambiente virtual não ativado, ou `pip install -r requirements.txt` não foi rodado |
+| `Access denied for user` | usuário ou senha errados no `.env` |
+| `Unknown database` | o `script_v3.sql` não foi rodado, ou o `DB_NOME` do `.env` está diferente do banco |
+| `Can't connect to MySQL server` | MySQL parado, ou `DB_HOST` errado |
+| `Table ... doesn't exist` | o banco existe, mas as tabelas não foram criadas |
+| Conexão volta sem dados / variáveis `None` | o `.env` não está sendo lido: confira o nome do arquivo (sem `.txt`) e se está na pasta de onde você roda o comando |
+| `O Google não respondeu depois de várias tentativas` | bloqueio temporário por excesso de buscas; rode de novo mais tarde (o que já deu certo fica salvo) |
+| `ATENÇÃO: os nomes devolvidos são diferentes dos enviados` | trava de segurança: o Google devolveu termos diferentes dos enviados; nada foi gravado |
+| `A âncora veio com média 0` | o Thriller veio zerado numa busca; não dá para ajustar a escala |
+| `Não há meses em comum...` | na atualização, o histórico e a busca nova não têm meses em comum; apague `dados_interesse_WW.json` para refazer a coleta completa |
+| `KeyError` / `StopIteration` ao buscar a âncora | o nome em `ANCORA` não existe na tabela `pesquisa_mid` (confira maiúsculas) |
+
+---
 
 ## Limitações conhecidas
 
-- Os valores são **relativos** (0 a 100), e não o volume real de buscas.
-- **Romance** e **Drama** são os gêneros menos confiáveis, porque não têm um tópico de gênero de filme no Google.
-- Os gêneros de cinema não são mutuamente exclusivos (um mesmo filme pode ser de ação e de aventura, por exemplo). Os valores de cada gênero devem ser lidos de forma independente, sem somar um com o outro.
-- A `trendspyg` não é uma biblioteca oficial do Google. Ela depende do Chrome e pode deixar de funcionar se o Google mudar o site.
-- A coleta é lenta e limitada pelo Google, então os dados são atualizados em lote, e não em tempo real.
-- A categoria 34 (Filmes) não é usada por padrão.
-- A escala entre as 4 buscas é ajustada por uma âncora (Terror), o que é uma aproximação.
+- **Janela móvel de 5 anos:** o Google devolve os últimos 5 anos a partir da data da coleta, então as pontas não vêm com anos completos. Numa coleta em novembro de 2026, por exemplo, 2021 traz só dezembro e 2026 vai até outubro. O ano corrente se completa mês a mês.
+- **Valores relativos, não absolutos:** o Trends mostra interesse relativo, não número de buscas.
+- **Meses novos são ajustados à escala do histórico:** eles entram por um fator calculado com os meses em comum, e não medidos na mesma régua dos 5 anos. Um mês novo que seja um pico pode passar de 100 (a coluna `valor` comporta isso), então o eixo dos gráficos não deve ser fixado em 100.
+- **Âncora:** o Thriller precisa ter interesse estável e sem zeros nas buscas, senão não dá para ajustar a escala.
+- **Gêneros pequenos têm pouca resolução:** o Google devolve valores inteiros e cada busca tem escala própria, então gêneros com interesse muito baixo (como Family e History) variam em poucos degraus e podem aparecer com valores repetidos ou zero. A comparação entre eles é menos confiável que entre os gêneros grandes.
+- **Dados mundiais (`WW`):** a coleta atual é do mundo todo, não só do Brasil.
+
+---
+
+## Próximos passos
+
+- [ ] API em Node.js/Express (padrão MVC) lendo do MySQL:
+  - rota do **gráfico 01**: top 5 gêneros + o gênero escolhido pelo usuário;
+  - rota do **gráfico 02**: o gênero escolhido, com uma linha por ano.
+- [ ] Dashboard (JS/HTML/CSS) com os dois gráficos e um campo de seleção de gênero (datalist) que preenche um campo oculto com o MID.
+- [ ] Complementar este README com a API e a dashboard.
