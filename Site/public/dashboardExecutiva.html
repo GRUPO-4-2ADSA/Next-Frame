@@ -110,8 +110,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: o retorno típico dos filmes parecidos com o seu.&#10;COMO CALCULA: ROI = (receita − orçamento) ÷ orçamento, e vale o valor do meio dos 87 filmes. Marketing e divisão de bilheteria ficam de fora.&#10;COMO LER: 50% significa que cada US$ 1 de orçamento virou US$ 1,50. Compare com a mediana do gênero (45%).">i</span>
                     <h6 class="titulo-kpi">ROI MEDIANO NO RECORTE ANALISADO</h6>
-                    <h5 class="informacao-kpi"><img src="assets/img/seta_cima.svg" alt="" class="seta-icon">50%</h5>
-                    <h6 class="descricao-kpi">5% ACIMA DA MEDIANA GERAL DO GÊNERO ESCOLHIDO(45%)</h6>
+                    <h5 class="informacao-kpi"><span id="kpiRoiMedianoValor">50%</span></h5>
+                    <h6 class="descricao-kpi" id="kpiRoiMedianoDescricao">5% ACIMA DA MEDIANA GERAL DO GÊNERO</h6>
                 </div>
 
                 <div class="box-kpi3">
@@ -588,7 +588,32 @@
                 }
 
                 carregarKpiRisco(idUsuario, genero, orcamento);
+                carregarKpiRoiMediano(genero, orcamento);
             });
+            function carregarKpiRoiMediano(genero, orcamento) {
+    let url = `/dashboardExecutiva/kpi-roi-mediano?genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
+
+    fetch(url)
+        .then(function (resposta) { return resposta.json(); })
+        .then(function (dados) {
+            if (dados.erro) {
+                console.log(dados.erro);
+                return;
+            }
+
+            if (dados.semDados) {
+                document.getElementById("kpiRoiMedianoValor").innerText = "--";
+                document.getElementById("kpiRoiMedianoDescricao").innerText =
+                    "SEM FILMES SEMELHANTES PARA ESTE ORÇAMENTO";
+                return;
+            }
+
+            document.getElementById("kpiRoiMedianoValor").innerText = `${dados.roiMedianoPct}%`;
+            document.getElementById("kpiRoiMedianoDescricao").innerText =
+                `${dados.diferencaPct}% ${dados.posicao} DA MEDIANA GERAL DO GÊNERO (ROI ${dados.roiMedianoGeneroPct}%)`;
+        })
+        .catch(function (erro) { console.log(erro); });
+}
 
             // exemplo de chamada; troque pelos valores reais da página
             document.addEventListener("DOMContentLoaded", function () {
