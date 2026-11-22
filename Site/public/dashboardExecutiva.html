@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-                <link rel="stylesheet" href="css/modal-perfil.css">
-        <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/modal-perfil.css">
+    <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/dashboardExecutiva.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/menuTopo.css">
@@ -23,7 +23,7 @@
 
 <body onload="plotarInfoUsuario()">
 
-        <!-- Navbar -->
+    <!-- Navbar -->
     <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
@@ -98,11 +98,12 @@
 
             <div class="container-kpi">
                 <div class="box-kpi1">
-                    <span class="info-dica" tabindex="0"
+                    <span class="info-dica" id="kpiRiscoDica" tabindex="0"
                         data-dica="O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.&#10;COMO CALCULA: % dos 87 filmes semelhantes com ROI acima de +10%, comparada ao mínimo do seu perfil (conservador, moderado ou arrojado).&#10;COMO LER: quanto mais a % passa do mínimo do perfil, menor o risco. É histórico, não garante resultado.">i</span>
                     <h6 class="titulo-kpi">RISCO HISTÓRICO ESTIMADO PARA O PERFIL DA EMPRESA</h6>
-                    <h5 class="informacao-kpi">BAIXO</h5>
-                    <h6 class="descricao-kpi">68% DOS FILMES SIMILARES TIVERAM RETORNO POSITIVO (59 DE 87)</h6>
+                    <h5 class="informacao-kpi" id="kpiRiscoNivel">BAIXO</h5>
+                    <h6 class="descricao-kpi" id="kpiRiscoDescricao">TIVERAM ROI ACIMA DE 10%
+                        (59 DE 87)</h6>
                 </div>
 
                 <div class="box-kpi2">
@@ -548,6 +549,42 @@
                     }
                 };
             }
+
+            function carregarKpiRisco(idEmpresa, genero, orcamento) {
+                let url = `/dashboardExecutiva/kpi-risco?idEmpresa=${idEmpresa}&genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
+
+                fetch(url)
+                    .then(function (resposta) { return resposta.json(); })
+                    .then(function (dados) {
+                        if (dados.erro) {
+                            console.log(dados.erro);
+                            return;
+                        }
+
+                        document.getElementById("kpiRiscoNivel").innerText = dados.nivel;
+
+                        if (dados.total === 0) {
+                            document.getElementById("kpiRiscoDescricao").innerText =
+                                "SEM FILMES SEMELHANTES PARA ESTE ORÇAMENTO";
+                            return;
+                        }
+
+                        document.getElementById("kpiRiscoDescricao").innerText =
+    `${dados.percentual}% DOS FILMES SIMILARES TIVERAM ROI ACIMA DE 10% (${dados.positivos} DE ${dados.total})`;
+
+                        document.getElementById("kpiRiscoDica").setAttribute("data-dica",
+                            `O QUE É: nível de risco de prejuízo, comparando filmes parecidos com o que a sua empresa tolera.\n` +
+                            `COMO CALCULA: % dos ${dados.total} filmes semelhantes com ROI acima de +10%, comparada ao mínimo do seu perfil (${dados.perfil.toLowerCase()}).\n` +
+                            `COMO LER: quanto mais a % passa do mínimo do perfil, menor o risco. É histórico, não garante resultado.`);
+                    })
+                    .catch(function (erro) { console.log(erro); });
+            }
+
+            // exemplo de chamada; troque pelos valores reais da página
+            document.addEventListener("DOMContentLoaded", function () {
+                let idEmpresa = sessionStorage.ID_EMPRESA;
+                carregarKpiRisco(idEmpresa, "Horror", 20000000);
+            });
         </script>
     </main>
 </body>
