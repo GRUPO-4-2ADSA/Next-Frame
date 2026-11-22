@@ -119,8 +119,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: a receita do filme que fica no meio dos 87 semelhantes.&#10;COMO CALCULA: ordena as receitas do menor para o maior e pega a central.&#10;COMO LER: metade dos filmes faturou mais e metade menos. Compare com a receita desejada (US$ 40 mi): se a mediana está abaixo, a sua meta é mais ambiciosa que o típico.">i</span>
                     <h6 class="titulo-kpi">RECEITA MEDIANA NO RECORTE ANALISADO</h6>
-                    <h5 class="informacao-kpi">US$ 30 mi</h5>
-                    <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
+                    <h5 class="informacao-kpi" id="infoKpiReceitaMediana"></h5>
+                    <h6 class="descricao-kpi" id="descricaoKpiReceitaMediana"></h6>
                 </div>
                 <div class="box-kpi4">
                     <span class="info-dica" tabindex="0"
@@ -802,4 +802,64 @@
 
         infoKpiMeuOrcamento.innerHTML = "US$ " + orcamento;
     }
+
+
+    // ---------- KPI: receita mediana no recorte analisado ----------
+document.addEventListener("DOMContentLoaded", plotarKpiReceitaMediana);
+
+function formatarMilhoes(valor) {
+    let milhoes = valor / 1000000;
+    return "US$ " + milhoes.toFixed(1).replace(".", ",") + " mi";
+}
+
+function plotarKpiReceitaMediana() {
+    let genero = sessionStorage.getItem("GENERO_USUARIO");
+    let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+    let receita = sessionStorage.getItem("RECEITA_USUARIO");
+
+    if (genero == null || orcamento == null || receita == null) {
+        infoKpiReceitaMediana.innerHTML = "--";
+        descricaoKpiReceitaMediana.innerHTML = "FAÇA UMA NOVA AVALIAÇÃO PARA VER ESTE DADO";
+        return;
+    }
+
+    fetch("/recorte/receita-mediana", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            generoServer: genero,
+            orcamentoServer: orcamento.replace(/\D/g, ""),
+            receitaServer: receita
+        })
+    })
+        .then(function (resposta) {
+            return resposta.json().then(function (dados) {
+                return { ok: resposta.ok, dados: dados };
+            });
+        })
+        .then(function (retorno) {
+            if (!retorno.ok) {
+                infoKpiReceitaMediana.innerHTML = "--";
+                descricaoKpiReceitaMediana.innerHTML = retorno.dados.mensagem.toUpperCase();
+                return;
+            }
+
+            let dados = retorno.dados;
+            infoKpiReceitaMediana.innerHTML = formatarMilhoes(dados.receitaMediana);
+
+            let textoDiferenca = formatarMilhoes(dados.diferenca);
+            let textoDesejada = formatarMilhoes(dados.receitaDesejada);
+
+            if (dados.situacao == "abaixo") {
+                descricaoKpiReceitaMediana.innerHTML = textoDiferenca.toUpperCase() + " ABAIXO DA RECEITA DESEJADA (" + textoDesejada.toUpperCase() + ")";
+            } else if (dados.situacao == "acima") {
+                descricaoKpiReceitaMediana.innerHTML = textoDiferenca.toUpperCase() + " ACIMA DA RECEITA DESEJADA (" + textoDesejada.toUpperCase() + ")";
+            } else {
+                descricaoKpiReceitaMediana.innerHTML = "IGUAL À RECEITA DESEJADA (" + textoDesejada.toUpperCase() + ")";
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar a receita mediana:", erro);
+        });
+}
 </script>
