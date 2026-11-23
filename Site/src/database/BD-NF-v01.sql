@@ -23,7 +23,7 @@ CREATE TABLE usuario (
   senha         VARCHAR(255) NOT NULL,
   ativo         TINYINT(1)   NOT NULL DEFAULT 1,
   foto_perfil VARCHAR(255) NULL,
-  FOREIGN KEY (id_empresa) REFERENCES Empresa (id_empresa)
+  FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa)
 );
 
 CREATE TABLE log_carga (
@@ -68,7 +68,7 @@ CREATE TABLE historicoAvaliacao (
     orcamento 		INT NOT NULL,
     receita 		INT NOT NULL,
     genero 			VARCHAR(20) NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario (id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
 );
 
 CREATE TABLE genero (
