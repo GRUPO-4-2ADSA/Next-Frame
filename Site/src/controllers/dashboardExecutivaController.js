@@ -2,9 +2,9 @@ let dashboardExecutivaModel = require("../models/dashboardExecutivaModel");
 let estatistica = require("../utils/estatistica");
 
 let FAIXAS_RISCO = {
-    Conservador: { baixo: 70, medio: 55 },
-    Moderado: { baixo: 55, medio: 40 },
-    Arrojado: { baixo: 40, medio: 25 }
+    Conservador: { baixo: 80, medio: 60 },
+    Moderado: { baixo: 65, medio: 45 },
+    Arrojado: { baixo: 50, medio: 30 }
 };
 
 function classificarRisco(percentual, faixas) {
@@ -42,7 +42,7 @@ function kpiRisco(req, res) {
                     let percentual = total ? (positivos / total) * 100 : 0;
 
                     res.json({
-                        nivel: total ? classificarRisco(percentual, faixas) : "SEM DADOS",
+                        nivel: total ? classificarRisco(Math.round(percentual), faixas) : "SEM DADOS",
                         percentual: Math.round(percentual),
                         positivos: positivos,
                         total: total,
