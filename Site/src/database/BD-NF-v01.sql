@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS next_frame;
 USE next_frame;
 
-CREATE TABLE Empresa (
+CREATE TABLE empresa (
   id_empresa          INT AUTO_INCREMENT PRIMARY KEY,
   nome                VARCHAR(100) NOT NULL,
   razao_social        VARCHAR(150) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE Empresa (
   perfil_risco        ENUM('Conservador', 'Moderado', 'Arrojado') DEFAULT NULL 
 );
 
-CREATE TABLE Usuario (
+CREATE TABLE usuario (
   id_usuario    INT AUTO_INCREMENT PRIMARY KEY,
   id_empresa    INT          NOT NULL,
   nome          VARCHAR(100) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE filme (
 
 
 
-CREATE TABLE HistoricoAvaliacao (
+CREATE TABLE historicoAvaliacao (
 	id_historico 	INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario		INT NOT NULL,
     orcamento 		INT NOT NULL,
@@ -117,7 +117,7 @@ INSERT INTO genero (nome, termo_busca) VALUES
     ('War', '/m/082gq'),
     ('Western', '/m/0hfjk');
 
-INSERT INTO Empresa
+INSERT INTO empresa
     (nome, razao_social, cnpj, taxa_sucesso_segura, cod_empresa)
 VALUES
     ('Ibirá Filmes', 'Ibirá Produções Cinematográficas Ltda', '12345678000190', 75.50, 'IBIRA001'),
@@ -126,7 +126,7 @@ VALUES
     
 USE next_frame;
 
-INSERT INTO Usuario
+INSERT INTO usuario
     (id_empresa, nome, cargo, email, cpf, dt_nascimento, senha, ativo)
 VALUES
 
