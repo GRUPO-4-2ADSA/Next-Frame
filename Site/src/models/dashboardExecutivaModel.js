@@ -37,8 +37,21 @@ function listarRetornosDoGenero(genero) {
     return database.executar(instrucao, [genero]);
 }
 
+function listarFilmesDoRecorte(genero, orcamento) {
+    let instrucao = `
+        SELECT titulo, orcamento, receita
+        FROM filme
+        WHERE FIND_IN_SET(?, REPLACE(generos, ', ', ','))
+          AND orcamento > 0
+          AND receita > 0
+          AND orcamento <= ?;
+    `;
+    return database.executar(instrucao, [genero, orcamento]);
+}
+
 module.exports = {
     buscarPerfilPorUsuario,
     contarFilmesRecorte,
-    listarRetornosDoGenero
+    listarRetornosDoGenero,
+    listarFilmesDoRecorte
 };

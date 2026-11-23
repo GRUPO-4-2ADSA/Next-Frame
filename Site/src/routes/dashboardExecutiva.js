@@ -11,4 +11,8 @@ router.get("/kpi-roi-mediano", function (req, res) {
     dashboardExecutivaController.kpiRoiMediano(req, res);
 });
 
+router.get("/grafico-dispersao", function (req, res) {
+    dashboardExecutivaController.graficoDispersao(req, res);
+});
+
 module.exports = router;

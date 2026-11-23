@@ -296,40 +296,90 @@
             }
 
             // ---------- Dispersão: Orçamento x Receita (dados mockados) ----------
-            // cada filme: [orçamento, receita] em US$ mi. O 3º valor "1"  é meio que um boolean que vai marcar os fora do padrão (IQR do ROI)
-            let paresFilmes = [
-                [21, 37.8], [14, 11.9], [10, 5.2], [23, 48.3], [19, 27.7], [28.5, 62.1], [26, 54.6], [23, 39.6],
-                [19.5, 28.5], [20.5, 29.9], [21, 37.8], [21, 37.8], [17, 18.2], [12.5, 10.6], [24, 50.4], [14.5, 12.3],
-                [15, 12.8], [20, 29.2], [10, 4], [25.5, 53.6], [19.5, 28.5], [22, 39.6], [16, 13.6], [22.5, 39.6],
-                [23, 39.6], [24.5, 51.5], [15.5, 13.2], [26.5, 56.7], [14, 11.9], [21.5, 38.7], [16.5, 14], [19, 27.7],
-                [23.5, 49.4], [15.5, 13.2], [19, 27.7], [27.5, 58.8], [11, 8.5], [23.5, 49.4], [20, 29.2], [25, 52.5],
-                [18.5, 27], [16, 13.6], [18.5, 27], [20.5, 36.1], [11.5, 9.8], [18.5, 27], [30, 67.8], [22.5, 39.6],
-                [12, 10.2], [18, 26.3], [19.5, 28.5], [26, 54.6], [19, 27.7], [21.5, 38.7], [22, 38.7], [20, 30],
-                [26.5, 55.7], [17.5, 18.7], [27, 57.8], [17.5, 18.7], [20.5, 36.9], [13.5, 11.5], [17, 18.2], [21.5, 38.7],
-                [23.5, 49.4], [13.5, 11.5], [22, 39.6], [29, 63.2], [18, 19.3], [21, 37.8], [16.5, 14], [18, 26.3],
-                [30, 66.6], [15, 12.8], [17.5, 18.7], [25.5, 53.6], [30, 67.8], [14.5, 62.3, 1], [10, 46, 1], [28, 61],
-                [13, 11], [22.5, 39.6], [24.5, 51.5], [17, 18.2], [24, 50.4], [16.5, 14], [25, 52.5]
-            ];
+            
+            // ---------- Dispersão: Orçamento x Receita ----------
+let graficoDispersaoChart = null;
 
+function paraMilhoes(valor) {
+    return Number((valor / 1000000).toFixed(2));
+}
 
-            let correlacao = '0,89';
-            let tendencia = [{ x: 10, y: 2 }, { x: 30, y: 65.2 }]; // aqui são as referencias para a linha de tendencia
-            let seuProjeto = { x: 20, y: 40, filme: 'Seu projeto', roi: 1 };
+function escreverSeExistir(id, texto) {
+    let elemento = document.getElementById(id);
+    if (elemento) {
+        elemento.innerText = texto;
+    }
+}
 
-            // 2 array pra separar os outliers dos padrões
+function carregarGraficoDispersao(genero, orcamento, receita) {
+    let url = `/dashboardExecutiva/grafico-dispersao?genero=${encodeURIComponent(genero)}&orcamento=${orcamento}&receita=${receita}`;
+
+    fetch(url)
+        .then(function (resposta) { return resposta.json(); })
+        .then(function (api) {
+            if (api.erro) {
+                console.log(api.erro);
+                return;
+            }
+
+            if (graficoDispersaoChart) {
+                graficoDispersaoChart.destroy();
+                graficoDispersaoChart = null;
+            }
+
+            if (api.semDados) {
+                escreverSeExistir('dispCorrelacaoValor', '--');
+                escreverSeExistir('dispCorrelacaoForca', 'Sem dados');
+                escreverSeExistir('dispFilmesAnalisados', '0');
+                return;
+            }
+
+            // separa os outliers (IQR do ROI, calculado no backend) dos filmes normais
             let filmesBase = [];
             let filmesOutlier = [];
-            for (let i = 0; i < paresFilmes.length; i++) {
-                let orcamento = paresFilmes[i][0];
-                let receita = paresFilmes[i][1];
-                let ponto = { x: orcamento, y: receita, filme: 'Filme ' + (i + 1), roi: (receita - orcamento) / orcamento };
+            for (let i = 0; i < api.pontos.length; i++) {
+                let p = api.pontos[i];
+                let ponto = {
+                    x: paraMilhoes(p.orcamento),
+                    y: paraMilhoes(p.receita),
+                    filme: p.titulo,
+                    roi: (p.receita - p.orcamento) / p.orcamento
+                };
 
-                if (paresFilmes[i][2] === 1) {
+                if (p.outlier) {
                     filmesOutlier.push(ponto);
                 } else {
                     filmesBase.push(ponto);
                 }
             }
+
+            // linha de tendência: só os dois extremos
+            let tendencia = [];
+            if (api.tendencia) {
+                tendencia = [
+                    { x: paraMilhoes(api.tendencia.inicio.x), y: paraMilhoes(api.tendencia.inicio.y) },
+                    { x: paraMilhoes(api.tendencia.fim.x), y: paraMilhoes(api.tendencia.fim.y) }
+                ];
+            }
+
+            // ponto "Seu projeto"
+            let seuProjeto = [];
+            if (api.seuProjeto.receita) {
+                seuProjeto = [{
+                    x: paraMilhoes(api.seuProjeto.orcamento),
+                    y: paraMilhoes(api.seuProjeto.receita),
+                    filme: 'Seu projeto',
+                    roi: (api.seuProjeto.receita - api.seuProjeto.orcamento) / api.seuProjeto.orcamento
+                }];
+            }
+
+            let correlacao = api.correlacao === null ? '--' : api.correlacao.toFixed(2).replace('.', ',');
+            let forca = api.forca.charAt(0) + api.forca.slice(1).toLowerCase();
+
+            // cards ao lado do gráfico
+            escreverSeExistir('dispCorrelacaoValor', correlacao);
+            escreverSeExistir('dispCorrelacaoForca', forca + ' • orçamento x receita');
+            escreverSeExistir('dispFilmesAnalisados', api.total);
 
             const dados = {
                 datasets: [
@@ -343,8 +393,8 @@
                     {
                         label: 'Outliers (IQR do ROI)',
                         data: filmesOutlier,
-                        backgroundColor: '#f5c207',
-                        borderColor: '#f5c207',
+                        backgroundColor: '#ff3b30',
+                        borderColor: '#ff3b30',
                         pointRadius: 6
                     },
                     {
@@ -364,7 +414,8 @@
                         backgroundColor: '#f5c207',
                         borderColor: '#f5c207',
                         pointStyle: 'rectRot',
-                        pointRadius: 12,
+                        pointRadius: 8,       // Tamanho estático normal
+                        pointHoverRadius: 12,  // Tamanho quando passa o mouse por cima
                         order: -100
                     }
                 ]
@@ -389,14 +440,13 @@
                                 return item.dataset.label.indexOf('Tendência') === -1;
                             },
                             callbacks: {
-                                title: function (items) { // o items é uma lista (Array) criada pelo próprio Chart.js contendo todas as bolinhas (ou dados) que estão embaixo do ponteiro do mouse naquele momento.
+                                title: function (items) {
                                     return items[0].raw.filme || 'Filme sem nome';
                                 },
-                                label: function (context) { // segue a msm logica de cima só que agora para os dados
+                                label: function (context) {
                                     let ponto = context.raw;
                                     let rotuloReceita = 'Receita: US$ ';
 
-                                    // Se for o ponto do usuario, muda o texto da receita
                                     if (ponto.filme === 'Seu projeto') {
                                         rotuloReceita = 'Receita desejada: US$ ';
                                     }
@@ -405,7 +455,6 @@
                                     let textoReceita = rotuloReceita + ponto.y + ' mi';
                                     let textoRoi = 'ROI: ' + Math.round(ponto.roi * 100) + '%';
 
-                                    // Retorna a lista de linhas que vao aparecer dentro da caixinha
                                     return [textoOrcamento, textoReceita, textoRoi];
                                 }
                             }
@@ -414,10 +463,8 @@
 
                     scales: {
                         x: {
-                            min: 5,
-                            max: 35,
                             title: { display: true, text: 'Orçamento (US$ mi)', color: '#ffffff' },
-                            ticks: { color: '#b8c9da', stepSize: 5 },
+                            ticks: { color: '#b8c9da' },
                             grid: { color: corGrade }
                         },
                         y: {
@@ -430,7 +477,11 @@
                 }
             };
 
-            new Chart(document.getElementById('graficoDispersao'), configuracao);
+            graficoDispersaoChart = new Chart(document.getElementById('graficoDispersao'), configuracao);
+        })
+        .catch(function (erro) { console.log(erro); });
+}
+
 
             // ---------- Rosca: desempenho financeiro -----------
             new Chart(document.getElementById('graficoPizza'), {
@@ -589,6 +640,7 @@
 
                 carregarKpiRisco(idUsuario, genero, orcamento);
                 carregarKpiRoiMediano(genero, orcamento);
+                carregarGraficoDispersao(genero, orcamento, receita);
             });
             function carregarKpiRoiMediano(genero, orcamento) {
     let url = `/dashboardExecutiva/kpi-roi-mediano?genero=${encodeURIComponent(genero)}&orcamento=${orcamento}`;
