@@ -179,6 +179,26 @@
             </div>
         </div>
 
+        <section class="box-linha" aria-labelledby="tituloRoiPeriodo">
+            <span class="info-dica" tabindex="0"
+                data-dica="Mediana anual do retorno dos filmes do gênero avaliado, em múltiplos do orçamento. 1X indica que a receita igualou o orçamento.">i</span>
+            <h3 class="titulo-grafico" id="tituloRoiPeriodo">ROI MEDIANO POR PERÍODO</h3>
+            <label>
+                Período nos últimos
+                <select id="filtroPeriodo">
+                    <option value="5">5 anos</option>
+                    <option value="10" selected>10 anos</option>
+                    <option value="15">15 anos</option>
+                    <option value="20">20 anos</option>
+                    <option value="25">25 anos</option>
+                </select>
+            </label>
+            <p id="statusRoiPeriodo" role="status" hidden></p>
+            <div class="area-linha">
+                <canvas id="graficoRoiPeriodo"></canvas>
+            </div>
+        </section>
+
         <!-- Rodapé -->
         <div class="rodape-dados">
             <div class="rodape-item">
@@ -548,6 +568,101 @@
                     }
                 };
             }
+        </script>
+        <script>
+            const filtroPeriodo = document.getElementById('filtroPeriodo');
+            const statusRoiPeriodo = document.getElementById('statusRoiPeriodo');
+            const generoAvaliacao = sessionStorage.getItem('AVALIACAO_GENERO');
+            const nomeGeneroAvaliacao = sessionStorage.getItem('AVALIACAO_GENERO_NOME') || generoAvaliacao;
+            if (generoAvaliacao) {
+                document.getElementById('tituloRoiPeriodo').textContent =
+                    'ROI MEDIANO DE ' + nomeGeneroAvaliacao.toLocaleUpperCase('pt-BR') + ' POR PERÍODO';
+            }
+            const formatarRoi = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
+            const graficoRoiPeriodo = new Chart(document.getElementById('graficoRoiPeriodo'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: nomeGeneroAvaliacao || 'ROI mediano',
+                        data: [],
+                        borderColor: '#ff3030',
+                        backgroundColor: '#ff3030',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        tension: 0.35,
+                        spanGaps: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ({ dataset, parsed }) => dataset.label + ' - ROI mediano: ' + formatarRoi.format(parsed.y) + 'X'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'PERÍODO', color: '#d8d2ce' },
+                            ticks: { color: '#d8d2ce' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            min: 0,
+                            title: { display: true, text: 'ROI', color: '#d8d2ce' },
+                            ticks: { color: '#d8d2ce', callback: valor => formatarRoi.format(valor) + 'X' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            let requisicaoRoiPeriodo;
+
+            async function carregarRoiPeriodo() {
+                if (!generoAvaliacao) {
+                    statusRoiPeriodo.hidden = false;
+                    statusRoiPeriodo.textContent = 'Faça uma avaliação para consultar o ROI mediano do gênero escolhido.';
+                    return;
+                }
+
+                requisicaoRoiPeriodo?.abort();
+                const requisicao = new AbortController();
+                requisicaoRoiPeriodo = requisicao;
+                statusRoiPeriodo.hidden = false;
+                statusRoiPeriodo.textContent = 'Carregando ROI mediano…';
+                graficoRoiPeriodo.data.labels = [];
+                graficoRoiPeriodo.data.datasets[0].data = [];
+                graficoRoiPeriodo.update();
+
+                try {
+                    const parametros = new URLSearchParams({ periodo: filtroPeriodo.value, genero: generoAvaliacao });
+                    const resposta = await fetch('/dashboard-executiva/roi-mediano-por-periodo?' + parametros, {
+                        signal: requisicao.signal
+                    });
+                    if (!resposta.ok) throw new Error('Falha ao consultar o ROI mediano.');
+
+                    const dados = await resposta.json();
+                    if (requisicao.signal.aborted) return;
+
+                    graficoRoiPeriodo.data.labels = dados.map(({ ano }) => ano);
+                    graficoRoiPeriodo.data.datasets[0].data = dados.map(({ roi }) => roi);
+                    graficoRoiPeriodo.update();
+                    statusRoiPeriodo.hidden = dados.some(({ roi }) => roi !== null);
+                    statusRoiPeriodo.textContent = statusRoiPeriodo.hidden ? '' : 'Sem dados de ROI para este período.';
+                } catch (erro) {
+                    if (requisicao.signal.aborted) return;
+                    statusRoiPeriodo.textContent = 'Não foi possível carregar o ROI mediano.';
+                }
+            }
+
+            filtroPeriodo.addEventListener('change', carregarRoiPeriodo);
+            carregarRoiPeriodo();
         </script>
     </main>
 </body>

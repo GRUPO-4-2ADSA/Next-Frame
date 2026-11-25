@@ -15,6 +15,7 @@ var path = require("path");
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var analiseHistoricaRouter = require("./src/routes/analiseHistorica");
+var dashboardExecutivaRouter = require("./src/routes/dashboardExecutiva");
 var avaliacaoRouter = require("./src/routes/avaliacao")
 var riscoRouter = require("./src/routes/risco")
 
@@ -33,6 +34,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/analise-historica", analiseHistoricaRouter);
+app.use("/dashboard-executiva", dashboardExecutivaRouter);
 app.use("/avaliacao", avaliacaoRouter);
 app.use("/risco", riscoRouter);
 
