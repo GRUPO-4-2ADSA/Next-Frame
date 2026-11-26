@@ -265,7 +265,7 @@
             let corDestaque = '#ffc400'; //Amarelo
 
             const paletaCinza = [ // Array com 10 tons de cinza predefinidos (do mais claro ao mais escuro)
-                'rgb(217, 208, 196)', // 0: mais claro
+                /*'rgb(217, 208, 196)', // 0: mais claro
                 'rgb(206, 197, 186)', // 1
                 'rgb(196, 187, 175)', // 2
                 'rgb(185, 176, 165)', // 3
@@ -274,7 +274,12 @@
                 'rgb(154, 144, 133)', // 6
                 'rgb(143, 134, 123)', // 7
                 'rgb(133, 123, 112)', // 8
-                'rgb(122, 112, 102)'  // 9: mais escuro
+                'rgb(122, 112, 102)'  // 9: mais escuro*/
+                "#CF6363", // 2026 — Amarelo
+                "#C94F50", // 2025 — Vermelho
+                "#999999", // 2024 — Cinza médio
+                "#E8E1E1", // 2023 — Branco acinzentado
+                "#666666"  // 2022 — Cinza escuro
             ];
 
             function tomCinza(posicao) { //função pra retornar um indice do degrade
@@ -538,9 +543,19 @@
                                 return mesesRotulos[Number(partes[1]) - 1] + "/" + partes[0].substring(2);
                             });
 
-                            graficoInteresseAno.data.datasets = ordemGeneros.map(function (genero) {
+                            var generosGrafico = ordemGeneros.slice();
+
+                            // Adiciona o gênero escolhido caso ele não esteja no Top 5
+                            if (generoDestaque && generosGrafico.indexOf(generoDestaque) == -1) {
+                                generosGrafico.push(generoDestaque);
+                            }
+
+                            graficoInteresseAno.data.datasets = generosGrafico.map(function (genero) {
                                 var valores = meses.map(function (data) {
-                                    var valor = valoresPorGenero[genero][data];
+                                    var valor = valoresPorGenero[genero]
+                                        ? valoresPorGenero[genero][data]
+                                        : undefined;
+
                                     return valor === undefined ? null : valor;
                                 });
 
@@ -549,7 +564,7 @@
                                 }
 
                                 var linha = criarLinha(genero, valores, tomCinza(indiceCinzaTop5), false);
-                                indiceCinzaTop5 += 2;
+                                indiceCinzaTop5++;
                                 return linha;
                             });
 
@@ -574,11 +589,11 @@
                         var anos = Object.keys(historicoPorAno).sort().reverse();
 
                         var cores = [
-                            "#36A2EB",
-                            "#FF6384",
-                            "#FFCE56",
-                            "#4BC0C0",
-                            "#9966FF"
+                            "#D6B64C", // 2026 — Amarelo
+                            "#C94F50", // 2025 — Vermelho
+                            "#999999", // 2024 — Cinza médio
+                            "#E8E1E1", // 2023 — Branco acinzentado
+                            "#666666"  // 2022 — Cinza escuro
                         ];
 
                         if (!graficoInteresseMeses || !graficoInteresseMeses.data) {
