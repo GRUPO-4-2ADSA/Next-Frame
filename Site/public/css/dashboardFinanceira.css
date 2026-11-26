@@ -345,7 +345,6 @@ body {
 /* ---------- KPI de cenário (pior / melhor) ---------- */
 .kpi-cenario {
     position: relative;
-    overflow: hidden;
     padding-bottom: 36px;
 }
 .kpi-cenario .titulo-kpi,

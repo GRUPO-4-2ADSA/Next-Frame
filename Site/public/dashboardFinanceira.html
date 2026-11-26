@@ -24,7 +24,7 @@
 
 <body onload="plotarInfoUsuario()">
 
-        <div class="header">
+    <div class="header">
         <div class="container-horizontal">
             <a href="index.html">
                 <img class="logo" src="assets/img/logo.png" alt="Next Frame">
@@ -123,11 +123,12 @@
                     <h6 class="descricao-kpi">US$ 10 MI ABAIXO DA RECEITA DESEJADA (US$ 40 MI)</h6>
                 </div>
                 <div class="box-kpi4">
-                    <span class="info-dica" tabindex="0"
-                        data-dica="Orçamento informado nos filtros.&#10;O 3% é a diferença na taxa de superávit entre a sua faixa e a faixa +20%.&#10;Fórmula: 50% − 47% = 3 pontos percentuais.&#10;Base: gráfico de % de sucesso por faixa de orçamento.">i</span>
+                    <span class="info-dica" id="dicaOrcamento" tabindex="0"
+                        data-dica="Carregando informações...">i</span>
                     <h6 class="titulo-kpi">SEU ORÇAMENTO</h6>
                     <h5 class="informacao-kpi" id="infoKpiMeuOrcamento">US$XXmi</h5>
-                    <h6 class="descricao-kpi">AUMENTO NO ORÇAMENTO NÃO IMPACTA SIGNIFICATIVAMENTE O SUCESSO(+3%)</h6>
+                    <h6 class="descricao-kpi" id="textoIndicativoOrcamento">AUMENTO NO ORÇAMENTO NÃO IMPACTA
+                        SIGNIFICATIVAMENTE O SUCESSO(+3%)</h6>
                 </div>
 
                 <div class="box-kpi5 kpi-cenario melhor" id="kpiCenario">
@@ -155,7 +156,7 @@
                 <!-- % de sucesso por faixa de orçamento -->
                 <div class="box-linha">
                     <span class="info-dica" tabindex="0"
-                        data-dica="O QUE É: para orçamentos perto do seu, quantos filmes deram superávit, neutro ou déficit.&#10;COMO CALCULA: faixas de −40%, −20%, a sua, +20% e +40% em torno de US$ 20 mi. Superávit é ROI acima de +10% e déficit, abaixo de −10%. Cada barra soma 100%.&#10;COMO LER: se o amarelo passa da linha tracejada (taxa segura do seu perfil, 60%), a faixa atende o perfil.">i</span>
+                        data-dica="O QUE É: distribuição dos filmes por resultado financeiro em diferentes faixas de orçamento.&#10;COMO CALCULA: compara cinco cenários, de -40% a +40% do orçamento informado. Superávit representa receita maior que orçamento, déficit representa receita menor que orçamento e neutro representa valores iguais. Cada barra soma 100%.&#10;COMO LER: compare a porcentagem de superávit com a linha tracejada, que representa o limite mínimo de risco médio definido pelo perfil da empresa.">i</span>
                     <h3 class="titulo-grafico">% DE SUCESSO POR FAIXA DE ORÇAMENTO</h3>
 
                     <div class="legenda">
@@ -197,7 +198,7 @@
             <div class="grafico">
                 <div class="container-grafico empilhado">
 
-                    
+
                     <!-- ROI mediano do gênero por período -->
                     <div class="box-grafico2">
                         <span class="info-dica" tabindex="0"
@@ -297,16 +298,16 @@
 
 <script>
 
-                // ---------- Verificação do perfil do usuário ----------
-            document.addEventListener("DOMContentLoaded", function () {
-                let cargo = sessionStorage.getItem("CARGO_USUARIO");
-                if (cargo === "Gestor") {
-                    let itens = document.querySelectorAll(".menu-gerenciamento");
-                    for (let i = 0; i < itens.length; i++) {
-                        itens[i].style.display = "";
-                    }
-                }
-            });
+    // ---------- Verificação do perfil do usuário ----------
+    document.addEventListener("DOMContentLoaded", function () {
+        let cargo = sessionStorage.getItem("CARGO_USUARIO");
+        if (cargo === "Gestor") {
+            let itens = document.querySelectorAll(".menu-gerenciamento");
+            for (let i = 0; i < itens.length; i++) {
+                itens[i].style.display = "";
+            }
+        }
+    });
 
     // ---------- Botão Baixar: gera o PDF em página única ----------
     let botaoBaixar = document.getElementById('botaoBaixar');
@@ -344,38 +345,32 @@
     // ---------- Gráficos ----------
     Chart.defaults.color = '#d8d2ce';
 
-    // ---------- % de sucesso por faixa de orçamento ----------
-    let faixasOrcamento = [
-        ['US$ 12 mi', '(-40%)'],
-        ['US$ 16 mi', '(-20%)'],
-        ['US$ 20 mi', '(sua faixa)'],
-        ['US$ 24 mi', '(+20%)'],
-        ['US$ 28 mi', '(+40%)']
-    ];
-    let deficit = [10, 15, 14, 16, 15];
-    let neutro = [60, 50, 39, 34, 36];
-    let superavit = [30, 35, 47, 50, 49];
 
-    // Plugin para desenhar a linha tracejada de ponta a ponta (da borda esquerda à direita do gráfico)
+    var taxaMinimaRiscoMedio = null;
+
+    // Plugin para desenhar a linha conforme o perfil da empresa
     let pluginLinhaPontaAPonta = {
         id: 'linhaPontaAPonta',
+
         afterDatasetsDraw: function (chart) {
+
+            if (taxaMinimaRiscoMedio === null) return;
+
             let ctx = chart.ctx;
             let chartArea = chart.chartArea;
             let yScale = chart.scales.y;
 
-            // Calcula a posição Y exata da taxa segura (40%)
-            let yPos = yScale.getPixelForValue(40);
+            let yPos = yScale.getPixelForValue(taxaMinimaRiscoMedio);
 
             ctx.save();
             ctx.beginPath();
-            ctx.setLineDash([4, 6]); // Estilo tracejado
+            ctx.setLineDash([4, 6]);
             ctx.lineWidth = 2;
             ctx.strokeStyle = '#ffffff';
 
-            // Desenha da extremidade esquerda até a extremidade direita da área do gráfico
             ctx.moveTo(chartArea.left, yPos);
             ctx.lineTo(chartArea.right, yPos);
+
             ctx.stroke();
             ctx.restore();
         }
@@ -383,47 +378,6 @@
 
     const ctxEmpilhado = document.getElementById('graficoEmpilhado');
 
-    new Chart(ctxEmpilhado, {
-        type: 'bar',
-        plugins: [ChartDataLabels, pluginLinhaPontaAPonta],
-        data: {
-            labels: faixasOrcamento,
-            datasets: [
-                { label: 'Superávit', data: superavit, backgroundColor: '#ffc400', datalabels: { color: '#2a2624' } },
-                { label: 'Neutro', data: neutro, backgroundColor: '#7d7d7d', datalabels: { anchor: 'end', align: 'start' } },
-                { label: 'Déficit', data: deficit, backgroundColor: '#ff3030', borderRadius: { topLeft: 8, topRight: 8 }, borderSkipped: false }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { stacked: true, grid: { display: false } },
-                y: {
-                    stacked: true,
-                    min: 0,
-                    max: 100,
-                    grid: { color: 'rgba(255, 255, 255, 0.08)' },
-                    ticks: {
-                        stepSize: 20,
-                        callback: function (valor) {
-                            return valor + '%';
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: { display: false },
-                datalabels: {
-                    color: '#232222',
-                    font: { weight: 'bold', size: 14 },
-                    formatter: function (valor) {
-                        return valor + '%';
-                    }
-                }
-            }
-        }
-    });
 
     // ---------- ROI mediano do gênero por período ----------
     let generoSelecionado = 'Terror';
@@ -729,16 +683,16 @@
     // ---------- KPI de cenário: alternar pior / melhor ----------
     let cenarios = {
         pior: {
-            titulo: 'ROI no pior cenário (P10)',
-            valor: '0,5x',
-            detalhe: '0,95x abaixo da mediana geral do gênero (1,45x)',
-            dica: 'O QUE É: o retorno dos 10% piores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P10, o ROI abaixo do qual ficam só 10% dos filmes. ROI = receita ÷ orçamento.\nCOMO LER: 0,5x significa US$ 1 virando US$ 0,50 nos piores casos. O texto abaixo compara com a mediana geral do gênero.'
+            titulo: 'ROI no pior cenário (10% piores)',
+            valor: '—',
+            detalhe: 'AGUARDANDO ANÁLISE...',
+            dica: 'O QUE É: a média do retorno por dólar dos 10% piores filmes semelhantes.\nCOMO CALCULA: seleciona os 10% menores retornos por dólar entre os filmes do mesmo gênero e com orçamento dentro da margem de ±20%. Retorno por dólar = receita ÷ orçamento.\nCOMO LER: o valor representa quanto cada US$ 1 investido gerou em receita. Valores abaixo de 1x indicam que a receita foi inferior ao orçamento investido.'
         },
         melhor: {
-            titulo: 'ROI no melhor cenário (P90)',
-            valor: '4x',
-            detalhe: '2,55x acima da mediana geral do gênero (1,45x)',
-            dica: 'O QUE É: o retorno dos 10% melhores filmes semelhantes (cerca de 9 de 87).\nCOMO CALCULA: P90, o ROI que só 10% dos filmes superaram. ROI = receita ÷ orçamento.\nCOMO LER: 4x significa US$ 1 virando US$ 4 nos melhores casos. O texto abaixo compara com a mediana geral do gênero.'
+            titulo: 'ROI no melhor cenário (10% melhores)',
+            valor: '—',
+            detalhe: 'AGUARDANDO ANÁLISE...',
+            dica: 'O QUE É: a média do retorno por dólar dos 10% melhores filmes semelhantes.\nCOMO CALCULA: seleciona os 10% maiores retornos por dólar entre os filmes do mesmo gênero e com orçamento dentro da margem de ±20%. Retorno por dólar = receita ÷ orçamento.\nCOMO LER: o valor representa quanto cada US$ 1 investido gerou em receita. O texto abaixo compara com a mediana geral do gênero.'
         }
     };
 
@@ -787,19 +741,377 @@
         });
     }
 
+    function plotarKpiMelhorCenario(dados) {
+
+        if (!dados) {
+
+            cenarios.melhor.valor = "—";
+
+            cenarios.melhor.detalhe =
+                "DADOS INSUFICIENTES PARA CÁLCULO";
+
+            cenarios.melhor.dica =
+                "O QUE É: a média do retorno por dólar dos 10% melhores filmes semelhantes.\n" +
+                "COMO CALCULA: utiliza filmes do mesmo gênero e com orçamento dentro da margem de ±20%.\n" +
+                "COMO LER: não existem filmes válidos suficientes para realizar o cálculo.";
+
+        } else {
+
+            cenarios.melhor.valor = dados.valor;
+
+            cenarios.melhor.detalhe = dados.detalhe;
+
+            cenarios.melhor.dica =
+                "O QUE É: a média do retorno por dólar dos 10% melhores filmes semelhantes (cerca de " +
+                dados.quantidadeSelecionada + " de " +
+                dados.quantidadeFilmesValidos + ").\n" +
+
+                "COMO CALCULA: seleciona os 10% maiores retornos por dólar dos filmes do mesmo gênero e com orçamento dentro da margem de ±20%. " +
+                "Retorno por dólar = receita ÷ orçamento. A média é calculada somente sobre os filmes selecionados.\n" +
+
+                "COMO LER: " + dados.valor +
+                " significa que cada US$ 1 investido gerou US$ " +
+                dados.valor.replace("x", "") +
+                " em receita. O texto abaixo compara esse resultado com a mediana geral do gênero (" +
+                (dados.medianaFormatada || "indisponível") + ").";
+        }
+
+        if (cenarioAtual === "melhor") {
+            mostrarCenario("melhor");
+        }
+    }
+
+    function plotarKpiPiorCenario(dados) {
+
+        if (!dados) {
+
+            cenarios.pior.valor = "—";
+
+            cenarios.pior.detalhe =
+                "DADOS INSUFICIENTES PARA CÁLCULO";
+
+            cenarios.pior.dica =
+                "O QUE É: a média do retorno por dólar dos 10% piores filmes semelhantes.\n" +
+                "COMO CALCULA: utiliza filmes do mesmo gênero e com orçamento dentro da margem de ±20%.\n" +
+                "COMO LER: não existem filmes válidos suficientes para realizar o cálculo.";
+
+        } else {
+
+            cenarios.pior.valor = dados.valor;
+
+            cenarios.pior.detalhe = dados.detalhe;
+
+            cenarios.pior.dica =
+                "O QUE É: a média do retorno por dólar dos 10% piores filmes semelhantes (cerca de " +
+                dados.quantidadeSelecionada + " de " +
+                dados.quantidadeFilmesValidos + ").\n" +
+
+                "COMO CALCULA: seleciona os 10% menores retornos por dólar dos filmes do mesmo gênero e com orçamento dentro da margem de ±20%. " +
+                "Retorno por dólar = receita ÷ orçamento. A média é calculada somente sobre os filmes selecionados.\n" +
+
+                "COMO LER: " + dados.valor +
+                " significa que cada US$ 1 investido gerou US$ " +
+                dados.valor.replace("x", "") +
+                " em receita. Valores abaixo de 1x indicam que a receita não recuperou integralmente o orçamento investido. " +
+                "O texto abaixo compara esse resultado com a mediana geral do gênero (" +
+                (dados.medianaFormatada || "indisponível") + ").";
+        }
+
+        if (cenarioAtual === "pior") {
+            mostrarCenario("pior");
+        }
+    }
+
     // ---------- KPI de cenário: alternar pior / melhor ----------
-    document.addEventListener("DOMContentLoaded", plotarKpiMeuOrcamento);
+
+    var analiseOrcamento = {};
+
+    document.addEventListener("DOMContentLoaded", function () {
+        buscarAnaliseOrcamento();
+    });
+
+    function buscarAnaliseOrcamento() {
+
+        var idUsuario = Number(sessionStorage.getItem("ID_USUARIO"));
+
+        var orcamento = Number(
+            sessionStorage.getItem("ORCAMENTO_USUARIO")
+        );
+
+        var genero = sessionStorage.getItem("AVALIACAO_GENERO");
+
+        if (!Number.isFinite(orcamento) || orcamento <= 0) {
+            console.log("Orçamento inválido ou não encontrado.");
+            return;
+        }
+
+        if (!genero || genero.trim() === "") {
+            console.log("Gênero não encontrado.");
+            return;
+        }
+
+        if (!Number.isInteger(idUsuario) || idUsuario <= 0) {
+            console.log("ID do usuário inválido ou não encontrado.");
+            return;
+        }
+
+        fetch("/analise-orcamento/analisar", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                orcamentoServer: orcamento,
+                generoServer: genero,
+                idUsuarioServer: idUsuario
+            })
+        })
+            .then(function (resposta) {
+
+                if (!resposta.ok) {
+                    throw new Error("Erro ao consultar análise de orçamento.");
+                }
+
+                return resposta.json();
+            })
+            .then(function (dados) {
+
+                analiseOrcamento = dados;
+
+                // Atualiza a linha e as barras do gráfico
+                plotarGraficoOrcamento();
+
+                // Atualiza a KPI do orçamento
+                plotarKpiMeuOrcamento();
+
+                // Atualiza a KPI do melhor cenário
+                plotarKpiMelhorCenario(dados.roiMelhorCenario);
+
+                // Atualiza a KPI do pior cenário
+                plotarKpiPiorCenario(dados.roiPiorCenario);
+
+            })
+            .catch(function (erro) {
+                console.log("Erro na análise de orçamento:", erro);
+            });
+    }
+
 
     function plotarKpiMeuOrcamento() {
         let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+
+        if (!orcamento) return;
+
         orcamento = orcamento.replace(".", "");
 
         if (orcamento.length >= 7) {
-            orcamento = orcamento.slice(0, -7) + "mi";
+            orcamento = orcamento.slice(0, -6) + "mi";
         } else if (orcamento.length >= 4) {
             orcamento = orcamento.slice(0, -3) + " mil";
         }
 
         infoKpiMeuOrcamento.innerHTML = "US$ " + orcamento;
+
+        if (!analiseOrcamento.padrao || !analiseOrcamento.mais20) {
+            textoIndicativoOrcamento.innerHTML = "DADOS INSUFICIENTES PARA COMPARAÇÃO";
+            return;
+        }
+
+        let padrao = analiseOrcamento.padrao;
+        let mais20 = analiseOrcamento.mais20;
+
+        if (padrao.quantidadeFilmes === 0 || mais20.quantidadeFilmes === 0) {
+            textoIndicativoOrcamento.innerHTML = "DADOS INSUFICIENTES PARA COMPARAÇÃO";
+            return;
+        }
+
+        let diferenca = mais20.porcentagemSuperavit -
+            padrao.porcentagemSuperavit;
+
+        if (diferenca > 0) {
+            textoIndicativoOrcamento.innerHTML =
+                "AUMENTO NO ORÇAMENTO FAVORECE O SUCESSO (+" +
+                diferenca.toFixed(2).replace(".", ",") + " p.p.)";
+
+        } else if (diferenca < 0) {
+            textoIndicativoOrcamento.innerHTML =
+                "AUMENTO NO ORÇAMENTO REDUZ O SUCESSO (" +
+                diferenca.toFixed(2).replace(".", ",") + " p.p.)";
+
+        } else {
+            textoIndicativoOrcamento.innerHTML =
+                "AUMENTO NO ORÇAMENTO NÃO ALTERA O SUCESSO (0 p.p.)";
+        }
+
+        let dica = document.getElementById("dicaOrcamento");
+
+        dica.setAttribute("data-dica",
+            "Orçamento informado nos filtros.\n" +
+            "A diferença de " + Math.abs(diferenca).toFixed(2).replace(".", ",") +
+            " p.p. representa a variação na taxa de superávit entre a sua faixa (" +
+            padrao.porcentagemSuperavit.toFixed(2).replace(".", ",") + "%) e a faixa +20% (" +
+            mais20.porcentagemSuperavit.toFixed(2).replace(".", ",") + "%).\n" +
+            "Fórmula: " +
+            mais20.porcentagemSuperavit.toFixed(2).replace(".", ",") + "% − " +
+            padrao.porcentagemSuperavit.toFixed(2).replace(".", ",") + "% = " +
+            diferenca.toFixed(2).replace(".", ",") + " p.p.\n" +
+            "Base: gráfico de % de sucesso por faixa de orçamento."
+        );
     }
+
+
+    // ---------- % de sucesso por faixa de orçamento ----------
+
+    let graficoEmpilhado = new Chart(ctxEmpilhado, {
+        type: 'bar',
+
+        plugins: [
+            ChartDataLabels,
+            pluginLinhaPontaAPonta
+        ],
+
+        data: {
+            labels: [],
+
+            datasets: [
+                {
+                    label: 'Superávit',
+                    data: [],
+                    backgroundColor: '#ffc400',
+                    datalabels: {
+                        color: '#2a2624'
+                    }
+                },
+                {
+                    label: 'Neutro',
+                    data: [],
+                    backgroundColor: '#7d7d7d',
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'start'
+                    }
+                },
+                {
+                    label: 'Déficit',
+                    data: [],
+                    backgroundColor: '#ff3030',
+                    borderRadius: {
+                        topLeft: 8,
+                        topRight: 8
+                    },
+                    borderSkipped: false
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+                x: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    }
+                },
+
+                y: {
+                    stacked: true,
+                    min: 0,
+                    max: 100,
+
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.08)'
+                    },
+
+                    ticks: {
+                        stepSize: 20,
+
+                        callback: function (valor) {
+                            return valor + '%';
+                        }
+                    }
+                }
+            },
+
+            plugins: {
+                legend: {
+                    display: false
+                },
+
+                datalabels: {
+                    color: '#232222',
+
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+
+                    formatter: function (value) {
+                        if (Number(value) === 0) {
+                            return '';
+                        }
+
+                        return value + '%';
+                    }
+                }
+            }
+        }
+    });
+
+
+    // ---------- Atualizar gráfico com dados do MVC ----------
+
+    function plotarGraficoOrcamento() {
+
+        let cenarios = [
+            { chave: 'menos40', legenda: '(-40%)' },
+            { chave: 'menos20', legenda: '(-20%)' },
+            { chave: 'padrao', legenda: '(sua faixa)' },
+            { chave: 'mais20', legenda: '(+20%)' },
+            { chave: 'mais40', legenda: '(+40%)' }
+        ];
+
+        let faixasOrcamento = [];
+        let deficit = [];
+        let neutro = [];
+        let superavit = [];
+
+        for (let i = 0; i < cenarios.length; i++) {
+
+            let cenario = analiseOrcamento[cenarios[i].chave];
+
+            if (!cenario) continue;
+
+            let orcamentoMilhoes = (cenario.orcamento / 1000000)
+                .toLocaleString('pt-BR', {
+                    maximumFractionDigits: 2
+                });
+
+            faixasOrcamento.push([
+                'US$ ' + orcamentoMilhoes + ' mi',
+                cenarios[i].legenda
+            ]);
+
+            deficit.push(cenario.porcentagemDeficit);
+            neutro.push(cenario.porcentagemNeutro);
+            superavit.push(cenario.porcentagemSuperavit);
+        }
+
+        graficoEmpilhado.data.labels = faixasOrcamento;
+
+        graficoEmpilhado.data.datasets[0].data = superavit;
+        graficoEmpilhado.data.datasets[1].data = neutro;
+        graficoEmpilhado.data.datasets[2].data = deficit;
+
+        // Atualiza a linha conforme o perfil da empresa
+        taxaMinimaRiscoMedio = analiseOrcamento.taxaMinimaRiscoMedio;
+
+        graficoEmpilhado.update();
+    }
+
+
 </script>
