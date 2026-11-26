@@ -51,16 +51,22 @@ function buscarDadosGoogleTrends(req, res) {
 
             var generoSelecionado = avaliacoes[0].genero.trim();
 
+            if (generoSelecionado == "Horror") {
+                generoSelecionado = "Terror";
+            }
+
             // Busca os dados do Google Trends
             return Promise.all([
-                dashboardComparativaModel.buscarTop5Generos(),
+                dashboardComparativaModel.buscarTop5Generos(generoSelecionado),
                 dashboardComparativaModel.buscarHistoricoGenero(generoSelecionado),
                 dashboardComparativaModel.buscarUltimaDataInteresse()
             ]).then(function (dadosTrends) {
 
-                var top5Generos = dadosTrends[0];
+                var top5Generos = dadosTrends[0]
                 var historicoGenero = dadosTrends[1];
-                var ultimaData = dadosTrends[2][0].ultimaData;
+                var ultimaData = dadosTrends[2].length > 0
+                    ? dadosTrends[2][0].ultimaData
+                    : null;
 
                 // Verifica se existem dados coletados
                 if (ultimaData == null) {
@@ -106,9 +112,16 @@ function buscarDadosGoogleTrends(req, res) {
                         } else {
                             movimento = "manteve";
                         }
+
+                    } else if (posicaoAtual != null && posicaoAnterior == null) {
+                        movimento = "entrou";
+
+                    } else if (posicaoAtual == null && posicaoAnterior != null) {
+                        movimento = "saiu";
                     }
 
                     res.status(200).json({
+                        
                         top5: top5Generos,
                         historico: historicoGenero,
                         kpi: {

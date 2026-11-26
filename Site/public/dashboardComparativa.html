@@ -281,58 +281,6 @@
                 return paletaCinza[posicao];
             }
 
-
-            // ---------- Rosca: desempenho financeiro -----------
-            new Chart(document.getElementById('graficoPizza'), {
-                type: 'doughnut',
-                plugins: [ChartDataLabels],
-                data: {
-                    labels: ['Déficit', 'Neutro', 'Superávit'],
-                    datasets: [{
-                        data: [21, 7, 59],
-                        backgroundColor: ['#ff3b30', '#d9d0c4', '#ffc400'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '60%',
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: { color: '#dce6f2', usePointStyle: true }
-                        },
-                        datalabels: {
-                            font: { weight: 'bold', size: 14 },
-                            color: '#2a2624',
-                            formatter: function (valor, contexto) {
-                                let lista = contexto.dataset.data;
-                                let total = 0;
-                                for (let i = 0; i < lista.length; i++) {
-                                    total = total + lista[i];
-                                }
-                                return Math.round((valor / total) * 100) + '%';
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    let valor = context.raw;
-                                    let lista = context.dataset.data;
-                                    let total = 0;
-                                    for (let i = 0; i < lista.length; i++) {
-                                        total = total + lista[i];
-                                    }
-                                    let porcentagem = ((valor / total) * 100).toFixed(1);
-                                    return context.label + ': ' + valor + ' filmes (' + porcentagem + '%)';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
             // Séries mensais do Google Trends (Jan a Dez + Jan do próximo ano)
             let mesesRotulos = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
@@ -402,14 +350,10 @@
 
             // ---------- 1º GRÁFICO: Top 5 Gêneros Mais Buscados ----------
             let dadosTop5 = [
-                criarLinha('Terror', [36, 42, 43, 44, 41, 41, 52, 76, 58, 41, 51, 78], corDestaque, true),
-                criarLinha('Ação', [59, 60, 61, 67, 70, 73, 69, 60, 57, 61, 62, 59], tomCinza(0), false),
-                criarLinha('Comédia', [52, 56, 55, 52, 54, 55, 56, 56, 53, 52, 58, 61], tomCinza(2), false),
-                criarLinha('Romance', [45, 55, 46, 43, 45, 52, 43, 43, 42, 43, 47, 50], tomCinza(4), false),
-                criarLinha('Ficção científica', [35, 35, 36, 37, 39, 36, 37, 37, 34, 35, 39, 40], tomCinza(6), false)
+
             ];
 
-            new Chart(document.getElementById('graficoInteresseAno'), {
+            var graficoInteresseAno = new Chart(document.getElementById('graficoInteresseAno'), {
                 type: 'line',
                 data: {
                     labels: rotulos12Meses,
@@ -420,14 +364,10 @@
 
             // ---------- 2º GRÁFICO: Interesse em Terror por Mês nos últimos anos ----------
             let dadosTerrorAnos = [
-                criarLinha('2026', [37, 33, 34, 37, 43, 44, 41, 41, 52, 76], corDestaque, true),
-                criarLinha('2025', [36, 32, 33, 36, 42, 43, 40, 40, 51, 74, 58, 41], tomCinza(1), false),
-                criarLinha('2024', [35, 31, 32, 35, 41, 42, 39, 39, 50, 73, 57, 40], tomCinza(3), false),
-                criarLinha('2023', [34, 30, 31, 34, 40, 41, 38, 38, 49, 72, 56, 39], tomCinza(5), false),
-                criarLinha('2022', [33, 29, 30, 33, 39, 40, 37, 37, 48, 70, 55, 38], tomCinza(7), false)
+
             ];
 
-            new Chart(document.getElementById('graficoInteresseMeses'), {
+            var graficoInteresseMeses = new Chart(document.getElementById('graficoInteresseMeses'), {
                 type: 'line',
                 data: {
                     labels: mesesRotulos,
@@ -503,6 +443,166 @@
                 }
             });
 
+            function carregarDadosGoogleTrends() {
+                var idAvaliacao = sessionStorage.getItem("ID_AVALIACAO");
+                var idUsuario = sessionStorage.getItem("ID_USUARIO");
+
+                if (!idAvaliacao || !idUsuario) {
+                    console.error("Avaliação ou usuário não identificado.");
+                    return;
+                }
+
+                fetch(`/dashboard-comparativa/googleTrends/${idAvaliacao}/${idUsuario}`)
+                    .then(function (resposta) {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao buscar dados do Google Trends.");
+                        }
+
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("Dados do Google Trends:", dados);
+
+                        // Atualiza o KPI de interesse do público
+                        if (dados.kpi != null) {
+                            var elementoPosicao = document.querySelector(".box-kpi4 .informacao-kpi");
+                            var elementoDescricao = document.querySelector(".box-kpi4 .descricao-kpi");
+
+                            var tituloInteresse = document.querySelector(
+                                ".box-linha:last-child .titulo-grafico"
+                            );
+
+                            tituloInteresse.textContent =
+                                "INTERESSE EM " + dados.kpi.genero.toUpperCase() +
+                                " POR MÊS NOS ÚLTIMOS 5 ANOS — GOOGLE TRENDS";
+
+                            var seta = elementoPosicao.querySelector("img");
+
+                            if (dados.kpi.movimento == "subiu") {
+                                seta.src = "assets/img/seta_cima.svg";
+                            } else if (dados.kpi.movimento == "caiu") {
+                                seta.src = "assets/img/seta_baixo.svg";
+                            }
+
+                            elementoPosicao.innerHTML = "";
+
+                            if (dados.kpi.posicaoAtual == null) {
+                                seta.style.display = "none";
+                                elementoPosicao.textContent = "FORA DO TOP 10";
+                            } else {
+                                seta.style.display = "inline";
+                                elementoPosicao.appendChild(seta);
+                                elementoPosicao.append(" " + dados.kpi.posicaoAtual + "º/10");
+                            }
+
+                            var diferenca = Math.abs(dados.kpi.diferenca);
+
+                            var textoPosicao = diferenca == 1
+                                ? " POSIÇÃO EM RELAÇÃO AO MÊS ANTERIOR"
+                                : " POSIÇÕES EM RELAÇÃO AO MÊS ANTERIOR";
+
+                            elementoDescricao.textContent =
+                                dados.kpi.posicaoAtual == null
+                                    ? "GÊNERO FORA DO TOP 10"
+                                    : dados.kpi.movimento == "subiu"
+                                        ? "SUBIU " + diferenca + textoPosicao
+                                        : dados.kpi.movimento == "caiu"
+                                            ? "CAIU " + diferenca + textoPosicao
+                                            : "MANTEVE A MESMA POSIÇÃO EM RELAÇÃO AO MÊS ANTERIOR";
+                        }
+
+                        // Atualiza o gráfico Top 5 gêneros mais buscados
+                        if (dados.top5.length > 0) {
+                            var meses = [];
+                            var valoresPorGenero = {};
+                            var ordemGeneros = [];
+
+                            dados.top5.forEach(function (registro) {
+                                if (meses.indexOf(registro.data) == -1) {
+                                    meses.push(registro.data);
+                                }
+                                if (!valoresPorGenero[registro.genero]) {
+                                    valoresPorGenero[registro.genero] = {};
+                                    ordemGeneros.push(registro.genero);
+                                }
+                                valoresPorGenero[registro.genero][registro.data] = Number(registro.interesse);
+                            });
+
+                            meses.sort();
+
+                            var generoDestaque = dados.kpi != null ? dados.kpi.genero : null;
+                            var indiceCinzaTop5 = 0;
+
+                            graficoInteresseAno.data.labels = meses.map(function (data) {
+                                var partes = data.split("-");
+                                return mesesRotulos[Number(partes[1]) - 1] + "/" + partes[0].substring(2);
+                            });
+
+                            graficoInteresseAno.data.datasets = ordemGeneros.map(function (genero) {
+                                var valores = meses.map(function (data) {
+                                    var valor = valoresPorGenero[genero][data];
+                                    return valor === undefined ? null : valor;
+                                });
+
+                                if (genero == generoDestaque) {
+                                    return criarLinha(genero, valores, corDestaque, true);
+                                }
+
+                                var linha = criarLinha(genero, valores, tomCinza(indiceCinzaTop5), false);
+                                indiceCinzaTop5 += 2;
+                                return linha;
+                            });
+
+                            graficoInteresseAno.update();
+                        }
+
+                        var historicoPorAno = {};
+
+                        dados.historico.forEach(function (registro) {
+                            var partesData = String(registro.data).substring(0, 10).split("-");
+
+                            var ano = Number(partesData[0]);
+                            var mes = Number(partesData[1]) - 1;
+
+                            if (!historicoPorAno[ano]) {
+                                historicoPorAno[ano] = Array(12).fill(null);
+                            }
+
+                            historicoPorAno[ano][mes] = Number(registro.interesse);
+                        });
+
+                        var anos = Object.keys(historicoPorAno).sort().reverse();
+
+                        var cores = [
+                            "#36A2EB",
+                            "#FF6384",
+                            "#FFCE56",
+                            "#4BC0C0",
+                            "#9966FF"
+                        ];
+
+                        if (!graficoInteresseMeses || !graficoInteresseMeses.data) {
+                            console.error("Gráfico de interesse mensal não foi inicializado.");
+                            return;
+                        }
+
+                        graficoInteresseMeses.data.datasets = anos.map(function (ano, indice) {
+                            return {
+                                label: ano,
+                                data: historicoPorAno[ano],
+                                borderColor: cores[indice % cores.length],
+                                backgroundColor: cores[indice % cores.length],
+                                tension: 0.3
+                            };
+                        });
+
+                        graficoInteresseMeses.update();
+                    })
+                    .catch(function (erro) {
+                        console.error("Erro no Google Trends:", erro);
+                    });
+            }
+
 
             function carregarDadosComparativa() {
 
@@ -551,7 +651,7 @@
                         var kpi = dados.kpi;
 
                         document.getElementById("posicaoGenero").textContent =
-                            kpi.posicao ? kpi.posicao + "º/10" : "Fora do Top 10";
+                            kpi.posicao ? kpi.posicao + "º/10" : "FORA DO TOP 10";
 
                         var roiGenero = kpi.roiMediano != null
                             ? kpi.roiMediano + "%"
@@ -583,6 +683,7 @@
             }
 
             carregarDadosComparativa();
+            carregarDadosGoogleTrends();
 
         </script>
     </main>
