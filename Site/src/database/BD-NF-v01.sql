@@ -87,6 +87,7 @@ CREATE TABLE filme (
     data_lanc DATE
 );
 
+<<<<<<< HEAD
 CREATE TABLE HistoricoAvaliacao (
     id_historico INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -95,6 +96,17 @@ CREATE TABLE HistoricoAvaliacao (
     historico_genero VARCHAR(20) NOT NULL,
 
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+=======
+
+
+CREATE TABLE historicoAvaliacao (
+	id_historico 	INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario		INT NOT NULL,
+    orcamento 		INT NOT NULL,
+    receita 		INT NOT NULL,
+    genero 			VARCHAR(20) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+>>>>>>> 1d7ac5a70f10ce79e701428f4e33955aed16c7ff
 );
 
 CREATE TABLE pesquisa_mid (
@@ -120,6 +132,7 @@ CREATE TABLE interesse (
 
 CREATE INDEX idx_interesse_data ON interesse(data_ref);
 
+<<<<<<< HEAD
 -- Gêneros
 INSERT INTO pesquisa_mid (nome, termo_busca) VALUES
 ('Terror', '/m/03npn'),
@@ -138,15 +151,38 @@ INSERT INTO pesquisa_mid (nome, termo_busca) VALUES
 ('Documentário', '/m/0jtdp'),
 ('Romance', '/m/02l7c8'),
 ('Drama', 'drama movie');
+=======
+-- Gêneros (Terror primeiro: é a âncora usada pelo coletor)
+INSERT INTO genero (nome, termo_busca) VALUES
+    ('Action', '/m/02kdv5l'),
+    ('Adventure', '/m/03k9fj'),
+    ('Animation', '/g/120pnns2'),
+    ('Comedy', '/m/05p553'),
+    ('Crime', '/m/0119mbcs'),
+    ('Documentary', '/m/0jtdp'),
+    ('Drama', '/g/11bwdpgj8t'),
+    ('Family', '/g/1215clx1'),
+    ('Fantasy', '/m/011869tv'),
+    ('History', '/g/12290z2k'),
+    ('Horror', '/m/03npn'),
+    ('Music', '/m/04t36'),
+    ('Mystery', '/m/01199x0y'),
+    ('Romance', '/m/02l7c8'),
+    ('Science Fiction', '/m/0119r056'),
+    ('Thriller', '/g/122hp9x6'),
+    ('TV Movie','/m/015w9s'),
+    ('War', '/m/082gq'),
+    ('Western', '/m/0hfjk');
+>>>>>>> 1d7ac5a70f10ce79e701428f4e33955aed16c7ff
 
-INSERT INTO Empresa
+INSERT INTO empresa
     (nome, razao_social, cnpj, taxa_sucesso_segura, cod_empresa)
 VALUES
 ('Ibirá Filmes', 'Ibirá Produções Cinematográficas Ltda', '12345678000190', 75.50, 'IBIRA001'),
 ('Aurora Pictures', 'Aurora Pictures Produções Ltda', '23456789000101', 82.30, 'AUROR002'),
 ('Horizonte Studios', 'Horizonte Studios Entretenimento Ltda', '34567890000112', 68.75, 'HORIZ003');
 
-INSERT INTO Usuario
+INSERT INTO usuario
     (id_empresa, nome, cargo, email, cpf, dt_nascimento, senha, ativo)
 VALUES
 
