@@ -18,7 +18,7 @@ function buscarMesAnterior(data) {
     return ano + "-" + String(mes).padStart(2, "0") + "-01";
 }
 
-function buscarDadosInteresse(req, res) {
+function buscarDadosGoogleTrends(req, res) {
 
     var idAvaliacao = Number(req.params.idAvaliacao);
     var idUsuario = Number(req.params.idUsuario);
@@ -38,6 +38,14 @@ function buscarDadosInteresse(req, res) {
             if (avaliacoes.length == 0) {
                 return res.status(404).json({
                     mensagem: "Avaliação não encontrada."
+                });
+            }
+
+            if (typeof avaliacoes[0].genero != "string" ||
+                avaliacoes[0].genero.trim() == "") {
+
+                return res.status(400).json({
+                    mensagem: "Gênero da avaliação inválido."
                 });
             }
 
@@ -125,5 +133,5 @@ function buscarDadosInteresse(req, res) {
 }
 
 module.exports = {
-    buscarDadosInteresse
+    buscarDadosGoogleTrends
 };

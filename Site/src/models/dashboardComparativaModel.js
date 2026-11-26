@@ -72,7 +72,7 @@ function buscarHistoricoGenero(genero) {
         FROM poc_trends.interesse i
         JOIN poc_trends.genero g
             ON i.fk_genero = g.id
-        WHERE g.nome = '${genero}'
+        WHERE g.nome = ?
         AND i.geo = 'WW'
         AND i.data_ref >= DATE_SUB(
             (
@@ -85,18 +85,19 @@ function buscarHistoricoGenero(genero) {
         ORDER BY i.data_ref ASC;
     `;
 
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [genero]);
 }
 
 function buscarUltimaDataInteresse() {
     var instrucaoSql = `
-        SELECT MAX(data_ref, '%Y-%m-%d') AS ultimaData
+        SELECT DATE_FORMAT(MAX(data_ref), '%Y-%m-%d') AS ultimaData
         FROM poc_trends.interesse
         WHERE geo = 'WW';
     `;
 
     return database.executar(instrucaoSql);
 }
+
 
 function buscarPosicaoGenero(genero, dataReferencia) {
     var instrucaoSql = `
@@ -115,19 +116,19 @@ function buscarPosicaoGenero(genero, dataReferencia) {
         FROM poc_trends.interesse i
         JOIN poc_trends.genero g
             ON i.fk_genero = g.id
-        WHERE g.nome = '${genero}'
-        AND i.data_ref = '${dataReferencia}'
+        WHERE g.nome = ?
+        AND i.data_ref = ?
         AND i.geo = 'WW';
     `;
 
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [genero, dataReferencia]);
 }
 
 module.exports = {
     buscarAvaliacao,
     buscarFilmesComparativos,
     buscarTop5Generos,
-    buscarHistoricoGenero, 
+    buscarHistoricoGenero,
     buscarUltimaDataInteresse,
     buscarPosicaoGenero
 };
