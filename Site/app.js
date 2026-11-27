@@ -18,6 +18,7 @@ var analiseHistoricaRouter = require("./src/routes/analiseHistorica");
 var dashboardExecutivaRouter = require("./src/routes/dashboardExecutiva");
 var avaliacaoRouter = require("./src/routes/avaliacao")
 var riscoRouter = require("./src/routes/risco")
+var recorteRouter = require("./src/routes/recorte")
 
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
@@ -28,6 +29,7 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/recorte", recorteRouter);
 
 app.use(cors());
 

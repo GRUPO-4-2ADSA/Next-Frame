@@ -184,6 +184,9 @@
                     if (cargo === "Produtor Executivo" || cargo === "Gestor") {
                         sessionStorage.setItem("AVALIACAO_GENERO", genero);
                         sessionStorage.setItem("AVALIACAO_GENERO_NOME", pegarNomePortugues(genero));
+                            sessionStorage.setItem("ORCAMENTO_USUARIO", iptOrcamento.value);
+                            sessionStorage.setItem("RECEITA_USUARIO", receita);
+                            sessionStorage.setItem("GENERO_USUARIO", genero);
                         window.location.href = "dashboardExecutiva.html";
                     } else if (cargo === "Produtor Financeiro") {
                         window.location.href = "dashboardFinanceira.html";
