@@ -109,8 +109,46 @@ function buscarFilmesQueAtingiramReceita(req, res) {
         });
 }
 
+function buscarDesempenhoFinanceiro(req, res) {
+    var genero = req.body.generoServer;
+    var orcamento = Number(req.body.orcamentoServer);
+
+    if (genero == undefined || genero == "") {
+        return res.status(400).json({ mensagem: "O gênero está vazio!" });
+    }
+    if (!(orcamento > 0)) {
+        return res.status(400).json({ mensagem: "O orçamento é inválido!" });
+    }
+
+    recorteModel.buscarDesempenhoFinanceiro(genero, orcamento)
+        .then(function (resultado) {
+            var deficit = Number(resultado[0].deficit);
+            var neutro = Number(resultado[0].neutro);
+            var superavit = Number(resultado[0].superavit);
+            var quantidadeFilmes = deficit + neutro + superavit;
+
+            if (quantidadeFilmes == 0) {
+                return res.status(404).json({
+                    mensagem: "Nenhum filme encontrado para esse recorte."
+                });
+            }
+
+            res.status(200).json({
+                quantidadeFilmes: quantidadeFilmes,
+                deficit: deficit,
+                neutro: neutro,
+                superavit: superavit
+            });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ mensagem: "Erro ao calcular o desempenho financeiro." });
+        });
+}
+
 module.exports = {
     buscarReceitaMediana,
-    buscarFilmesQueAtingiramReceita
+    buscarFilmesQueAtingiramReceita,
+    buscarDesempenhoFinanceiro
 };
 

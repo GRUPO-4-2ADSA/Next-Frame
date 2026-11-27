@@ -166,15 +166,15 @@
                     </div>
 
                     <div class="faixa-meta">
-                        <div class="faixa-meta-topo">
-                            <span>Alcançaram a receita desejada (US$ 40 mi)</span>
-                            <strong>30%</strong>
-                        </div>
-                        <div class="faixa-barra">
-                            <div class="faixa-preenchimento"></div>
-                        </div>
-                        <p>26 de 87 filmes semelhantes</p>
-                    </div>
+                   <div class="faixa-meta-topo">
+                <span id="textoFaixaReceita">Alcançaram a receita desejada (US$ 40 mi)</span>
+                <strong id="porcentagemFaixaReceita">30%</strong>
+                  </div>
+                 <div class="faixa-barra">
+                 <div class="faixa-preenchimento" id="preenchimentoFaixaReceita"></div>
+                </div>
+                   <p id="descricaoFaixaReceita">26 de 87 filmes semelhantes</p>
+                   </div>
                 </div>
             </div>
         </div>
@@ -762,14 +762,79 @@ function plotarKpiReceitaAlvo() {
             }
 
             let dados = retorno.dados;
-            let textoReceita = formatarMilhoes(dados.receitaDesejada).toUpperCase();
+            let textoReceita = formatarMilhoes(dados.receitaDesejada);
 
+            // KPI
             infoKpiReceitaAlvo.innerHTML = dados.porcentagem + "%";
             descricaoKpiReceitaAlvo.innerHTML = dados.quantidadeAtingiram + " DE " + dados.quantidadeFilmes
-                + " FILMES SEMELHANTES FATURARAM " + textoReceita + " OU MAIS";
+                + " FILMES SEMELHANTES FATURARAM " + textoReceita.toUpperCase() + " OU MAIS";
+
+            // faixa embaixo da rosca
+            textoFaixaReceita.innerHTML = "Alcançaram a receita desejada (" + textoReceita + ")";
+            porcentagemFaixaReceita.innerHTML = dados.porcentagem + "%";
+            preenchimentoFaixaReceita.style.width = dados.porcentagem + "%";
+            descricaoFaixaReceita.innerHTML = dados.quantidadeAtingiram + " de " + dados.quantidadeFilmes + " filmes semelhantes";
+
+            // dica (i) da KPI
+            let dicaKpi = document.querySelector(".box-kpi8 .info-dica");
+            dicaKpi.setAttribute("data-dica",
+                "O QUE É: a parcela dos filmes que chegou na sua meta de receita.\n"
+                + "COMO CALCULA: filmes com " + textoReceita + " ou mais ÷ total de filmes semelhantes ("
+                + dados.quantidadeAtingiram + " ÷ " + dados.quantidadeFilmes + " = " + dados.porcentagem + "%).\n"
+                + "COMO LER: quanto menor, mais difícil é a meta para esse recorte. É retrato do passado, não previsão.");
+
+            // dica (i) da rosca
+            let dicaRosca = document.querySelector(".box-grafico2 .info-dica");
+            dicaRosca.setAttribute("data-dica",
+                "O QUE É: como os " + dados.quantidadeFilmes + " filmes semelhantes se dividem entre superávit, neutro e déficit.\n"
+                + "COMO CALCULA: pelo ROI. Superávit é acima de +10%, neutro entre −10% e +10% e déficit abaixo de −10%. "
+                + "A barra de baixo mostra quantos chegaram a " + textoReceita + ".\n"
+                + "COMO LER: quanto maior a fatia amarela, melhor o histórico. Clique na legenda para ocultar uma faixa.");
         })
         .catch(function (erro) {
             console.log("Erro ao buscar os filmes que atingiram a receita:", erro);
+        });
+}
+
+
+// ---------- Rosca: desempenho financeiro ----------
+document.addEventListener("DOMContentLoaded", plotarRoscaDesempenho);
+
+function plotarRoscaDesempenho() {
+    let genero = sessionStorage.getItem("GENERO_USUARIO");
+    let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+
+    if (genero == null || orcamento == null) {
+        return;
+    }
+
+    fetch("/recorte/desempenho-financeiro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            generoServer: genero,
+            orcamentoServer: orcamento.replace(/\D/g, "")
+        })
+    })
+        .then(function (resposta) {
+            return resposta.json().then(function (dados) {
+                return { ok: resposta.ok, dados: dados };
+            });
+        })
+        .then(function (retorno) {
+            if (!retorno.ok) {
+                console.log(retorno.dados.mensagem);
+                return;
+            }
+
+            let dados = retorno.dados;
+            let grafico = Chart.getChart("graficoPizza");
+
+            grafico.data.datasets[0].data = [dados.deficit, dados.neutro, dados.superavit];
+            grafico.update();
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar o desempenho financeiro:", erro);
         });
 }
         </script>
