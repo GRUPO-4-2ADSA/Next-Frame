@@ -125,8 +125,8 @@
                     <span class="info-dica" tabindex="0"
                         data-dica="O QUE É: a parcela dos filmes que chegou na sua meta de receita.&#10;COMO CALCULA: filmes com US$ 40 mi ou mais ÷ total de filmes semelhantes (26 ÷ 87 = 30%).&#10;COMO LER: quanto menor, mais difícil é a meta para esse recorte. É retrato do passado, não previsão.">i</span>
                     <h6 class="titulo-kpi">FILMES QUE ATINGIRAM A RECEITA DESEJADA</h6>
-                    <h5 class="informacao-kpi">30%</h5>
-                    <h6 class="descricao-kpi">26 DE 87 FILMES SEMELHANTES FATURARAM US$ 40 MI OU MAIS</h6>
+                    <h5 class="informacao-kpi" id="infoKpiReceitaAlvo"></h5>
+                    <h6 class="descricao-kpi" id="descricaoKpiReceitaAlvo">26 DE 87 FILMES SEMELHANTES FATURARAM US$ 40 MI OU MAIS</h6>
                 </div>
             </div>
         </div>
@@ -725,6 +725,53 @@
                         console.log("Erro ao buscar a receita mediana:", erro);
                     });
             }
+
+            // ---------- KPI: filmes que atingiram a receita desejada ----------
+document.addEventListener("DOMContentLoaded", plotarKpiReceitaAlvo);
+
+function plotarKpiReceitaAlvo() {
+    let genero = sessionStorage.getItem("GENERO_USUARIO");
+    let orcamento = sessionStorage.getItem("ORCAMENTO_USUARIO");
+    let receita = sessionStorage.getItem("RECEITA_USUARIO");
+
+    if (genero == null || orcamento == null || receita == null) {
+        infoKpiReceitaAlvo.innerHTML = "--";
+        descricaoKpiReceitaAlvo.innerHTML = "FAÇA UMA NOVA AVALIAÇÃO PARA VER ESTE DADO";
+        return;
+    }
+
+    fetch("/recorte/filmes-atingiram-receita", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            generoServer: genero,
+            orcamentoServer: orcamento.replace(/\D/g, ""),
+            receitaServer: receita
+        })
+    })
+        .then(function (resposta) {
+            return resposta.json().then(function (dados) {
+                return { ok: resposta.ok, dados: dados };
+            });
+        })
+        .then(function (retorno) {
+            if (!retorno.ok) {
+                infoKpiReceitaAlvo.innerHTML = "--";
+                descricaoKpiReceitaAlvo.innerHTML = retorno.dados.mensagem.toUpperCase();
+                return;
+            }
+
+            let dados = retorno.dados;
+            let textoReceita = formatarMilhoes(dados.receitaDesejada).toUpperCase();
+
+            infoKpiReceitaAlvo.innerHTML = dados.porcentagem + "%";
+            descricaoKpiReceitaAlvo.innerHTML = dados.quantidadeAtingiram + " DE " + dados.quantidadeFilmes
+                + " FILMES SEMELHANTES FATURARAM " + textoReceita + " OU MAIS";
+        })
+        .catch(function (erro) {
+            console.log("Erro ao buscar os filmes que atingiram a receita:", erro);
+        });
+}
         </script>
     </main>
 </body>

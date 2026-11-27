@@ -62,6 +62,55 @@ function buscarReceitaMediana(req, res) {
         });
 }
 
+
+function buscarFilmesQueAtingiramReceita(req, res) {
+    var genero = req.body.generoServer;
+    var orcamento = Number(req.body.orcamentoServer);
+    var receitaDesejada = Number(req.body.receitaServer);
+
+    if (genero == undefined || genero == "") {
+        return res.status(400).json({ mensagem: "O gênero está vazio!" });
+    }
+    if (!(orcamento > 0)) {
+        return res.status(400).json({ mensagem: "O orçamento é inválido!" });
+    }
+    if (!(receitaDesejada > 0)) {
+        return res.status(400).json({ mensagem: "A receita desejada é inválida!" });
+    }
+
+    recorteModel.buscarReceitasDoRecorte(genero, orcamento)
+        .then(function (receitas) {
+            if (receitas.length == 0) {
+                return res.status(404).json({
+                    mensagem: "Nenhum filme encontrado para esse recorte."
+                });
+            }
+
+            var quantidadeAtingiram = 0;
+
+            for (var i = 0; i < receitas.length; i++) {
+                if (Number(receitas[i].receita) >= receitaDesejada) {
+                    quantidadeAtingiram++;
+                }
+            }
+
+            var porcentagem = Math.round((quantidadeAtingiram / receitas.length) * 100);
+
+            res.status(200).json({
+                quantidadeFilmes: receitas.length,
+                quantidadeAtingiram: quantidadeAtingiram,
+                porcentagem: porcentagem,
+                receitaDesejada: receitaDesejada
+            });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ mensagem: "Erro ao calcular os filmes que atingiram a receita." });
+        });
+}
+
 module.exports = {
-    buscarReceitaMediana
+    buscarReceitaMediana,
+    buscarFilmesQueAtingiramReceita
 };
+
